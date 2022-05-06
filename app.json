@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "big-bolao-mobile",
+    "slug": "big-bolao-mobile",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "big-bolao-mobile"
+}
