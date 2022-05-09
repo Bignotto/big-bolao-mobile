@@ -1,19 +1,23 @@
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 `;
 
 export const LogoWrapper = styled.View``;
 
 export const TextWrapper = styled.View`
-  background-color: beige;
+  margin-left: 16px;
 `;
 
 export const LogoText = styled.Text`
   font-family: ${({ theme }) => theme.fonts.black};
-  font-size: ${RFValue(46)}px;
+  font-size: ${RFValue(56)}px;
   color: ${({ theme }) => theme.colors.text};
-  line-height: ${RFPercentage(78.5)};
+  line-height: 16;
+  padding-top: 38px;
 `;

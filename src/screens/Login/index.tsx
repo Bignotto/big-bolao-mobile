@@ -8,9 +8,6 @@ import {
   LogoImage,
 } from "./styles";
 
-import LogoPng from "../../assets/Logo.png";
-import LogoSvg from "../../assets/soccer.svg";
-import { RFValue } from "react-native-responsive-fontsize";
 import AppLogo from "../../shared/components/AppLogo";
 
 export default function Login() {
