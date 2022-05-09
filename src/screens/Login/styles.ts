@@ -1,8 +1,13 @@
 import styled from "styled-components/native";
 
-export const TempText = styled.Text``;
+export const TempText = styled.Text`
+  color: aqua;
+`;
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  flex: 1;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
 
 export const LogoImage = styled.Image`
   width: 287px;

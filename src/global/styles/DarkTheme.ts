@@ -11,6 +11,9 @@ export default {
     attention: "#E83F5B",
     attention_light: "rgba(232,63,91,.1)",
 
+    background: "#18191C",
+    text: "#FFFFFF",
+
     // shape: "#969CB2",
     // shape_light: "#CFD2DC",
     // title: "#F0F2F5",
@@ -21,8 +24,6 @@ export default {
 
     shape: "#FFFFFF",
     title: "#363F5F",
-    text: "#969CB2",
-    background: "#F0F2F5",
     text_dark: "#0F111A",
     text_light: "#E3E9FF",
   },
