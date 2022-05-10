@@ -16,4 +16,7 @@ export const LogoImage = styled.Image`
 
 export const LogoContainer = styled.View``;
 
-export const LoginForm = styled.View``;
+export const LoginForm = styled.View`
+  flex-direction: column;
+  align-items: center;
+`;

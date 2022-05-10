@@ -18,6 +18,6 @@ export const LogoText = styled.Text`
   font-family: ${({ theme }) => theme.fonts.black};
   font-size: ${RFValue(56)}px;
   color: ${({ theme }) => theme.colors.text};
-  line-height: 16;
+  line-height: 16px;
   padding-top: 38px;
 `;

@@ -9,6 +9,7 @@ import {
 } from "./styles";
 
 import AppLogo from "../../shared/components/AppLogo";
+import Input from "../../shared/components/Input";
 
 export default function Login() {
   return (
@@ -17,7 +18,7 @@ export default function Login() {
         <AppLogo />
       </LogoContainer>
       <LoginForm>
-        <TempText>Here goes login form</TempText>
+        <Input name="email" placeholder="email@address.com" />
       </LoginForm>
     </Container>
   );

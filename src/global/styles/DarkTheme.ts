@@ -13,19 +13,20 @@ export default {
 
     background: "#18191C",
     text: "#FFFFFF",
+    shape: "#0F111A",
+    text_disabled: "#363F5F",
 
-    // shape: "#969CB2",
     // shape_light: "#CFD2DC",
     // title: "#F0F2F5",
     // text: "#F0F2F5",
-    // text_dark: "#0F111A",
+    text_dark: "#0F111A",
     // text_light: "#E3E9FF",
     // background: "#363F5F",
 
-    shape: "#FFFFFF",
-    title: "#363F5F",
-    text_dark: "#0F111A",
-    text_light: "#E3E9FF",
+    // shape: "#FFFFFF",
+    // title: "#363F5F",
+    // text_dark: "#0F111A",
+    // text_light: "#E3E9FF",
   },
 
   fonts: {
