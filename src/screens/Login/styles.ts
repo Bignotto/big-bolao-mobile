@@ -18,5 +18,18 @@ export const LogoContainer = styled.View``;
 
 export const LoginForm = styled.View`
   flex-direction: column;
+  padding: 12px;
   align-items: center;
+`;
+
+export const InputLabel = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 4px;
+`;
+
+export const InputField = styled.View`
+  width: 85%;
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;

@@ -6,8 +6,7 @@ export const Container = styled(TextInput).attrs<TextInput>({
   placeholderTextColor: "#363F5F",
   type: "password",
 })`
-  width: 85%;
-  padding: 16px 18px;
+  padding: 10px 12px;
 
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
