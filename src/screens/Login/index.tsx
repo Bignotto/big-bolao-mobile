@@ -6,6 +6,7 @@ import {
   LoginForm,
   InputLabel,
   InputField,
+  Spacer,
 } from "./styles";
 
 import AppLogo from "../../shared/components/AppLogo";
@@ -27,6 +28,7 @@ export default function Login() {
           <InputLabel>Senha:</InputLabel>
           <Input name="password" placeholder="senha" secureTextEntry={true} />
         </InputField>
+        <Spacer />
         <Button title="Login" />
       </LoginForm>
     </Container>
