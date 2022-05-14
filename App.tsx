@@ -16,6 +16,8 @@ import {
 import DarkTheme from "./src/global/styles/DarkTheme";
 
 import { LogBox, View } from "react-native";
+import { AuthProvider } from "./src/shared/hooks/AuthContext";
+import { Routes } from "./src/routes";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -44,10 +46,10 @@ export default function App() {
 
   return (
     <ThemeProvider theme={DarkTheme}>
-      <NavigationContainer>
+      <AuthProvider>
         <StatusBar style="auto" />
-        <AppRoutes />
-      </NavigationContainer>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

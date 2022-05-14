@@ -1,14 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import ThemeScreen from "../screens/ThemeScreen";
+import Login from "../screens/Login";
 
 const { Navigator, Screen } = createStackNavigator();
 
-export function AppRoutes() {
+export function SigninRoutes() {
   return (
     <Navigator>
-      <Screen name="Logged in" component={ThemeScreen} />
+      <Screen name="Logged Screen" component={Login} />
     </Navigator>
   );
 }

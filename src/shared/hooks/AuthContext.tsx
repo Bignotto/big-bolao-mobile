@@ -1,7 +1,13 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Alert } from "react-native";
 import { AuthSession } from "@supabase/supabase-js";
-import supabase from "../shared/services/supabase";
+import supabase from "../services/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface AuthProviderProps {
@@ -72,4 +78,15 @@ function AuthProvider({ children }: AuthProviderProps) {
       authListener!.unsubscribe();
     };
   }, []);
+
+  return (
+    <AuthContext.Provider value={{ session, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
+function useAuth() {
+  return useContext(AuthContext);
+}
+
+export { AuthProvider, useAuth };
