@@ -11,10 +11,10 @@ export default {
     attention: "#E83F5B",
     attention_light: "rgba(232,63,91,.1)",
 
-    background: "#18191C",
+    background: "#242424",
     text: "#FFFFFF",
-    shape: "#0F111A",
-    text_disabled: "#363F5F",
+    shape: "#434343",
+    text_disabled: "#242424",
 
     // shape_light: "#CFD2DC",
     // title: "#F0F2F5",
