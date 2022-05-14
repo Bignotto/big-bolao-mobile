@@ -8,7 +8,6 @@ import { SigninRoutes } from "./signin.routes";
 
 export function Routes() {
   const { session } = useAuth();
-  console.log({ session });
   return (
     <NavigationContainer>
       {session ? <AppRoutes /> : <SigninRoutes />}

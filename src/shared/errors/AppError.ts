@@ -9,7 +9,7 @@ export class AppError {
     if (message === "Invalid login credentials")
       //not working
       this.message = "E-Mail e senha não batem.";
-    if (
+    else if (
       message ===
       "You must provide either an email, phone number, a third-party provider or OpenID Connect."
     )
