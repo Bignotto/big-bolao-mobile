@@ -9,6 +9,7 @@ import { Alert } from "react-native";
 import { AuthSession } from "@supabase/supabase-js";
 import supabase from "../services/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppError } from "../errors/AppError";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -38,9 +39,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const { error, user } = await supabase.auth.signIn({ email, password });
 
     if (error) {
-      //TODO: Implement AppError
-      //throw new AppError(error.message, 0);
-      throw new Error("something wrong in AuthContext signIn function");
+      throw new AppError(error.message, error.status);
     }
   }
 

@@ -13,13 +13,21 @@ import AppLogo from "../../shared/components/AppLogo";
 import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
 import { Alert } from "react-native";
+import { useAuth } from "../../shared/hooks/AuthContext";
+import { AppError } from "../../shared/errors/AppError";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPasswrod] = useState("");
+  const { signIn } = useAuth();
 
   async function handleLogin() {
-    Alert.alert(`email: ${email} pass:${password}`);
+    try {
+      await signIn(email, password);
+    } catch (error) {
+      if (error instanceof AppError) return Alert.alert(error.message);
+      console.log(`unknown ERROR: ${error}`);
+    }
   }
 
   return (
