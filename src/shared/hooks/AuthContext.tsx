@@ -18,8 +18,8 @@ interface AuthProviderProps {
 interface IAuthContextData {
   session: AuthSession | undefined | null;
   signIn(email: string, password: string): Promise<void>;
+  signUp(email: string, password: string): Promise<void>;
   signOut(): Promise<void>;
-  googleSignIn(): Promise<void>;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -44,17 +44,16 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function googleSignIn() {
-    const { user, session, error } = await supabase.auth.signIn({
-      provider: "google",
-    });
-    console.log({ session, error });
+  async function signUp(email: string, password: string) {
+    const { error, user } = await supabase.auth.signUp({ email, password });
+    console.log({ email, password, user });
+    if (!error && user) {
+      return Alert.alert("Check your email for the login link!");
+    }
     if (error) {
       throw new AppError(error.message, error.status);
     }
   }
-
-  //TODO: Implement Sign Up function
 
   useEffect(() => {
     try {
@@ -90,7 +89,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ session, signIn, signOut, googleSignIn }}>
+    <AuthContext.Provider value={{ session, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -19,20 +19,21 @@ import { AppError } from "../../shared/errors/AppError";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPasswrod] = useState("");
-  const { signIn, googleSignIn } = useAuth();
+  const { signIn, signUp } = useAuth();
 
   async function handleLogin() {
     try {
       await signIn(email, password);
     } catch (error) {
-      if (error instanceof AppError) return Alert.alert(error.message);
+      if (error instanceof AppError)
+        return Alert.alert(`${error.message} - ${error.statusCode}`);
       console.log(`unknown ERROR: ${error}`);
     }
   }
 
-  async function handleGoogleLogin() {
+  async function handleSignUp() {
     try {
-      await googleSignIn();
+      await signUp(email, password);
     } catch (error) {
       if (error instanceof AppError) return Alert.alert(error.message);
       console.log(`unknown ERROR: ${error}`);
@@ -67,7 +68,8 @@ export default function Login() {
         </InputField>
         <Spacer />
         <Button title="Login" onPress={handleLogin} />
-        <Button title="Login com Google" onPress={handleGoogleLogin} />
+        <Spacer />
+        <Button title="Criar conta" onPress={handleSignUp} />
       </LoginForm>
     </Container>
   );

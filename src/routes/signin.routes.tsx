@@ -8,7 +8,7 @@ const { Navigator, Screen } = createStackNavigator();
 export function SigninRoutes() {
   return (
     <Navigator>
-      <Screen name="Logged Screen" component={Login} />
+      <Screen name="Login" component={Login} />
     </Navigator>
   );
 }
