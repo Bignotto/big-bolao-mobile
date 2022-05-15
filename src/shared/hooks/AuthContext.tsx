@@ -19,6 +19,7 @@ interface IAuthContextData {
   session: AuthSession | undefined | null;
   signIn(email: string, password: string): Promise<void>;
   signOut(): Promise<void>;
+  googleSignIn(): Promise<void>;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -38,6 +39,16 @@ function AuthProvider({ children }: AuthProviderProps) {
   async function signIn(email: string, password: string) {
     const { error, user } = await supabase.auth.signIn({ email, password });
 
+    if (error) {
+      throw new AppError(error.message, error.status);
+    }
+  }
+
+  async function googleSignIn() {
+    const { user, session, error } = await supabase.auth.signIn({
+      provider: "google",
+    });
+    console.log({ session, error });
     if (error) {
       throw new AppError(error.message, error.status);
     }
@@ -79,7 +90,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ session, signIn, signOut }}>
+    <AuthContext.Provider value={{ session, signIn, signOut, googleSignIn }}>
       {children}
     </AuthContext.Provider>
   );
