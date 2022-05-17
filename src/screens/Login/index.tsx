@@ -19,7 +19,7 @@ import { AppError } from "../../shared/errors/AppError";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPasswrod] = useState("");
-  const { signIn, signUp } = useAuth();
+  const { signIn } = useAuth();
 
   async function handleLogin() {
     try {
@@ -32,12 +32,7 @@ export default function Login() {
   }
 
   async function handleSignUp() {
-    try {
-      await signUp(email, password);
-    } catch (error) {
-      if (error instanceof AppError) return Alert.alert(error.message);
-      console.log(`unknown ERROR: ${error}`);
-    }
+    Alert.alert("navigate to register screen");
   }
 
   return (
