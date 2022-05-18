@@ -1,3 +1,4 @@
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
@@ -21,7 +22,7 @@ export const InputField = styled.View`
 `;
 
 export const Header = styled.View`
-  margin-top: 12px;
+  margin-top: ${getStatusBarHeight() + 24}px;
   margin-bottom: 20px;
 `;
 
