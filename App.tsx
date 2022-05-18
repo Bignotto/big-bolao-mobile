@@ -10,6 +10,8 @@ import {
   useFonts,
   Kanit_400Regular,
   Kanit_400Regular_Italic,
+  Kanit_700Bold,
+  Kanit_700Bold_Italic,
   Kanit_800ExtraBold,
   Kanit_800ExtraBold_Italic,
 } from "@expo-google-fonts/kanit";
@@ -37,6 +39,8 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Kanit_400Regular,
     Kanit_400Regular_Italic,
+    Kanit_700Bold,
+    Kanit_700Bold_Italic,
     Kanit_800ExtraBold,
     Kanit_800ExtraBold_Italic,
   });

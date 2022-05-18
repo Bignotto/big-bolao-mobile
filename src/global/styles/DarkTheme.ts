@@ -32,6 +32,8 @@ export default {
   fonts: {
     regular: "Kanit_400Regular",
     regular_italic: "Kanit_400Regular_Italic",
+    bold: "Kanit_700Bold",
+    bold_italic: "Kanit_700Bold_Italic",
     black: "Kanit_800ExtraBold",
     black_italic: "Kanit_800ExtraBold_Italic",
   },
