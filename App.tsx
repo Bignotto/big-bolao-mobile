@@ -1,10 +1,11 @@
 import "react-native-gesture-handler";
-import React, { useCallback, useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import * as SplashScreen from "expo-splash-screen";
+import React from "react";
+import { StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components/native";
-import { AppRoutes } from "./src/routes/app.routes";
+
+import { LogBox, View } from "react-native";
+import { AuthProvider } from "./src/shared/hooks/AuthContext";
+import { Routes } from "./src/routes";
 
 import {
   useFonts,
@@ -16,10 +17,6 @@ import {
   Kanit_800ExtraBold_Italic,
 } from "@expo-google-fonts/kanit";
 import DarkTheme from "./src/global/styles/DarkTheme";
-
-import { LogBox, View } from "react-native";
-import { AuthProvider } from "./src/shared/hooks/AuthContext";
-import { Routes } from "./src/routes";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -51,7 +48,11 @@ export default function App() {
   return (
     <ThemeProvider theme={DarkTheme}>
       <AuthProvider>
-        <StatusBar style="auto" />
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
         <Routes />
       </AuthProvider>
     </ThemeProvider>

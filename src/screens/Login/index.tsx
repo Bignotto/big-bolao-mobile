@@ -15,11 +15,14 @@ import { Button } from "../../shared/components/Button";
 import { Alert } from "react-native";
 import { useAuth } from "../../shared/hooks/AuthContext";
 import { AppError } from "../../shared/errors/AppError";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPasswrod] = useState("");
   const { signIn } = useAuth();
+
+  const navigation = useNavigation<any>();
 
   async function handleLogin() {
     try {
@@ -31,8 +34,8 @@ export default function Login() {
     }
   }
 
-  async function handleSignUp() {
-    Alert.alert("navigate to register screen");
+  async function handleRegisterAccount() {
+    navigation.navigate("RegisterAccount");
   }
 
   return (
@@ -64,7 +67,7 @@ export default function Login() {
         <Spacer />
         <Button title="Login" onPress={handleLogin} />
         <Spacer />
-        <Button title="Criar conta" onPress={handleSignUp} />
+        <Button title="Criar conta" onPress={handleRegisterAccount} />
       </LoginForm>
     </Container>
   );
