@@ -18,6 +18,7 @@ interface AuthProviderProps {
 interface IAuthContextData {
   session: AuthSession | undefined | null;
   signIn(email: string, password: string): Promise<void>;
+  signUp(email: string, password: string): Promise<void>;
   signOut(): Promise<void>;
 }
 
@@ -43,7 +44,16 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  //TODO: Implement Sign Up function
+  async function signUp(email: string, password: string) {
+    const { error, user } = await supabase.auth.signUp({ email, password });
+    console.log({ email, password, user });
+    if (!error && user) {
+      return Alert.alert("Check your email for the login link!");
+    }
+    if (error) {
+      throw new AppError(error.message, error.status);
+    }
+  }
 
   useEffect(() => {
     try {
@@ -79,7 +89,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ session, signIn, signOut }}>
+    <AuthContext.Provider value={{ session, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );

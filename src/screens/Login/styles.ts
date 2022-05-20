@@ -1,8 +1,5 @@
 import styled from "styled-components/native";
-
-export const TempText = styled.Text`
-  color: aqua;
-`;
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 export const Container = styled.View`
   flex: 1;
@@ -14,7 +11,9 @@ export const LogoImage = styled.Image`
   height: 159px;
 `;
 
-export const LogoContainer = styled.View``;
+export const LogoContainer = styled.View`
+  margin-top: ${getStatusBarHeight() + 24}px;
+`;
 
 export const LoginForm = styled.View`
   flex-direction: column;
