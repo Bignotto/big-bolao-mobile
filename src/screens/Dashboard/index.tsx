@@ -7,7 +7,7 @@ import { useAuth } from "../../shared/hooks/AuthContext";
 import { Container, Header, HeaderTitle } from "./styles";
 
 export default function Dashboard() {
-  const { session, signOut } = useAuth();
+  const { user, signOut } = useAuth();
 
   async function handleSignOut() {
     try {
@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <Container>
       <Header>
-        <HeaderTitle>Olá {session?.user?.email}</HeaderTitle>
+        <HeaderTitle>Olá {user?.email}</HeaderTitle>
       </Header>
       <Button title="Logout" onPress={handleSignOut} />
     </Container>

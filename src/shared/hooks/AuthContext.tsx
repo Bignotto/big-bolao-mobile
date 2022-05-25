@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { Alert } from "react-native";
-import { AuthSession } from "@supabase/supabase-js";
+import { AuthSession, User } from "@supabase/supabase-js";
 import supabase from "../services/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppError } from "../errors/AppError";
@@ -17,6 +17,7 @@ interface AuthProviderProps {
 
 interface IAuthContextData {
   session: AuthSession | undefined | null;
+  user: User | undefined | null;
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string): Promise<void>;
   signOut(): Promise<void>;
@@ -28,12 +29,15 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null | undefined>(
     undefined
   );
+  const [user, setUser] = useState<User | undefined | null>(null);
 
   async function signOut() {
-    try {
-      let { error } = await supabase.auth.signOut();
-      if (error) return Alert.alert("something wrong in sing out");
-    } catch (error) {}
+    let { error } = await supabase.auth.signOut();
+
+    if (error) throw new AppError(error.message, error.status);
+
+    setUser(null);
+    setSession(undefined);
   }
 
   async function signIn(email: string, password: string) {
@@ -42,14 +46,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (error) {
       throw new AppError(error.message, error.status);
     }
+    setUser(user);
   }
 
   async function signUp(email: string, password: string) {
     const { error, user } = await supabase.auth.signUp({ email, password });
-    console.log({ email, password, user });
-    if (!error && user) {
-      return Alert.alert("Check your email for the login link!");
-    }
+
     if (error) {
       throw new AppError(error.message, error.status);
     }
@@ -60,9 +62,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       const fetchedSession = supabase.auth.session();
       setSession(fetchedSession || undefined);
 
-      //await
       (async () => {
-        //check saved session
         const storedSession = await AsyncStorage.getItem("supabase.auth.token");
         if (!storedSession) {
           setSession((oldSession) =>
@@ -89,7 +89,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ session, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ session, user: session?.user, signIn, signUp, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

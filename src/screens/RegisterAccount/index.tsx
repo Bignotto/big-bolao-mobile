@@ -32,7 +32,6 @@ export default function RegisterAccountScreen() {
       await signUp(email, password);
     } catch (error) {
       if (error instanceof AppError) Alert.alert(error.message);
-      console.log(error);
     }
   }
 
