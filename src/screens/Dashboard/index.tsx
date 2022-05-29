@@ -33,6 +33,7 @@ export default function Dashboard() {
       });
     }
   }, []);
+
   async function handleSignOut() {
     try {
       await signOut();
