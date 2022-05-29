@@ -1,11 +1,11 @@
-import { User } from "@supabase/supabase-js";
 import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { Button } from "../../shared/components/Button";
+import Header from "../../shared/components/Header";
 import { AppError } from "../../shared/errors/AppError";
 import { useAuth } from "../../shared/hooks/AuthContext";
 
-import { Container, ContentText, Header, HeaderTitle } from "./styles";
+import { Container, ContentText } from "./styles";
 
 //TODO: implement User entity
 interface UserData {
@@ -44,9 +44,11 @@ export default function Dashboard() {
   }
   return (
     <Container>
-      <Header>
-        <HeaderTitle>Olá {signedUser?.name}</HeaderTitle>
-      </Header>
+      <Header
+        name="Thiago Bignotto"
+        logoutFunction={handleSignOut}
+        avatarUri={"https://avatars.githubusercontent.com/u/2911353"}
+      />
       <ContentText>{signedUser?.token}</ContentText>
       <Button title="Logout" onPress={handleSignOut} />
     </Container>
