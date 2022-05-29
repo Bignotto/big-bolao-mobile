@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Alert } from "react-native";
 import { AuthSession, User } from "@supabase/supabase-js";
 import supabase from "../services/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,10 +16,11 @@ interface AuthProviderProps {
 
 interface IAuthContextData {
   session: AuthSession | undefined | null;
-  user: User | undefined | null;
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string): Promise<void>;
+  getUser(): User | null;
   signOut(): Promise<void>;
+  user: User | null;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -29,14 +29,13 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null | undefined>(
     undefined
   );
-  const [user, setUser] = useState<User | undefined | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   async function signOut() {
     let { error } = await supabase.auth.signOut();
 
     if (error) throw new AppError(error.message, error.status);
 
-    setUser(null);
     setSession(undefined);
   }
 
@@ -46,7 +45,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (error) {
       throw new AppError(error.message, error.status);
     }
-    setUser(user);
   }
 
   async function signUp(email: string, password: string) {
@@ -55,6 +53,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (error) {
       throw new AppError(error.message, error.status);
     }
+  }
+
+  function getUser() {
+    return supabase.auth.user();
   }
 
   useEffect(() => {
@@ -80,6 +82,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           `Supabase auth event: ${event}, session user: ${session?.user?.email}`
         );
         setSession(session || undefined);
+        setUser(session ? session.user : null);
       }
     );
 
@@ -90,7 +93,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ session, user: session?.user, signIn, signUp, signOut }}
+      value={{ session, getUser, signIn, signUp, signOut, user }}
     >
       {children}
     </AuthContext.Provider>
