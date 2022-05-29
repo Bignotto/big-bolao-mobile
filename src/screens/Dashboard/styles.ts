@@ -13,3 +13,10 @@ export const HeaderTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.black};
   font-size: ${RFValue(34)}px;
 `;
+
+export const ContentText = styled.Text`
+  margin-top: 12px;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(16)}px;
+`;

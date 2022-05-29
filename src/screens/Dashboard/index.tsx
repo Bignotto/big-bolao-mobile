@@ -1,13 +1,38 @@
-import React from "react";
+import { User } from "@supabase/supabase-js";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { Button } from "../../shared/components/Button";
 import { AppError } from "../../shared/errors/AppError";
 import { useAuth } from "../../shared/hooks/AuthContext";
 
-import { Container, Header, HeaderTitle } from "./styles";
+import { Container, ContentText, Header, HeaderTitle } from "./styles";
+
+//TODO: implement User entity
+interface UserData {
+  [key: string]: string;
+}
 
 export default function Dashboard() {
-  const { user, signOut } = useAuth();
+  const { signOut, getUser, session } = useAuth();
+  const [signedUser, setSignedUser] = useState<{
+    name: string;
+    email: string | undefined;
+    token: string | undefined;
+  }>();
+
+  useEffect(() => {
+    const user = getUser();
+
+    if (user) {
+      const { full_name } = user.user_metadata as UserData;
+
+      setSignedUser({
+        email: user.email,
+        token: session?.access_token,
+        name: full_name,
+      });
+    }
+  }, []);
 
   async function handleSignOut() {
     try {
@@ -20,8 +45,9 @@ export default function Dashboard() {
   return (
     <Container>
       <Header>
-        <HeaderTitle>Olá {user?.email}</HeaderTitle>
+        <HeaderTitle>Olá {signedUser?.name}</HeaderTitle>
       </Header>
+      <ContentText>{signedUser?.token}</ContentText>
       <Button title="Logout" onPress={handleSignOut} />
     </Container>
   );
