@@ -24,7 +24,7 @@ export default function Dashboard() {
     const user = getUser();
 
     if (user) {
-      const { full_name } = user.user_metadata as UserData;
+      const { full_name } = user.user_metadata;
 
       setSignedUser({
         email: user.email,

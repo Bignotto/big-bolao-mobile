@@ -1,5 +1,4 @@
 import React from "react";
-import { Image } from "react-native";
 import {
   Container,
   UserInfoWrapper,
@@ -7,6 +6,8 @@ import {
   GreetingText,
   LogoutWrapper,
 } from "./styles";
+
+import LogoutSvg from "../../../assets/logout.svg";
 
 interface HeaderProps {
   name: string;
@@ -31,9 +32,14 @@ export default function Header({
             uri: avatarUri,
           }}
         />
-        <GreetingText>Olá {name}</GreetingText>
+        <GreetingText>
+          Olá
+          {`\n${name} 👋`}
+        </GreetingText>
       </UserInfoWrapper>
-      <LogoutWrapper>{`[-> `}</LogoutWrapper>
+      <LogoutWrapper>
+        <LogoutSvg />
+      </LogoutWrapper>
     </Container>
   );
 }
