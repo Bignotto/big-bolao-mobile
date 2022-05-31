@@ -5,6 +5,7 @@ import {
   AvatarImage,
   GreetingText,
   LogoutWrapper,
+  LogoutButton,
 } from "./styles";
 
 import LogoutSvg from "../../../assets/logout.svg";
@@ -12,7 +13,7 @@ import LogoutSvg from "../../../assets/logout.svg";
 interface HeaderProps {
   name: string;
   avatarUri: string;
-  logoutFunction(): void;
+  logoutFunction(): Promise<void>;
 }
 
 export default function Header({
@@ -20,8 +21,8 @@ export default function Header({
   avatarUri,
   logoutFunction,
 }: HeaderProps) {
-  function handleLogout() {
-    logoutFunction();
+  async function handleLogout() {
+    await logoutFunction();
   }
 
   return (
@@ -33,12 +34,14 @@ export default function Header({
           }}
         />
         <GreetingText>
-          Olá
-          {`\n${name} 👋`}
+          Olá 👋
+          {`\n${name}`}
         </GreetingText>
       </UserInfoWrapper>
       <LogoutWrapper>
-        <LogoutSvg />
+        <LogoutButton onPress={handleLogout}>
+          <LogoutSvg />
+        </LogoutButton>
       </LogoutWrapper>
     </Container>
   );

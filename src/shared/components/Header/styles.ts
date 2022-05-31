@@ -1,13 +1,27 @@
+import { ReactNode } from "react";
+import {
+  BorderlessButton,
+  BorderlessButtonProps,
+} from "react-native-gesture-handler";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
+interface ButtonProps extends BorderlessButtonProps {
+  children: ReactNode;
+}
+
 export const Container = styled.View`
-  height: 110px;
+  height: ${getStatusBarHeight() + 110}px;
   background-color: ${({ theme }) => theme.colors.shape};
 
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  padding-top: ${getStatusBarHeight()}px;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 export const ContentText = styled.Text`
@@ -37,3 +51,11 @@ export const UserInfoWrapper = styled.View`
 `;
 
 export const LogoutWrapper = styled.Text``;
+
+export const LogoutButton = styled(BorderlessButton)<ButtonProps>`
+  width: 40px;
+  height: 40px;
+
+  align-items: center;
+  justify-content: center;
+`;
