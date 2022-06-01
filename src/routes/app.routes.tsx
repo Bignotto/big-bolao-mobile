@@ -8,8 +8,13 @@ const { Navigator, Screen } = createStackNavigator();
 
 export function AppRoutes() {
   return (
-    <Navigator>
-      <Screen name="Logged in" component={Dashboard} />
+    <Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Screen name="Dashboard" component={Dashboard} />
     </Navigator>
   );
 }
