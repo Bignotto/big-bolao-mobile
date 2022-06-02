@@ -13,8 +13,7 @@ import { Container, ContentText } from "./styles";
 export default function Dashboard() {
   const { signOut, user } = useAuth();
 
-  useEffect(() => {}, []);
-
+  //TODO: move this logic to useEffect
   async function handleGetUserGroups() {
     console.log("handle get user groups");
     try {
@@ -41,7 +40,7 @@ export default function Dashboard() {
   return (
     <Container>
       <Header
-        name="Thiago Bignotto"
+        name={user?.user_metadata.full_name}
         logoutFunction={handleSignOut}
         avatarUri={"https://avatars.githubusercontent.com/u/2911353"}
       />
