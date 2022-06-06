@@ -17,7 +17,7 @@ interface AuthProviderProps {
 interface IAuthContextData {
   session: AuthSession | undefined | null;
   signIn(email: string, password: string): Promise<void>;
-  signUp(email: string, password: string): Promise<void>;
+  signUp(email: string, password: string, name: string): Promise<void>;
   getUser(): User | null;
   signOut(): Promise<void>;
   user: User | null;
@@ -47,11 +47,24 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signUp(email: string, password: string) {
+  async function signUp(email: string, password: string, name: string) {
     const { error, user } = await supabase.auth.signUp({ email, password });
 
     if (error) {
       throw new AppError(error.message, error.status);
+    }
+
+    const { data, error: insert_error } = await supabase
+      .from("profiles")
+      .insert([
+        {
+          id: user?.id,
+          avatar_url: "",
+          full_name: name,
+        },
+      ]);
+    if (insert_error) {
+      throw new AppError(insert_error.message, 500);
     }
   }
 

@@ -29,7 +29,7 @@ export default function RegisterAccountScreen() {
       return Alert.alert("As senhas não batem.");
 
     try {
-      await signUp(email, password);
+      await signUp(email, password, name);
     } catch (error) {
       if (error instanceof AppError) Alert.alert(error.message);
     }
