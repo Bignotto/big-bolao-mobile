@@ -66,6 +66,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (insert_error) {
       throw new AppError(insert_error.message, 500);
     }
+    console.log({ data });
   }
 
   function getUser() {
