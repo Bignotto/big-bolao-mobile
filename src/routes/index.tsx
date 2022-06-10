@@ -7,10 +7,10 @@ import { useAuth } from "../shared/hooks/AuthContext";
 import { SigninRoutes } from "./signin.routes";
 
 export function Routes() {
-  const { session } = useAuth();
+  const { user } = useAuth();
   return (
     <NavigationContainer theme={DarkTheme}>
-      {session ? <AppRoutes /> : <SigninRoutes />}
+      {user ? <AppRoutes /> : <SigninRoutes />}
     </NavigationContainer>
   );
 }

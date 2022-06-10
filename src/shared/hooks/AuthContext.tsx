@@ -5,10 +5,16 @@ import {
   useEffect,
   useState,
 } from "react";
-import { AuthSession, User } from "@supabase/supabase-js";
+import { AuthSession } from "@supabase/supabase-js";
 import supabase from "../services/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppError } from "../errors/AppError";
+
+interface User {
+  id: string;
+  avatar_url: string;
+  full_name: string;
+}
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -18,9 +24,8 @@ interface IAuthContextData {
   session: AuthSession | undefined | null;
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string, name: string): Promise<void>;
-  getUser(): User | null;
   signOut(): Promise<void>;
-  user: User | null;
+  user: User | undefined;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -29,7 +34,8 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null | undefined>(
     undefined
   );
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | undefined>({} as User);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function signOut() {
     let { error } = await supabase.auth.signOut();
@@ -37,17 +43,24 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (error) throw new AppError(error.message, error.status);
 
     setSession(undefined);
+    setUser(undefined);
+    setIsLoading(false);
   }
 
   async function signIn(email: string, password: string) {
+    setIsLoading(true);
+
     const { error, user } = await supabase.auth.signIn({ email, password });
 
     if (error) {
       throw new AppError(error.message, error.status);
     }
+    setIsLoading(false);
   }
 
   async function signUp(email: string, password: string, name: string) {
+    setIsLoading(true);
+
     const { error, user } = await supabase.auth.signUp({ email, password });
 
     if (error) {
@@ -66,14 +79,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (insert_error) {
       throw new AppError(insert_error.message, 500);
     }
-    console.log({ data });
-  }
 
-  function getUser() {
-    return supabase.auth.user();
+    console.log({ data });
+    setUser({
+      id: data[0].id,
+      avatar_url: data[0].avatar_url,
+      full_name: data[0].full_name,
+    });
+    setIsLoading(false);
   }
 
   useEffect(() => {
+    setIsLoading(true);
+
     try {
       const fetchedSession = supabase.auth.session();
       setSession(fetchedSession || undefined);
@@ -95,20 +113,40 @@ function AuthProvider({ children }: AuthProviderProps) {
         console.log(
           `Supabase auth event: ${event}, session user: ${session?.user?.email}`
         );
-        setSession(session || undefined);
-        setUser(session ? session.user : null);
+
+        if (session) {
+          setSession(session);
+
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("id,avatar_url,full_name")
+            .eq("id", session.user?.id);
+
+          let fetchedUser: User;
+          if (!error && data && !isLoading) {
+            fetchedUser = {
+              id: data[0].id,
+              avatar_url: data[0].avatar_url,
+              full_name: data[0].full_name,
+            };
+            setUser(fetchedUser);
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        setSession(undefined);
+        setUser({} as User);
       }
     );
-
+    setIsLoading(false);
     return () => {
       authListener!.unsubscribe();
     };
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ session, getUser, signIn, signUp, signOut, user }}
-    >
+    <AuthContext.Provider value={{ session, signIn, signUp, signOut, user }}>
       {children}
     </AuthContext.Provider>
   );

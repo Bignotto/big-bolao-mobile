@@ -8,8 +8,6 @@ import supabase from "../../shared/services/supabase";
 
 import { Container, ContentText } from "./styles";
 
-//TODO: implement User entity
-
 export default function Dashboard() {
   const { signOut, user } = useAuth();
 
@@ -40,11 +38,11 @@ export default function Dashboard() {
   return (
     <Container>
       <Header
-        name={user?.user_metadata.full_name}
+        name={user!.full_name}
         logoutFunction={handleSignOut}
         avatarUri={"https://avatars.githubusercontent.com/u/2911353"}
       />
-      <ContentText>{user?.user_metadata.full_name}</ContentText>
+      <ContentText>{user!.full_name}</ContentText>
       <Button title="Logout" onPress={handleGetUserGroups} />
     </Container>
   );
