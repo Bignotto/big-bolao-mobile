@@ -7,6 +7,7 @@ import { useAuth } from "../../shared/hooks/AuthContext";
 import supabase from "../../shared/services/supabase";
 
 import { Container, ContentText } from "./styles";
+import avatar1 from "../../assets/avatar1.png";
 
 export default function Dashboard() {
   const { signOut, user } = useAuth();
@@ -40,7 +41,7 @@ export default function Dashboard() {
       <Header
         name={user!.full_name}
         logoutFunction={handleSignOut}
-        avatarUri={"https://avatars.githubusercontent.com/u/2911353"}
+        avatarUri={user!.avatar_url}
       />
       <ContentText>{user!.full_name}</ContentText>
       <Button title="Logout" onPress={handleGetUserGroups} />

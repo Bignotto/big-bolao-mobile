@@ -30,6 +30,13 @@ interface IAuthContextData {
 
 const AuthContext = createContext({} as IAuthContextData);
 
+const sampleAvatars = [
+  "https://kmqurfaofmowoonastqb.supabase.co/storage/v1/object/sign/avatars/avatar3.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL2F2YXRhcjMucG5nIiwiaWF0IjoxNjU0OTgyMTQ3LCJleHAiOjE5NzAzNDIxNDd9.lrvln9zudWLYW1MsSR3Z5vu39XA-dlxt-WkJivV_9n0",
+  "https://kmqurfaofmowoonastqb.supabase.co/storage/v1/object/sign/avatars/avatar2.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL2F2YXRhcjIucG5nIiwiaWF0IjoxNjU0OTgyMTMyLCJleHAiOjE5NzAzNDIxMzJ9.-BmtYFJQrzPtb0b_TDAzMEMd07-Hpn5wUFFmSQJBumw",
+  "https://kmqurfaofmowoonastqb.supabase.co/storage/v1/object/sign/avatars/avatar1.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL2F2YXRhcjEucG5nIiwiaWF0IjoxNjU0OTgwNDU2LCJleHAiOjE5NzAzNDA0NTZ9.bYJuCu2pk5Eeug9T8p8ZZYOKX_pZZhY9coZgOqPPiCs",
+  "https://kmqurfaofmowoonastqb.supabase.co/storage/v1/object/sign/avatars/avatar4.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL2F2YXRhcjQucG5nIiwiaWF0IjoxNjU0OTgyMjE5LCJleHAiOjE5NzAzNDIyMTl9.mouByJtdykxEhpqoYf5ibqDLDwpQmAj4l5OGOpWr5nI",
+];
+
 function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null | undefined>(
     undefined
@@ -72,7 +79,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       .insert([
         {
           id: user?.id,
-          avatar_url: "",
+          avatar_url: sampleAvatars[Math.floor(Math.random() * 4)],
           full_name: name,
         },
       ]);
@@ -134,9 +141,8 @@ function AuthProvider({ children }: AuthProviderProps) {
             return;
           }
         }
-
         setSession(undefined);
-        setUser({} as User);
+        setUser(undefined);
       }
     );
     setIsLoading(false);
