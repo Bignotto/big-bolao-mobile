@@ -24,7 +24,6 @@ export default function Header({
   async function handleLogout() {
     await logoutFunction();
   }
-
   return (
     <Container>
       <UserInfoWrapper>

@@ -7,7 +7,6 @@ import { useAuth } from "../../shared/hooks/AuthContext";
 import supabase from "../../shared/services/supabase";
 
 import { Container, ContentText } from "./styles";
-import avatar1 from "../../assets/avatar1.png";
 
 export default function Dashboard() {
   const { signOut, user } = useAuth();

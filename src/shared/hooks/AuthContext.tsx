@@ -48,7 +48,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     let { error } = await supabase.auth.signOut();
 
     if (error) throw new AppError(error.message, error.status);
-
     setSession(undefined);
     setUser(undefined);
     setIsLoading(false);
