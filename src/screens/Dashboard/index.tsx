@@ -40,7 +40,7 @@ export default function Dashboard() {
       <Header
         name={user!.full_name}
         logoutFunction={handleSignOut}
-        avatarUri={"https://avatars.githubusercontent.com/u/2911353"}
+        avatarUri={user!.avatar_url}
       />
       <ContentText>{user!.full_name}</ContentText>
       <Button title="Logout" onPress={handleGetUserGroups} />
