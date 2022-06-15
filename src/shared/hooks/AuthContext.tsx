@@ -26,6 +26,7 @@ interface IAuthContextData {
   signUp(email: string, password: string, name: string): Promise<void>;
   signOut(): Promise<void>;
   user: User | undefined;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -45,6 +46,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   async function signOut() {
+    setIsLoading(true);
     let { error } = await supabase.auth.signOut();
 
     if (error) throw new AppError(error.message, error.status);
@@ -151,7 +153,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ session, signIn, signUp, signOut, user }}>
+    <AuthContext.Provider
+      value={{ session, signIn, signUp, signOut, user, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
