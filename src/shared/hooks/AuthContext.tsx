@@ -121,29 +121,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         console.log(
           `Supabase auth event: ${event}, session user: ${session?.user?.email}`
         );
-
-        if (session) {
-          setSession(session);
-
-          const { data, error } = await supabase
-            .from("profiles")
-            .select("id,avatar_url,full_name")
-            .eq("id", session.user?.id);
-
-          let fetchedUser: User;
-          if (!error && data && !isLoading) {
-            fetchedUser = {
-              id: data[0].id,
-              avatar_url: data[0].avatar_url,
-              full_name: data[0].full_name,
-            };
-            setUser(fetchedUser);
-            setIsLoading(false);
-            return;
-          }
-        }
-        setSession(undefined);
-        setUser(undefined);
+        setSession(session ? session : undefined);
       }
     );
     setIsLoading(false);

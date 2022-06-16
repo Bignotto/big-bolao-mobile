@@ -8,10 +8,10 @@ import { SigninRoutes } from "./signin.routes";
 import ThemeScreen from "../screens/ThemeScreen";
 
 export function Routes() {
-  const { user, isLoading } = useAuth();
+  const { session, isLoading } = useAuth();
   return (
     <NavigationContainer theme={DarkTheme}>
-      {user ? <AppRoutes /> : <SigninRoutes />}
+      {session ? <AppRoutes /> : <SigninRoutes />}
     </NavigationContainer>
   );
 }
