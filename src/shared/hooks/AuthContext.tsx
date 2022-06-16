@@ -25,7 +25,6 @@ interface IAuthContextData {
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string, name: string): Promise<void>;
   signOut(): Promise<void>;
-  user: User | undefined;
   isLoading: boolean;
 }
 
@@ -42,7 +41,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null | undefined>(
     undefined
   );
-  const [user, setUser] = useState<User | undefined>({} as User);
   const [isLoading, setIsLoading] = useState(true);
 
   async function signOut() {
@@ -51,7 +49,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     if (error) throw new AppError(error.message, error.status);
     setSession(undefined);
-    setUser(undefined);
     setIsLoading(false);
   }
 
@@ -87,13 +84,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (insert_error) {
       throw new AppError(insert_error.message, 500);
     }
-
-    console.log({ data });
-    setUser({
-      id: data[0].id,
-      avatar_url: data[0].avatar_url,
-      full_name: data[0].full_name,
-    });
     setIsLoading(false);
   }
 
@@ -132,7 +122,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ session, signIn, signUp, signOut, user, isLoading }}
+      value={{ session, signIn, signUp, signOut, isLoading }}
     >
       {children}
     </AuthContext.Provider>
