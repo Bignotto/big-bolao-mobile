@@ -11,14 +11,14 @@ import { Container, ContentText } from "./styles";
 export default function Dashboard() {
   const { signOut, session } = useAuth();
 
-  //TODO: move this logic to useEffect
+  //TODO: move this logic to group component
   async function handleGetUserGroups() {
-    console.log("handle get user groups");
     try {
       const { data, error } = await supabase
         .from("user_groups")
         .select("*,group_id(name)")
         .eq("user_id", session?.user?.id);
+      console.log({ data });
     } catch (error) {
       if (error instanceof AppError) return Alert.alert(error.message);
       console.log(`unknown ERROR: ${error}`);
@@ -28,8 +28,7 @@ export default function Dashboard() {
   return (
     <Container>
       <Header />
-      <ContentText>{session?.user?.email}</ContentText>
-      <Button title="Logout" />
+      <Button title="Logout" onPress={handleGetUserGroups} />
     </Container>
   );
 }

@@ -10,12 +10,6 @@ import supabase from "../services/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppError } from "../errors/AppError";
 
-interface User {
-  id: string;
-  avatar_url: string;
-  full_name: string;
-}
-
 interface AuthProviderProps {
   children: ReactNode;
 }
