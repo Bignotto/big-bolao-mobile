@@ -25,20 +25,11 @@ export default function Dashboard() {
     }
   }
 
-  async function handleSignOut() {
-    try {
-      await signOut();
-    } catch (error) {
-      if (error instanceof AppError) return Alert.alert(error.message);
-      console.log(`unknown ERROR: ${error}`);
-    }
-  }
-
   return (
     <Container>
-      <Header userId={session?.user?.id} logoutFunction={handleSignOut} />
+      <Header />
       <ContentText>{session?.user?.email}</ContentText>
-      <Button title="Logout" onPress={handleSignOut} />
+      <Button title="Logout" />
     </Container>
   );
 }

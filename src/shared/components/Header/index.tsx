@@ -12,11 +12,7 @@ import LogoutSvg from "../../../assets/logout.svg";
 import supabase from "../../services/supabase";
 import { AppError } from "../../errors/AppError";
 import { Alert } from "react-native";
-
-interface HeaderProps {
-  userId?: string;
-  logoutFunction(): Promise<void>;
-}
+import { useAuth } from "../../hooks/AuthContext";
 
 interface UserInfo {
   id?: string;
@@ -24,17 +20,19 @@ interface UserInfo {
   avatar_url: string;
 }
 
-export default function Header({ userId, logoutFunction }: HeaderProps) {
+export default function Header() {
   const [user, setUser] = useState<UserInfo>();
 
+  const { signOut, session } = useAuth();
+
   async function loadUser() {
-    if (!userId) return;
+    if (!session) return;
 
     try {
       const { data, error } = await supabase
         .from("profiles")
         .select("id,full_name,avatar_url")
-        .eq("id", userId);
+        .eq("id", session.user?.id);
 
       if (!error && data)
         setUser({
@@ -49,7 +47,12 @@ export default function Header({ userId, logoutFunction }: HeaderProps) {
   }
 
   async function handleLogout() {
-    await logoutFunction();
+    try {
+      await signOut();
+    } catch (error) {
+      if (error instanceof AppError) return Alert.alert(error.message);
+      console.log(`unknown ERROR: ${error}`);
+    }
   }
 
   useEffect(() => {
