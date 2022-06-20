@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext } from "react";
 
 interface GroupProviderProps {
   children: ReactNode;
+  userId: string;
 }
 
 interface IGroupContextData {
@@ -16,7 +17,9 @@ function GroupProvider({ children }: GroupProviderProps) {
   }
 
   return (
-    <GroupContext.Provider value={{ getUserGroups }}></GroupContext.Provider>
+    <GroupContext.Provider value={{ getUserGroups }}>
+      {children}
+    </GroupContext.Provider>
   );
 }
 

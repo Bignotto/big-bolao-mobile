@@ -20,6 +20,7 @@ interface IAuthContextData {
   signUp(email: string, password: string, name: string): Promise<void>;
   signOut(): Promise<void>;
   isLoading: boolean;
+  userId: string;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -116,7 +117,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ session, signIn, signUp, signOut, isLoading }}
+      value={{
+        session,
+        signIn,
+        signUp,
+        signOut,
+        isLoading,
+        userId: session?.user?.id || "",
+      }}
     >
       {children}
     </AuthContext.Provider>

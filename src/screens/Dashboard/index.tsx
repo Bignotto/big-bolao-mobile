@@ -4,12 +4,14 @@ import { Button } from "../../shared/components/Button";
 import Header from "../../shared/components/Header";
 import { AppError } from "../../shared/errors/AppError";
 import { useAuth } from "../../shared/hooks/AuthContext";
+import { GroupProvider } from "../../shared/hooks/GroupContext";
+import { GroupCard } from "../../shared/components/GroupCard/";
 import supabase from "../../shared/services/supabase";
 
 import { Container, ContentText } from "./styles";
 
 export default function Dashboard() {
-  const { signOut, session } = useAuth();
+  const { session, userId } = useAuth();
 
   //TODO: move this logic to group component
   async function handleGetUserGroups() {
@@ -28,6 +30,9 @@ export default function Dashboard() {
   return (
     <Container>
       <Header />
+      <GroupProvider userId={userId}>
+        <GroupCard />
+      </GroupProvider>
       <Button title="Logout" onPress={handleGetUserGroups} />
     </Container>
   );
