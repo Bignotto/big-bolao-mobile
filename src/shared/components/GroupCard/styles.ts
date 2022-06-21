@@ -33,6 +33,9 @@ export const RankingContainer = styled.View`
 
   border-bottom-width: 3px;
   border-bottom-color: ${({ theme }) => theme.colors.shape};
+
+  justify-content: center;
+  align-items: center;
 `;
 
 export const GroupTitleContainer = styled.View``;
@@ -42,9 +45,17 @@ export const GroupInfoContainer = styled.View`
   justify-content: space-around;
 `;
 
-export const RankingTitleText = styled.Text``;
+export const RankingTitleText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(14)}px;
+  color: ${({ theme }) => theme.colors.text};
+`;
 
-export const RankingPositionText = styled.Text``;
+export const RankingPositionText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.black_italic};
+  font-size: ${RFValue(32)}px;
+  color: ${({ theme }) => theme.colors.text};
+`;
 
 export const GroupTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.black_italic};

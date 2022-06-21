@@ -32,6 +32,9 @@ export default function Dashboard() {
       <Header />
       <GroupProvider userId={userId}>
         <GroupCard />
+        <GroupCard />
+        <GroupCard />
+        <GroupCard />
       </GroupProvider>
       <Button title="Logout" onPress={handleGetUserGroups} />
     </Container>
