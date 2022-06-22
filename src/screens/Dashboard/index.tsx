@@ -9,6 +9,7 @@ import { GroupCard } from "../../shared/components/GroupCard/";
 import supabase from "../../shared/services/supabase";
 
 import { Container, ContentText } from "./styles";
+import GroupList from "../../shared/components/GroupList";
 
 export default function Dashboard() {
   const { session, userId } = useAuth();
@@ -31,10 +32,7 @@ export default function Dashboard() {
     <Container>
       <Header />
       <GroupProvider userId={userId}>
-        <GroupCard />
-        <GroupCard />
-        <GroupCard />
-        <GroupCard />
+        <GroupList />
       </GroupProvider>
       <Button title="Logout" onPress={handleGetUserGroups} />
     </Container>

@@ -2,9 +2,9 @@ import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  background-color: red;
   flex-direction: row;
   height: 75px;
+  margin-bottom: 8px;
 `;
 
 export const InfoContainer = styled.View`
