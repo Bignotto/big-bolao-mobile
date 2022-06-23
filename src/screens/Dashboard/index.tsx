@@ -14,27 +14,13 @@ import GroupList from "../../shared/components/GroupList";
 export default function Dashboard() {
   const { session, userId } = useAuth();
 
-  //TODO: move this logic to group component
-  async function handleGetUserGroups() {
-    try {
-      const { data, error } = await supabase
-        .from("user_groups")
-        .select("*,group_id(name)")
-        .eq("user_id", session?.user?.id);
-      console.log({ data });
-    } catch (error) {
-      if (error instanceof AppError) return Alert.alert(error.message);
-      console.log(`unknown ERROR: ${error}`);
-    }
-  }
-
   return (
     <Container>
       <Header />
       <GroupProvider userId={userId}>
         <GroupList />
       </GroupProvider>
-      <Button title="Logout" onPress={handleGetUserGroups} />
+      <Button title="Logout" />
     </Container>
   );
 }
