@@ -15,7 +15,8 @@ export const InfoContainer = styled.View`
   border-bottom-left-radius: 8px;
   justify-content: center;
 
-  padding-left: 8px;
+  padding-left: 16px;
+  justify-content: space-between;
 `;
 
 export const RankingContainer = styled.View`
@@ -42,7 +43,8 @@ export const GroupTitleContainer = styled.View``;
 
 export const GroupInfoContainer = styled.View`
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
+  padding-bottom: 8px;
 `;
 
 export const RankingTitleText = styled.Text`
@@ -59,18 +61,19 @@ export const RankingPositionText = styled.Text`
 
 export const GroupTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.black_italic};
-  font-size: ${RFValue(26)}px;
+  font-size: ${RFValue(28)}px;
   color: ${({ theme }) => theme.colors.text};
 `;
 
 export const GroupPointsText = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(14)}px;
+  font-size: ${RFValue(16)}px;
   color: ${({ theme }) => theme.colors.text};
 `;
 
 export const GroupFriendsText = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(14)}px;
+  font-size: ${RFValue(16)}px;
   color: ${({ theme }) => theme.colors.text};
+  margin-left: 40px;
 `;
