@@ -12,21 +12,28 @@ import {
   GroupFriendsText,
 } from "./styles";
 
-function GroupCard() {
+interface GroupInfo {
+  title: string;
+  points: number;
+  friends: number;
+  rank: number;
+}
+
+function GroupCard({ title, points, friends, rank }: GroupInfo) {
   return (
     <Container>
       <InfoContainer>
         <GroupTitleContainer>
-          <GroupTitle>Bar do Zé</GroupTitle>
+          <GroupTitle>{title}</GroupTitle>
         </GroupTitleContainer>
         <GroupInfoContainer>
-          <GroupPointsText>35 pontos</GroupPointsText>
-          <GroupFriendsText>8 amigos</GroupFriendsText>
+          <GroupPointsText>{points} pontos</GroupPointsText>
+          <GroupFriendsText>{friends} amigos</GroupFriendsText>
         </GroupInfoContainer>
       </InfoContainer>
       <RankingContainer>
         <RankingTitleText>Position</RankingTitleText>
-        <RankingPositionText>1</RankingPositionText>
+        <RankingPositionText>{rank}</RankingPositionText>
       </RankingContainer>
     </Container>
   );

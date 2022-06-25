@@ -20,25 +20,15 @@ export default function GroupList() {
 
   return (
     <Container>
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
-      <GroupCard />
+      {groups.map((g) => (
+        <GroupCard
+          key={g.id}
+          title={g.group.name}
+          points={g.user_points}
+          friends={0}
+          rank={g.user_rank}
+        />
+      ))}
     </Container>
   );
 }
