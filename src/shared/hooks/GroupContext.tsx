@@ -21,7 +21,7 @@ interface GroupProviderProps {
 }
 
 interface IGroupContextData {
-  getUserGroups(): Promise<void>;
+  getUserGroups(): Promise<Group[]>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -29,13 +29,17 @@ const GroupContext = createContext({} as IGroupContextData);
 function GroupProvider({ children, userId }: GroupProviderProps) {
   async function getUserGroups() {
     console.log(`getUserGroups function in GroupProvider with ${userId}`);
-    try {
-      const { data, error } = await supabase
-        .from("user_groups")
-        .select("*,group_id(group_id,name)")
-        .eq("user_id", userId);
+    let groups: Group[] = [];
 
-      const groups: Group[] | undefined = data?.map((g) => ({
+    const { data, error } = await supabase
+      .from("user_groups")
+      .select("*,group_id(group_id,name)")
+      .eq("user_id", userId);
+
+    if (error) throw new AppError("ERROR while getting user groups");
+
+    if (data) {
+      groups = data.map((g) => ({
         created_at: g.created_at,
         group: {
           group_id: g.group_id.group_id,
@@ -46,12 +50,8 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         user_points: g.user_points,
         user_rank: g.user_rank,
       }));
-
-      console.log({ groups });
-    } catch (error) {
-      if (error instanceof AppError) return Alert.alert(error.message);
-      console.log(`unknown ERROR: ${error}`);
     }
+    return Promise.resolve(groups);
   }
 
   return (
@@ -65,4 +65,4 @@ function useGroup() {
   return useContext(GroupContext);
 }
 
-export { GroupProvider, useGroup };
+export { GroupProvider, useGroup, Group };
