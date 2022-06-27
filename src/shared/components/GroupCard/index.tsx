@@ -12,14 +12,14 @@ import {
   GroupFriendsText,
 } from "./styles";
 
-interface GroupInfo {
+interface GroupCardProps {
   title: string;
   points: number;
   friends: number;
   rank: number;
 }
 
-function GroupCard({ title, points, friends, rank }: GroupInfo) {
+function GroupCard({ title, points, friends, rank }: GroupCardProps) {
   return (
     <Container>
       <InfoContainer>

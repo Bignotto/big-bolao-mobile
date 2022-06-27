@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext } from "react";
-import { Alert } from "react-native";
 import { AppError } from "../errors/AppError";
 import supabase from "../services/supabase";
 
