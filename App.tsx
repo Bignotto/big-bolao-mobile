@@ -49,11 +49,6 @@ export default function App() {
   return (
     <ThemeProvider theme={DarkTheme}>
       <AuthProvider>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent
-        />
         <Routes />
       </AuthProvider>
     </ThemeProvider>

@@ -2,23 +2,18 @@ import styled from "styled-components/native";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 export const Container = styled.View`
-  flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const LogoImage = styled.Image`
-  width: 287px;
-  height: 159px;
-`;
-
 export const LogoContainer = styled.View`
-  margin-top: ${getStatusBarHeight() + 24}px;
+  margin-top: ${getStatusBarHeight() + 72}px;
 `;
 
 export const LoginForm = styled.View`
   flex-direction: column;
   padding: 12px;
   align-items: center;
+  margin-top: 72px;
 `;
 
 export const Spacer = styled.View`

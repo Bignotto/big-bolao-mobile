@@ -12,10 +12,11 @@ import {
 import AppLogo from "../../shared/components/AppLogo";
 import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
-import { Alert } from "react-native";
+import { Alert, KeyboardAvoidingView, StatusBar, Keyboard } from "react-native";
 import { useAuth } from "../../shared/hooks/AuthContext";
 import { AppError } from "../../shared/errors/AppError";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -39,36 +40,45 @@ export default function Login() {
   }
 
   return (
-    <Container>
-      <LogoContainer>
-        <AppLogo />
-      </LogoContainer>
-      <LoginForm>
-        <InputField>
-          <InputLabel>E-Mail:</InputLabel>
-          <Input
-            name="email"
-            keyboardType="email-address"
-            placeholder="email@address.com"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+    <KeyboardAvoidingView behavior="position" enabled>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Container>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
           />
-        </InputField>
-        <InputField>
-          <InputLabel>Senha:</InputLabel>
-          <Input
-            name="password"
-            placeholder="senha"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => setPasswrod(text)}
-          />
-        </InputField>
-        <Spacer />
-        <Button title="Login" onPress={handleLogin} />
-        <Spacer />
-        <Button title="Criar conta" onPress={handleRegisterAccount} />
-      </LoginForm>
-    </Container>
+          <LogoContainer>
+            <AppLogo />
+          </LogoContainer>
+          <LoginForm>
+            <InputField>
+              <InputLabel>E-Mail:</InputLabel>
+              <Input
+                name="email"
+                keyboardType="email-address"
+                placeholder="email@address.com"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+              />
+            </InputField>
+            <InputField>
+              <InputLabel>Senha:</InputLabel>
+              <Input
+                name="password"
+                placeholder="senha"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={(text) => setPasswrod(text)}
+              />
+            </InputField>
+            <Spacer />
+            <Button title="Login" onPress={handleLogin} />
+            <Spacer />
+            <Button title="Criar conta" onPress={handleRegisterAccount} />
+          </LoginForm>
+        </Container>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
