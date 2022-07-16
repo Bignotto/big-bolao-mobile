@@ -14,7 +14,7 @@ export const LogoContainer = styled.View`
 
 export const LoginForm = styled.View`
   flex-direction: column;
-  padding: 12px;
+  padding: 24px;
   align-items: center;
   margin-top: 72px;
 `;
