@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Alert } from "react-native";
+import { Alert, StatusBar } from "react-native";
+import { useTheme } from "styled-components";
 import { Button } from "../../shared/components/Button";
 import Input from "../../shared/components/Input";
 import { AppError } from "../../shared/errors/AppError";
@@ -14,6 +15,7 @@ import {
   Header,
   Footer,
   FooterText,
+  RegisterForm,
 } from "./styles";
 
 export default function RegisterAccountScreen() {
@@ -23,6 +25,7 @@ export default function RegisterAccountScreen() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const { signUp } = useAuth();
+  const theme = useTheme();
 
   async function handleSubmit() {
     if (password !== passwordConfirm)
@@ -37,51 +40,57 @@ export default function RegisterAccountScreen() {
 
   return (
     <Container>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.colors.shape}
+      />
       <Header>
-        <HeaderTitle>Legal!</HeaderTitle>
+        <HeaderTitle>Nova conta</HeaderTitle>
         <HeaderText>
           Preencha seus dados que vamos criar uma nova conta pra você.
         </HeaderText>
       </Header>
-      <InputField>
-        <InputLabel>Seu nome:</InputLabel>
-        <Input
-          name="name"
-          placeholder="seu nome completo"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-      </InputField>
-      <InputField>
-        <InputLabel>E-Mail:</InputLabel>
-        <Input
-          name="email"
-          keyboardType="email-address"
-          placeholder="email@address.com"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </InputField>
-      <InputField>
-        <InputLabel>Senha:</InputLabel>
-        <Input
-          name="password"
-          placeholder="senha segura"
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-        />
-      </InputField>
-      <InputField>
-        <InputLabel>Confirmação:</InputLabel>
-        <Input
-          name="passwordConfirm"
-          secureTextEntry={true}
-          placeholder="confirme sua senha"
-          value={passwordConfirm}
-          onChangeText={(text) => setPasswordConfirm(text)}
-        />
-      </InputField>
+      <RegisterForm>
+        <InputField>
+          <InputLabel>Seu nome:</InputLabel>
+          <Input
+            name="name"
+            placeholder="seu nome completo"
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+        </InputField>
+        <InputField>
+          <InputLabel>E-Mail:</InputLabel>
+          <Input
+            name="email"
+            keyboardType="email-address"
+            placeholder="email@address.com"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          />
+        </InputField>
+        <InputField>
+          <InputLabel>Senha:</InputLabel>
+          <Input
+            name="password"
+            placeholder="senha segura"
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+          />
+        </InputField>
+        <InputField>
+          <InputLabel>Confirmação:</InputLabel>
+          <Input
+            name="passwordConfirm"
+            secureTextEntry={true}
+            placeholder="confirme sua senha"
+            value={passwordConfirm}
+            onChangeText={(text) => setPasswordConfirm(text)}
+          />
+        </InputField>
+      </RegisterForm>
       <Footer>
         <FooterText>
           Ao clicar no botão abaixo você concorda com a nossa política de

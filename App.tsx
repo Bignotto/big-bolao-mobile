@@ -11,6 +11,8 @@ import {
   useFonts,
   Kanit_400Regular,
   Kanit_400Regular_Italic,
+  Kanit_500Medium,
+  Kanit_500Medium_Italic,
   Kanit_700Bold,
   Kanit_700Bold_Italic,
   Kanit_800ExtraBold,
@@ -36,6 +38,8 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Kanit_400Regular,
     Kanit_400Regular_Italic,
+    Kanit_500Medium,
+    Kanit_500Medium_Italic,
     Kanit_700Bold,
     Kanit_700Bold_Italic,
     Kanit_800ExtraBold,
