@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
+import BackButton from "../../shared/components/BackButton";
 import { Button } from "../../shared/components/Button";
 import Input from "../../shared/components/Input";
 import { AppError } from "../../shared/errors/AppError";
@@ -26,6 +28,7 @@ export default function RegisterAccountScreen() {
 
   const { signUp } = useAuth();
   const theme = useTheme();
+  const navigation = useNavigation();
 
   async function handleSubmit() {
     if (password !== passwordConfirm)
@@ -45,6 +48,10 @@ export default function RegisterAccountScreen() {
         backgroundColor={theme.colors.shape}
       />
       <Header>
+        <BackButton
+          onPress={() => navigation.goBack()}
+          color={theme.colors.text}
+        />
         <HeaderTitle>Nova conta</HeaderTitle>
         <HeaderText>
           Preencha seus dados que vamos criar uma nova conta pra você.
