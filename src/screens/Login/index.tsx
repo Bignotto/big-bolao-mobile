@@ -7,15 +7,17 @@ import {
   InputLabel,
   InputField,
   Spacer,
+  Footer,
 } from "./styles";
 
 import AppLogo from "../../shared/components/AppLogo";
 import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
-import { Alert } from "react-native";
+import { Alert, KeyboardAvoidingView, StatusBar, Keyboard } from "react-native";
 import { useAuth } from "../../shared/hooks/AuthContext";
 import { AppError } from "../../shared/errors/AppError";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "styled-components/native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,6 +25,7 @@ export default function Login() {
   const { signIn } = useAuth();
 
   const navigation = useNavigation<any>();
+  const theme = useTheme();
 
   async function handleLogin() {
     try {
@@ -40,6 +43,11 @@ export default function Login() {
 
   return (
     <Container>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.colors.background}
+        translucent
+      />
       <LogoContainer>
         <AppLogo />
       </LogoContainer>

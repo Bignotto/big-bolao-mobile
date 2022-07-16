@@ -4,21 +4,19 @@ import { getStatusBarHeight } from "react-native-iphone-x-helper";
 export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
-`;
-
-export const LogoImage = styled.Image`
-  width: 287px;
-  height: 159px;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 export const LogoContainer = styled.View`
-  margin-top: ${getStatusBarHeight() + 24}px;
+  margin-top: ${getStatusBarHeight() + 72}px;
 `;
 
 export const LoginForm = styled.View`
   flex-direction: column;
   padding: 12px;
   align-items: center;
+  margin-top: 72px;
 `;
 
 export const Spacer = styled.View`
@@ -36,4 +34,8 @@ export const InputField = styled.View`
   width: 100%;
   margin-top: 8px;
   margin-bottom: 8px;
+`;
+
+export const Footer = styled.View`
+  padding: 12px;
 `;
