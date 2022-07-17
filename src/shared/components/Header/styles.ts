@@ -19,7 +19,6 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  padding-top: ${getStatusBarHeight()}px;
   padding-left: 16px;
   padding-right: 16px;
 `;

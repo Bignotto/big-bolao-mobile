@@ -6,12 +6,19 @@ import { GroupProvider } from "../../shared/hooks/GroupContext";
 
 import { Container } from "./styles";
 import GroupList from "../../shared/components/GroupList";
+import { StatusBar } from "react-native";
+import { useTheme } from "styled-components";
 
 export default function Dashboard() {
+  const theme = useTheme();
   const { userId } = useAuth();
 
   return (
     <Container>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.colors.shape}
+      />
       <Header />
       <GroupProvider userId={userId}>
         <GroupList />
