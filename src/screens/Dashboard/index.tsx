@@ -8,8 +8,10 @@ import { Container } from "./styles";
 import GroupList from "../../shared/components/GroupList";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Dashboard() {
+  const navigation = useNavigation();
   const theme = useTheme();
   const { userId } = useAuth();
 
@@ -23,7 +25,10 @@ export default function Dashboard() {
       <GroupProvider userId={userId}>
         <GroupList />
       </GroupProvider>
-      <Button title="Logout" />
+      <Button
+        title="Novo Bolão"
+        onPress={() => navigation.navigate("NewGroup" as never)}
+      />
     </Container>
   );
 }
