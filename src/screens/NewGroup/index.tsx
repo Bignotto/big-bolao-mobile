@@ -34,7 +34,7 @@ export default function NewGroup() {
             onPress={() => navigation.goBack()}
             color={theme.colors.text}
           />
-          <HeaderTitle>Novo Bolão</HeaderTitle>
+          <HeaderTitle>Novo Bolão:</HeaderTitle>
         </HeaderTopWrapper>
         <HeaderText>
           Preencha seus dados para criar um nogo grupo de bolão.{`\n\n`}Use uma
@@ -53,7 +53,7 @@ export default function NewGroup() {
             placeholder="senha para seus amigos entrarem no seu grupo"
           />
         </InputField>
-        <FormTitle>Pontuação do bolão:</FormTitle>
+        <FormTitle>Pontuação do bolão</FormTitle>
         <InputField>
           <InputLabel>Pontos para o palpite exato:</InputLabel>
           <Input
@@ -62,7 +62,7 @@ export default function NewGroup() {
             keyboardType="numeric"
           />
         </InputField>
-        <FormTitle>Pontos bônus:</FormTitle>
+        <FormTitle>Pontos bônus</FormTitle>
         <InputField>
           <InputLabel>
             Conceder pontos extras para o palpite que acertar o vencedor da
@@ -74,11 +74,10 @@ export default function NewGroup() {
             keyboardType="numeric"
           />
         </InputField>
+        <Footer>
+          <Button title="Criar novo grupo!" />
+        </Footer>
       </RegisterForm>
-      <Footer>
-        <Button title="Criar conta!" />
-      </Footer>
     </Container>
   );
 }
-//TODO: implementar o formulário de cadastro de grupo
