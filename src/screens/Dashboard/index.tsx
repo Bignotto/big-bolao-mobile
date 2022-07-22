@@ -26,6 +26,10 @@ export default function Dashboard() {
         <GroupList />
       </GroupProvider>
       <Button
+        title="Encontrar Bolão"
+        onPress={() => navigation.navigate("FindGroup" as never)}
+      />
+      <Button
         title="Novo Bolão"
         onPress={() => navigation.navigate("NewGroup" as never)}
       />
