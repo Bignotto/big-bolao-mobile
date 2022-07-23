@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import SearchBox from "../../shared/components/SearchBox";
@@ -16,6 +16,11 @@ import {
 export default function FindGroup() {
   const theme = useTheme();
   const navigation = useNavigation();
+
+  async function handleSearch() {
+    Alert.alert("Searching...");
+  }
+
   return (
     <Container>
       <StatusBar
@@ -32,7 +37,7 @@ export default function FindGroup() {
           </ButtonWrapper>
           <HeaderTitle>Encontrar um{`\n`}Bolão:</HeaderTitle>
         </HeaderTopWrapper>
-        <SearchBox />
+        <SearchBox onPress={handleSearch} />
       </Header>
     </Container>
   );

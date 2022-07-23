@@ -22,9 +22,9 @@ export default function Dashboard() {
         backgroundColor={theme.colors.shape}
       />
       <Header />
-      <GroupProvider userId={userId}>
-        <GroupList />
-      </GroupProvider>
+
+      <GroupList />
+
       <Button
         title="Encontrar Bolão"
         onPress={() => navigation.navigate("FindGroup" as never)}

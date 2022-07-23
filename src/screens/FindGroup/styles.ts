@@ -16,6 +16,7 @@ export const Header = styled.View`
 export const HeaderTopWrapper = styled.View`
   flex-direction: row;
   align-items: flex-start;
+  margin-bottom: 12px;
 `;
 
 export const HeaderTitle = styled.Text`

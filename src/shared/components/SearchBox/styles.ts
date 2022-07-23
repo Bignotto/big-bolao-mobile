@@ -1,6 +1,12 @@
+import { ReactNode } from "react";
 import { TextInput } from "react-native";
+import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+
+interface ButtonProps extends RectButtonProps {
+  children: ReactNode;
+}
 
 export const Container = styled.View`
   width: 100%;
@@ -31,6 +37,13 @@ export const Input = styled(TextInput).attrs<TextInput>({
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
+export const SearchButton = styled(RectButton)<ButtonProps>`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ButtonContainer = styled.View`
   width: 15%;
   border-top-right-radius: 8px;
@@ -46,6 +59,4 @@ export const ButtonContainer = styled.View`
   border-bottom-color: ${({ theme }) => theme.colors.success};
 
   background-color: ${({ theme }) => theme.colors.success};
-  align-items: center;
-  justify-content: center;
 `;
