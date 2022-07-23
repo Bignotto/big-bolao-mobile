@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Alert, StatusBar } from "react-native";
+import { Alert, FlatList, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
+import GroupSearchResultItem from "../../shared/components/GroupSearchResultItem";
 import SearchBox from "../../shared/components/SearchBox";
 import {
   Container,
@@ -11,6 +12,8 @@ import {
   HeaderTitle,
   HeaderTopWrapper,
   ButtonWrapper,
+  SearchResults,
+  SearchTitle,
 } from "./styles";
 
 export default function FindGroup() {
@@ -39,6 +42,14 @@ export default function FindGroup() {
         </HeaderTopWrapper>
         <SearchBox onPress={handleSearch} />
       </Header>
+      <SearchResults>
+        <SearchTitle>Grupos encontrados:</SearchTitle>
+        <FlatList
+          data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}
+          keyExtractor={(item) => String(item)}
+          renderItem={({ item }) => <GroupSearchResultItem />}
+        />
+      </SearchResults>
     </Container>
   );
 }

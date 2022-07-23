@@ -37,3 +37,15 @@ export const HeaderText = styled.Text`
 export const ButtonWrapper = styled.View`
   margin-top: 4px;
 `;
+
+export const SearchResults = styled.View`
+  padding: 0 24px;
+`;
+
+export const SearchTitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(18)}px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+`;
