@@ -3,8 +3,16 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
-import { ButtonWrapper } from "../FindGroup/styles";
-import { Container, Header, HeaderTitle, HeaderTopWrapper } from "./styles";
+import {
+  Container,
+  Header,
+  HeaderTitle,
+  HeaderTopWrapper,
+  GroupTitle,
+  GroupTitleContainer,
+  Content,
+  ButtonWrapper,
+} from "./styles";
 
 export default function JoinGroup() {
   const theme = useTheme();
@@ -24,9 +32,14 @@ export default function JoinGroup() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>Encontrar um{`\n`}Bolão:</HeaderTitle>
+          <HeaderTitle>Entrar no grupo</HeaderTitle>
         </HeaderTopWrapper>
       </Header>
+      <Content>
+        <GroupTitleContainer>
+          <GroupTitle>Bar dos caras</GroupTitle>
+        </GroupTitleContainer>
+      </Content>
     </Container>
   );
 }
