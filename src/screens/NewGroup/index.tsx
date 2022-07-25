@@ -9,7 +9,6 @@ import { RegisterForm } from "../RegisterAccount/styles";
 import {
   Container,
   Footer,
-  FooterText,
   Header,
   HeaderText,
   HeaderTitle,

@@ -6,12 +6,19 @@ import { AppRoutes } from "./app.routes";
 import { useAuth } from "../shared/hooks/AuthContext";
 import { SigninRoutes } from "./signin.routes";
 import ThemeScreen from "../screens/ThemeScreen";
+import { GroupProvider } from "../shared/hooks/GroupContext";
 
 export function Routes() {
   const { session, isLoading } = useAuth();
   return (
     <NavigationContainer theme={DarkTheme}>
-      {session ? <AppRoutes /> : <SigninRoutes />}
+      {session ? (
+        <GroupProvider userId={session.user!.id}>
+          <AppRoutes />
+        </GroupProvider>
+      ) : (
+        <SigninRoutes />
+      )}
     </NavigationContainer>
   );
 }
