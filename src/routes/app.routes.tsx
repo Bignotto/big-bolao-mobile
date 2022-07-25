@@ -5,6 +5,7 @@ import ThemeScreen from "../screens/ThemeScreen";
 import Dashboard from "../screens/Dashboard";
 import NewGroup from "../screens/NewGroup";
 import FindGroup from "../screens/FindGroup";
+import JoinGroup from "../screens/JoinGroup";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -19,6 +20,7 @@ export function AppRoutes() {
       <Screen name="Dashboard" component={Dashboard} />
       <Screen name="NewGroup" component={NewGroup} />
       <Screen name="FindGroup" component={FindGroup} />
+      <Screen name="JoinGroup" component={JoinGroup} />
     </Navigator>
   );
 }
