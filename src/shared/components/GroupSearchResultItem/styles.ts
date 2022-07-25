@@ -16,6 +16,7 @@ export const Container = styled.View`
   align-items: center;
   padding: 0 12px;
   border-radius: 4px;
+  margin-bottom: 12px;
 `;
 
 export const GroupNameWrapper = styled.View`
