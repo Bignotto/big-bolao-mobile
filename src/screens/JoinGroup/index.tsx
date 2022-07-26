@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StatusBar } from "react-native";
+import { FlatList, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import {
@@ -12,6 +12,15 @@ import {
   GroupTitleContainer,
   Content,
   ButtonWrapper,
+  GroupInfoContainer,
+  GroupRuleContainer,
+  RuleValue,
+  RuleTitle,
+  Rules,
+  Players,
+  GroupPlayersContainer,
+  PlayerContainer,
+  PlayerName,
 } from "./styles";
 
 export default function JoinGroup() {
@@ -39,6 +48,40 @@ export default function JoinGroup() {
         <GroupTitleContainer>
           <GroupTitle>Bar dos caras</GroupTitle>
         </GroupTitleContainer>
+        <Rules>Regras do grupo:</Rules>
+        <GroupInfoContainer>
+          <GroupRuleContainer>
+            <RuleValue>5</RuleValue>
+            <RuleTitle>Pontos por palpite correto</RuleTitle>
+          </GroupRuleContainer>
+          <GroupRuleContainer>
+            <RuleValue>5</RuleValue>
+            <RuleTitle>
+              pontos bônus por acertar o vencedor da partida
+            </RuleTitle>
+          </GroupRuleContainer>
+          <GroupRuleContainer>
+            <RuleValue>8</RuleValue>
+            <RuleTitle>Amigos no grupo</RuleTitle>
+          </GroupRuleContainer>
+          <GroupRuleContainer>
+            <RuleValue>Thiago</RuleValue>
+            <RuleTitle>é o organizador do grupo</RuleTitle>
+          </GroupRuleContainer>
+        </GroupInfoContainer>
+        <Players>Jogadores:</Players>
+        <GroupPlayersContainer>
+          <FlatList
+            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}
+            keyExtractor={(item) => String(item)}
+            renderItem={({ item }) => (
+              <PlayerContainer>
+                <PlayerName>Thiago</PlayerName>
+              </PlayerContainer>
+            )}
+            showsHorizontalScrollIndicator={false}
+          />
+        </GroupPlayersContainer>
       </Content>
     </Container>
   );

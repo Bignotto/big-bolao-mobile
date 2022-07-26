@@ -40,10 +40,64 @@ export const GroupTitleContainer = styled.View`
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+  margin-bottom: 18px;
 `;
 
 export const GroupTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(28)}px;
+`;
+
+export const GroupInfoContainer = styled.View`
+  padding: 24px;
+`;
+
+export const GroupRuleContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 0;
+`;
+
+export const RuleValue = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(28)}px;
+`;
+
+export const RuleTitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(16)}px;
+  margin-left: 12px;
+`;
+
+export const Rules = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(24)}px;
+`;
+
+export const Players = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(24)}px;
+`;
+
+export const GroupPlayersContainer = styled.View``;
+
+export const PlayerContainer = styled.View`
+  height: 36px;
+  background-color: ${({ theme }) => theme.colors.shape};
+  flex-direction: row;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0 12px;
+  margin-bottom: 8px;
+`;
+
+export const PlayerName = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(18)}px;
 `;
