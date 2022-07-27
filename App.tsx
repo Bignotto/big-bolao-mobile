@@ -8,6 +8,12 @@ import { AuthProvider } from "./src/shared/hooks/AuthContext";
 import { Routes } from "./src/routes";
 
 import {
+  BIG_APP_NAME,
+  BIG_APP_VERSION,
+  BIG_APP_STRING,
+} from "react-native-dotenv";
+
+import {
   useFonts,
   Kanit_400Regular,
   Kanit_400Regular_Italic,
@@ -24,9 +30,9 @@ LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
 ]);
 
-const { BIG_APP_NAME } = process.env;
-const { BIG_APP_VERSION } = process.env;
-const { BIG_APP_STRING } = process.env;
+// const { BIG_APP_NAME } = process.env;
+// const { BIG_APP_VERSION } = process.env;
+// const { BIG_APP_STRING } = process.env;
 
 export default function App() {
   console.log({
