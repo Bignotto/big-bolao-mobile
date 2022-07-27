@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { FlatList, StatusBar } from "react-native";
+import { FlatList, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import {
@@ -69,20 +69,23 @@ export default function JoinGroup() {
             <RuleTitle>é o organizador do grupo</RuleTitle>
           </GroupRuleContainer>
         </GroupInfoContainer>
-        <Players>Jogadores:</Players>
-        <GroupPlayersContainer>
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}
-            keyExtractor={(item) => String(item)}
-            renderItem={({ item }) => (
-              <PlayerContainer>
-                <PlayerName>Thiago</PlayerName>
-              </PlayerContainer>
-            )}
-            showsHorizontalScrollIndicator={false}
-          />
-        </GroupPlayersContainer>
       </Content>
+      <GroupPlayersContainer>
+        <Players>Jogadores:</Players>
+        <FlatList
+          data={[
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20,
+          ]}
+          keyExtractor={(item) => String(item)}
+          renderItem={({ item }) => (
+            <PlayerContainer>
+              <PlayerName>{item}</PlayerName>
+            </PlayerContainer>
+          )}
+          showsHorizontalScrollIndicator={false}
+        />
+      </GroupPlayersContainer>
     </Container>
   );
 }

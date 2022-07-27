@@ -82,9 +82,13 @@ export const Players = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(24)}px;
+  margin-bottom: 8px;
 `;
 
-export const GroupPlayersContainer = styled.View``;
+export const GroupPlayersContainer = styled.View`
+  flex: 1;
+  padding: 0 24px;
+`;
 
 export const PlayerContainer = styled.View`
   height: 36px;
