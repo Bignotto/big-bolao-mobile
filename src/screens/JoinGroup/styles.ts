@@ -50,7 +50,7 @@ export const GroupTitle = styled.Text`
 `;
 
 export const GroupInfoContainer = styled.View`
-  padding: 24px;
+  padding: 8px 24px;
 `;
 
 export const GroupRuleContainer = styled.View`
@@ -62,7 +62,7 @@ export const GroupRuleContainer = styled.View`
 export const RuleValue = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${RFValue(28)}px;
+  font-size: ${RFValue(20)}px;
 `;
 
 export const RuleTitle = styled.Text`
@@ -70,18 +70,19 @@ export const RuleTitle = styled.Text`
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(16)}px;
   margin-left: 12px;
+  line-height: 24px;
 `;
 
 export const Rules = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${RFValue(24)}px;
+  font-size: ${RFValue(20)}px;
 `;
 
 export const Players = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${RFValue(24)}px;
+  font-size: ${RFValue(20)}px;
   margin-bottom: 8px;
 `;
 
@@ -104,4 +105,23 @@ export const PlayerName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(18)}px;
+`;
+
+export const Footer = styled.View`
+  height: 180px;
+  /* background-color: ${({ theme }) => theme.colors.shape}; */
+  padding: 0 24px;
+  margin-top: 12px;
+`;
+
+export const InputLabel = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(14)}px;
+  margin-bottom: 4px;
+`;
+
+export const InputField = styled.View`
+  width: 100%;
+  margin-bottom: 12px;
 `;
