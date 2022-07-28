@@ -1,7 +1,13 @@
+import { ReactNode } from "react";
+import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+interface GroupCardProps extends RectButtonProps {
+  children: ReactNode;
+}
+
+export const Container = styled(RectButton)<GroupCardProps>`
   flex-direction: row;
   height: 75px;
   margin-bottom: 8px;
