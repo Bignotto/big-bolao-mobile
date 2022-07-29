@@ -4,15 +4,20 @@ import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import { Group } from "../../shared/hooks/GroupContext";
+import { FontAwesome5 } from "@expo/vector-icons"; //trophy - check - medal
 import {
   ButtonWrapper,
   Container,
   Content,
-  GroupTitle,
-  GroupTitleContainer,
+  GroupKpiContainer,
   Header,
   HeaderTitle,
   HeaderTopWrapper,
+  GroupKpiWrapper,
+  GroupKpi,
+  GroupKpiText,
+  GroupKpiTitle,
+  HashTagChar,
 } from "./styles";
 
 interface Params {
@@ -43,9 +48,36 @@ export default function GroupDashboard() {
         </HeaderTopWrapper>
       </Header>
       <Content>
-        <GroupTitleContainer>
-          <GroupTitle>{group.group.name}</GroupTitle>
-        </GroupTitleContainer>
+        <GroupKpiContainer>
+          <GroupKpiWrapper>
+            <GroupKpi>
+              <HashTagChar>#</HashTagChar>
+              <GroupKpiText>20</GroupKpiText>
+            </GroupKpi>
+            <GroupKpiTitle>Ranking</GroupKpiTitle>
+          </GroupKpiWrapper>
+          <GroupKpiWrapper>
+            <GroupKpi>
+              <FontAwesome5 name="trophy" color="#FFFFFF" size={20} />
+              <GroupKpiText>13</GroupKpiText>
+            </GroupKpi>
+            <GroupKpiTitle>Pontos</GroupKpiTitle>
+          </GroupKpiWrapper>
+          <GroupKpiWrapper>
+            <GroupKpi>
+              <FontAwesome5 name="medal" color="#FFFFFF" size={20} />
+              <GroupKpiText>10</GroupKpiText>
+            </GroupKpi>
+            <GroupKpiTitle>Bônus</GroupKpiTitle>
+          </GroupKpiWrapper>
+          <GroupKpiWrapper>
+            <GroupKpi>
+              <FontAwesome5 name="check" color="#FFFFFF" size={20} />
+              <GroupKpiText>8</GroupKpiText>
+            </GroupKpi>
+            <GroupKpiTitle>Acertos</GroupKpiTitle>
+          </GroupKpiWrapper>
+        </GroupKpiContainer>
       </Content>
     </Container>
   );
