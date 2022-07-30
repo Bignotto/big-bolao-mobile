@@ -19,6 +19,7 @@ import {
   GroupKpiTitle,
   HashTagChar,
 } from "./styles";
+import GroupRanking from "../../shared/components/GroupRanking";
 
 interface Params {
   group: Group;
@@ -78,6 +79,7 @@ export default function GroupDashboard() {
             <GroupKpiTitle>Acertos</GroupKpiTitle>
           </GroupKpiWrapper>
         </GroupKpiContainer>
+        <GroupRanking />
       </Content>
     </Container>
   );
