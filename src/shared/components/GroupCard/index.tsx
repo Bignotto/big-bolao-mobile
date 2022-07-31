@@ -1,4 +1,5 @@
 import React from "react";
+import { RectButtonProps } from "react-native-gesture-handler";
 import {
   Container,
   InfoContainer,
@@ -12,16 +13,16 @@ import {
   GroupFriendsText,
 } from "./styles";
 
-interface GroupCardProps {
+interface GroupCardProps extends RectButtonProps {
   title: string;
   points: number;
   friends: number;
   rank: number;
 }
 
-function GroupCard({ title, points, friends, rank }: GroupCardProps) {
+function GroupCard({ title, points, friends, rank, ...rest }: GroupCardProps) {
   return (
-    <Container>
+    <Container {...rest}>
       <InfoContainer>
         <GroupTitleContainer>
           <GroupTitle>{title}</GroupTitle>
