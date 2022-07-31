@@ -1,5 +1,6 @@
 import React from "react";
-import { FontAwesome5 } from "@expo/vector-icons"; //trophy - check - medal
+import { FontAwesome5 } from "@expo/vector-icons";
+import RankingLine from "./RankingLine";
 
 import {
   Container,
@@ -8,7 +9,6 @@ import {
   RankingTitle,
   RankingTitleWrapper,
 } from "./styles";
-import RankingLine from "./RankingLine";
 
 export default function GroupRanking() {
   return (

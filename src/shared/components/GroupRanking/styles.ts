@@ -1,5 +1,5 @@
-import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export const Container = styled.View`
   flex: 1;
@@ -19,13 +19,13 @@ export const RankingTitle = styled.Text`
 `;
 
 export const IconsWrapper = styled.View`
-  flex: 1;
+  width: 50%;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
 `;
 
 export const RankingTitleWrapper = styled.View`
-  flex: 1;
-  margin-left: 20px;
+  width: 50%;
+  padding-left: 20px;
 `;
