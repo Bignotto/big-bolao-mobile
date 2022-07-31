@@ -4,7 +4,7 @@ import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import { Group } from "../../shared/hooks/GroupContext";
-import { FontAwesome5 } from "@expo/vector-icons"; //trophy - check - medal
+import { FontAwesome5, FontAwesome } from "@expo/vector-icons"; //trophy - check - medal
 import {
   ButtonWrapper,
   Container,
@@ -20,6 +20,7 @@ import {
   HashTagChar,
   Footer,
   GroupRankingContainer,
+  Properties,
 } from "./styles";
 import GroupRanking from "../../shared/components/GroupRanking";
 import { Button } from "../../shared/components/Button";
@@ -49,6 +50,13 @@ export default function GroupDashboard() {
             />
           </ButtonWrapper>
           <HeaderTitle>{group.group.name}</HeaderTitle>
+          <ButtonWrapper>
+            <Properties
+              onPress={() => navigation.navigate("GroupProperties" as never)}
+            >
+              <FontAwesome name="gear" size={20} color={theme.colors.text} />
+            </Properties>
+          </ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
       <Content>
