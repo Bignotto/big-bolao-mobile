@@ -30,9 +30,11 @@ export const HeaderTitle = styled.Text`
 `;
 
 export const Content = styled.View`
+  flex: 1;
   padding: 0 24px;
   margin-top: -20px;
 `;
+
 export const GroupKpiContainer = styled.View`
   height: 80px;
   background-color: ${({ theme }) => theme.colors.success};
@@ -73,4 +75,13 @@ export const HashTagChar = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold_italic};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(26)}px;
+`;
+
+export const GroupRankingContainer = styled.View`
+  padding: 0 24px;
+`;
+
+export const Footer = styled.View`
+  height: 90px;
+  padding: 0 24px;
 `;

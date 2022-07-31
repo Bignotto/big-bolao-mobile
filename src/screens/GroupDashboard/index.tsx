@@ -18,8 +18,11 @@ import {
   GroupKpiText,
   GroupKpiTitle,
   HashTagChar,
+  Footer,
+  GroupRankingContainer,
 } from "./styles";
 import GroupRanking from "../../shared/components/GroupRanking";
+import { Button } from "../../shared/components/Button";
 
 interface Params {
   group: Group;
@@ -81,6 +84,9 @@ export default function GroupDashboard() {
         </GroupKpiContainer>
         <GroupRanking />
       </Content>
+      <Footer>
+        <Button title="Meus Palpites" />
+      </Footer>
     </Container>
   );
 }
