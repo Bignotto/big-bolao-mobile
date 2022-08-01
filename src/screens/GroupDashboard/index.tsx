@@ -52,7 +52,12 @@ export default function GroupDashboard() {
           <HeaderTitle>{group.group.name}</HeaderTitle>
           <ButtonWrapper>
             <Properties
-              onPress={() => navigation.navigate("GroupProperties" as never)}
+              onPress={() =>
+                navigation.navigate(
+                  "GroupProperties" as never,
+                  { group } as never
+                )
+              }
             >
               <FontAwesome name="gear" size={20} color={theme.colors.text} />
             </Properties>
