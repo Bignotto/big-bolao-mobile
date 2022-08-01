@@ -62,21 +62,21 @@ export default function GroupDashboard() {
           </GroupKpiWrapper>
           <GroupKpiWrapper>
             <GroupKpi>
-              <FontAwesome5 name="trophy" color="#FFFFFF" size={20} />
+              <FontAwesome5 name="trophy" color={theme.colors.text} size={20} />
               <GroupKpiText>13</GroupKpiText>
             </GroupKpi>
             <GroupKpiTitle>Pontos</GroupKpiTitle>
           </GroupKpiWrapper>
           <GroupKpiWrapper>
             <GroupKpi>
-              <FontAwesome5 name="medal" color="#FFFFFF" size={20} />
+              <FontAwesome5 name="medal" color={theme.colors.text} size={20} />
               <GroupKpiText>10</GroupKpiText>
             </GroupKpi>
             <GroupKpiTitle>Bônus</GroupKpiTitle>
           </GroupKpiWrapper>
           <GroupKpiWrapper>
             <GroupKpi>
-              <FontAwesome5 name="check" color="#FFFFFF" size={20} />
+              <FontAwesome5 name="check" color={theme.colors.text} size={20} />
               <GroupKpiText>8</GroupKpiText>
             </GroupKpi>
             <GroupKpiTitle>Acertos</GroupKpiTitle>
