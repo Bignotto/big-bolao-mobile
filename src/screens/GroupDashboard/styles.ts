@@ -1,5 +1,11 @@
+import { ReactNode } from "react";
+import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+
+interface PropertiesProps extends RectButtonProps {
+  children: ReactNode;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -16,17 +22,19 @@ export const HeaderTopWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 12px;
+  justify-content: space-between;
 `;
 
 export const ButtonWrapper = styled.View`
   margin-top: 4px;
 `;
 
+export const Properties = styled(RectButton)<PropertiesProps>``;
+
 export const HeaderTitle = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(32)}px;
-  margin-left: 12px;
 `;
 
 export const Content = styled.View`
