@@ -20,6 +20,7 @@ export const HeaderTopWrapper = styled.View`
 `;
 
 export const ButtonWrapper = styled.View`
+  width: 18px;
   margin-top: 4px;
 `;
 
@@ -30,7 +31,7 @@ export const HeaderTitle = styled.Text`
 `;
 
 export const RegisterForm = styled.View`
-  background-color: blue;
+  margin-top: 8px;
   padding: 0 24px;
 `;
 
@@ -43,18 +44,27 @@ export const InputLabel = styled.Text`
 
 export const InputField = styled.View`
   width: 100%;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 `;
 
 export const FormTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(18)}px;
-  margin-top: 24px;
+  margin-top: 4px;
 `;
 
 export const Footer = styled.View`
   width: 100%;
-  padding: 24px 24px;
+  padding: 12px 24px;
+`;
+
+export const PlayersListContainer = styled.View`
+  flex: 1;
+  padding: 0 24px;
+`;
+
+export const Spacer = styled.View`
+  height: 4px;
+  width: 100%;
 `;

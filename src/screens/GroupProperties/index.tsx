@@ -14,7 +14,9 @@ import {
   HeaderTopWrapper,
   InputField,
   InputLabel,
+  PlayersListContainer,
   RegisterForm,
+  Spacer,
 } from "./styles";
 import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
@@ -44,7 +46,7 @@ export default function GroupProperties() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>{group.group.name}!!!</HeaderTitle>
+          <HeaderTitle>{group.group.name}</HeaderTitle>
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
@@ -72,9 +74,14 @@ export default function GroupProperties() {
           />
         </InputField>
       </RegisterForm>
-      <PlayersList />
+      <PlayersListContainer>
+        <FormTitle>Jogadores do grupo:</FormTitle>
+        <Spacer />
+        <PlayersList />
+      </PlayersListContainer>
       <Footer>
-        <Button title="Criar novo grupo!" />
+        <Button title="Salvar" enabled={false} />
+        <Button title="Sair do grupo" color="#E83F5B" />
       </Footer>
     </Container>
   );
