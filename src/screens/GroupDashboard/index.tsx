@@ -98,7 +98,15 @@ export default function GroupDashboard() {
         <GroupRanking />
       </Content>
       <Footer>
-        <Button title="Meus Palpites" />
+        <Button
+          title="Meus Palpites"
+          onPress={() =>
+            navigation.navigate(
+              "GroupPlayerGuesses" as never,
+              { group } as never
+            )
+          }
+        />
       </Footer>
     </Container>
   );
