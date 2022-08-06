@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StatusBar } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import { Button } from "../../shared/components/Button";
@@ -40,7 +41,8 @@ export default function NewGroup() {
           senha segura para seus amigos entrarem no seu grupo.
         </HeaderText>
       </Header>
-      <RegisterForm>
+      {/* //TODO: fix padding */}
+      <ScrollView>
         <InputField>
           <InputLabel>Nome do grupo</InputLabel>
           <Input name="name" placeholder="Quem chuta busca" />
@@ -73,10 +75,10 @@ export default function NewGroup() {
             keyboardType="numeric"
           />
         </InputField>
-        <Footer>
-          <Button title="Criar novo grupo!" />
-        </Footer>
-      </RegisterForm>
+      </ScrollView>
+      <Footer>
+        <Button title="Criar novo grupo!" />
+      </Footer>
     </Container>
   );
 }

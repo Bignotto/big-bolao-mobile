@@ -12,8 +12,8 @@ export function SelectButton({ title, onPress, selected }: Props) {
   const theme = useTheme();
 
   return (
-    <Container onPress={onPress} selected={selected}>
-      <ButtonStyle>
+    <Container onPress={onPress}>
+      <ButtonStyle selected={selected}>
         <Title>{title}</Title>
       </ButtonStyle>
     </Container>

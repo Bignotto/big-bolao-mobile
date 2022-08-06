@@ -4,8 +4,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { ReactNode } from "react";
 
 interface ButtonProps extends RectButtonProps {
-  selected: boolean;
   children: ReactNode;
+}
+
+interface SelectButtonProps {
+  selected: boolean;
 }
 
 export const Container = styled(RectButton)<ButtonProps>`
@@ -14,17 +17,19 @@ export const Container = styled(RectButton)<ButtonProps>`
 
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 5px;
-  /* margin-bottom: 8px; */
 `;
 
-export const ButtonStyle = styled.View`
-  align-items: center;
-  justify-content: center;
+export const ButtonStyle = styled.View<SelectButtonProps>`
   width: 100%;
   height: 100%;
+
+  align-items: center;
+  justify-content: center;
+
   border-radius: 5px;
   border-width: 2px;
-  border-color: ${({ theme }) => theme.colors.success};
+  border-color: ${({ theme, selected }) =>
+    selected ? theme.colors.success : theme.colors.shape};
 `;
 
 export const Title = styled.Text`
