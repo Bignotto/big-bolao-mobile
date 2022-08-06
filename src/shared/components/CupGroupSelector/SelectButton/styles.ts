@@ -17,6 +17,8 @@ export const Container = styled(RectButton)<ButtonProps>`
 
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 5px;
+  margin-left: 8px;
+  margin-right: 8px;
 `;
 
 export const ButtonStyle = styled.View<SelectButtonProps>`
