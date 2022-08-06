@@ -11,6 +11,7 @@ import {
   HeaderTitle,
   HeaderTopWrapper,
 } from "./styles";
+import CupGroupSelector from "../../shared/components/CupGroupSelector";
 
 interface Params {
   group: Group;
@@ -40,6 +41,7 @@ export default function GroupPlayerGuesses() {
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
+      <CupGroupSelector />
     </Container>
   );
 }
