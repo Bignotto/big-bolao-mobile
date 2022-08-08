@@ -12,6 +12,7 @@ import {
   HeaderTopWrapper,
 } from "./styles";
 import CupGroupSelector from "../../shared/components/CupGroupSelector";
+import MatchGuessInput from "../../shared/components/MatchGuessInput";
 
 interface Params {
   group: Group;
@@ -49,6 +50,7 @@ export default function GroupPlayerGuesses() {
         </HeaderTopWrapper>
       </Header>
       <CupGroupSelector onSelect={handleSelectGroup} />
+      <MatchGuessInput />
     </Container>
   );
 }
