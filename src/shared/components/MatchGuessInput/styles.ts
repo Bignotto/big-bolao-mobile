@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
+  flex-direction: column;
 `;
 
 export const TopWrapper = styled.View`
@@ -29,4 +30,8 @@ export const MatchDate = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export const BottonWrapper = styled.View``;
+export const BottonWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 8px;
+`;
