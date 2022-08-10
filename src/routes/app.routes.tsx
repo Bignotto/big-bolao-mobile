@@ -1,13 +1,13 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import ThemeScreen from "../screens/ThemeScreen";
 import Dashboard from "../screens/Dashboard";
 import NewGroup from "../screens/NewGroup";
 import FindGroup from "../screens/FindGroup";
 import JoinGroup from "../screens/JoinGroup";
 import GroupDashboard from "../screens/GroupDashboard";
 import GroupProperties from "../screens/GroupProperties";
+import GroupPlayerGuesses from "../screens/GroupPlayerGuesses";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -25,6 +25,7 @@ export function AppRoutes() {
       <Screen name="JoinGroup" component={JoinGroup} />
       <Screen name="GroupDashboard" component={GroupDashboard} />
       <Screen name="GroupProperties" component={GroupProperties} />
+      <Screen name="GroupPlayerGuesses" component={GroupPlayerGuesses} />
     </Navigator>
   );
 }
