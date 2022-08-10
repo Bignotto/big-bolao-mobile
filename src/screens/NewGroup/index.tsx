@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
@@ -37,47 +37,51 @@ export default function NewGroup() {
           <HeaderTitle>Novo Bolão:</HeaderTitle>
         </HeaderTopWrapper>
         <HeaderText>
-          Preencha seus dados para criar um nogo grupo de bolão.{`\n\n`}Use uma
-          senha segura para seus amigos entrarem no seu grupo.
+          Preencha os campos para criar um nogo grupo de bolão.{`\n\n`}
+          Use uma senha segura para seus amigos entrarem no seu grupo.
         </HeaderText>
       </Header>
-      {/* //TODO: fix padding */}
       <ScrollView>
-        <InputField>
-          <InputLabel>Nome do grupo</InputLabel>
-          <Input name="name" placeholder="Quem chuta busca" />
-        </InputField>
-        <InputField>
-          <InputLabel>Senha:</InputLabel>
-          <Input
-            name="password"
-            placeholder="senha para seus amigos entrarem no seu grupo"
-          />
-        </InputField>
-        <FormTitle>Pontuação do bolão</FormTitle>
-        <InputField>
-          <InputLabel>Pontos para o palpite exato:</InputLabel>
-          <Input
-            name="points"
-            placeholder="pontos para o placar exato do jogo"
-            keyboardType="numeric"
-          />
-        </InputField>
-        <FormTitle>Pontos bônus</FormTitle>
-        <InputField>
-          <InputLabel>
-            Conceder pontos extras para o palpite que acertar o vencedor da
-            partida:
-          </InputLabel>
-          <Input
-            name="bonus"
-            placeholder="pontos extras"
-            keyboardType="numeric"
-          />
-        </InputField>
+        <RegisterForm>
+          <InputField>
+            <InputLabel>Nome do grupo</InputLabel>
+            <Input name="name" placeholder="Quem chuta busca" />
+          </InputField>
+          <InputField>
+            <InputLabel>Senha:</InputLabel>
+            <Input
+              name="password"
+              placeholder="senha para seus amigos entrarem no seu grupo"
+            />
+          </InputField>
+          <FormTitle>Pontuação do bolão</FormTitle>
+          <InputField>
+            <InputLabel>Pontos para o palpite exato:</InputLabel>
+            <Input
+              name="points"
+              placeholder="pontos para o placar exato do jogo"
+              keyboardType="numeric"
+            />
+          </InputField>
+          <FormTitle>Pontos bônus</FormTitle>
+          <InputField>
+            <InputLabel>
+              Conceder pontos extras para o palpite que acertar o vencedor da
+              partida:
+            </InputLabel>
+            <Input
+              name="bonus"
+              placeholder="pontos extras"
+              keyboardType="numeric"
+            />
+          </InputField>
+        </RegisterForm>
       </ScrollView>
       <Footer>
-        <Button title="Criar novo grupo!" />
+        <Button
+          title="Criar novo grupo!"
+          onPress={() => Alert.alert("novo grupo!")}
+        />
       </Footer>
     </Container>
   );
