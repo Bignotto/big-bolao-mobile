@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext } from "react";
 import { AppError } from "../errors/AppError";
 import supabase from "../services/supabase";
 
-interface Group {
+interface UserGroup {
   created_at: Date;
   group: {
     group_id: string;
@@ -14,21 +14,57 @@ interface Group {
   user_rank: number;
 }
 
+interface Group {
+  group_id?: string;
+  name: string;
+  owner_id?: string;
+  created_at?: Date;
+  match_score_points: number;
+  match_winner_points: number;
+  password: string;
+}
+
 interface GroupProviderProps {
   children: ReactNode;
   userId: string;
 }
 
 interface IGroupContextData {
-  getUserGroups(): Promise<Group[]>;
+  getUserGroups(): Promise<UserGroup[]>;
+  createGroup(group: Group): Promise<Group>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
 
 function GroupProvider({ children, userId }: GroupProviderProps) {
+  async function createGroup({
+    name,
+    password,
+    match_score_points,
+    match_winner_points,
+  }: Group) {
+    const newGroup: Group = {
+      name,
+      password,
+      match_score_points,
+      match_winner_points,
+      owner_id: userId,
+      created_at: new Date(),
+    };
+
+    const { data, error } = await supabase.from("groups").insert([newGroup]);
+
+    console.log({ error });
+    if (error) throw new AppError("ERROR while creating new group");
+
+    console.log({ data });
+
+    return Promise.resolve(newGroup);
+  }
+
   async function getUserGroups() {
     console.log(`getUserGroups function in GroupProvider with ${userId}`);
-    let groups: Group[] = [];
+    let groups: UserGroup[] = [];
 
     const { data, error } = await supabase
       .from("user_groups")
@@ -54,7 +90,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   }
 
   return (
-    <GroupContext.Provider value={{ getUserGroups }}>
+    <GroupContext.Provider value={{ getUserGroups, createGroup }}>
       {children}
     </GroupContext.Provider>
   );
@@ -64,4 +100,4 @@ function useGroup() {
   return useContext(GroupContext);
 }
 
-export { GroupProvider, useGroup, Group };
+export { GroupProvider, useGroup, UserGroup as Group };
