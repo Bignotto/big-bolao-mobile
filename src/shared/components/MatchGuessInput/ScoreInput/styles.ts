@@ -23,7 +23,7 @@ export const ScoreInputBox = styled(TextInput).attrs<TextInput>({
   height: 56px;
   width: 68px;
 
-  margin: 0 4px 0 4px;
+  margin: 0 8px 0 8px;
 
   font-family: ${({ theme }) => theme.fonts.bold_italic};
   font-size: ${RFValue(38)}px;
