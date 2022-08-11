@@ -54,12 +54,20 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
     const { data, error } = await supabase.from("groups").insert([newGroup]);
 
-    console.log({ error });
     if (error) throw new AppError("ERROR while creating new group");
 
-    console.log({ data });
+    const { data: join_data, error: join_error } = await supabase
+      .from("user_groups")
+      .insert([
+        {
+          user_id: userId,
+          group_id: data[0].group_id,
+        },
+      ]);
 
-    return Promise.resolve(newGroup);
+    if (join_error) throw new AppError("ERROR while joining new group");
+
+    return Promise.resolve(data[0]);
   }
 
   async function getUserGroups() {
