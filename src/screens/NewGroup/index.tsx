@@ -42,6 +42,17 @@ export default function NewGroup() {
         match_score_points: Number(matchScorePoints),
         match_winner_points: Number(matchWinnerPoints),
       });
+
+      navigation.navigate(
+        "Confirmation" as never,
+        {
+          title: "Novo grupo criado!",
+          message: "Agora você pode entrar no grupo e começar a jogar!",
+          instructions:
+            "Clique em meus palpites na tela principal para ver registrar seus palpites.",
+          nextScreen: "Dashboard",
+        } as never
+      );
     } catch (error) {
       if (error instanceof AppError)
         return Alert.alert(`${error.message} - ${error.statusCode}`);

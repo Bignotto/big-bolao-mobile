@@ -8,6 +8,7 @@ import JoinGroup from "../screens/JoinGroup";
 import GroupDashboard from "../screens/GroupDashboard";
 import GroupProperties from "../screens/GroupProperties";
 import GroupPlayerGuesses from "../screens/GroupPlayerGuesses";
+import ConfirmationScreen from "../screens/ConfirmationScreen";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -26,6 +27,7 @@ export function AppRoutes() {
       <Screen name="GroupDashboard" component={GroupDashboard} />
       <Screen name="GroupProperties" component={GroupProperties} />
       <Screen name="GroupPlayerGuesses" component={GroupPlayerGuesses} />
+      <Screen name="Confirmation" component={ConfirmationScreen} />
     </Navigator>
   );
 }
