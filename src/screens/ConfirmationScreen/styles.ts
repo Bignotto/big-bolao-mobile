@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Header = styled.View`
@@ -35,12 +36,20 @@ export const ContentTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(28)}px;
+  margin-top: 24px;
 `;
 
 export const ContentText = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(14)}px;
+  margin-top: 12px;
+`;
+
+export const ImageWrapper = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Footer = styled.View`
