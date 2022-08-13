@@ -32,11 +32,23 @@ interface GroupProviderProps {
 interface IGroupContextData {
   getUserGroups(): Promise<UserGroup[]>;
   createGroup(group: Group): Promise<Group>;
+  searchGroupByName(name: string): Promise<Group[]>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
 
 function GroupProvider({ children, userId }: GroupProviderProps) {
+  async function searchGroupByName(name: string) {
+    const { data: groups, error } = await supabase
+      .from("groups")
+      .select("*")
+      .ilike("name", `%${name}%`);
+
+    if (error) throw new AppError("ERROR while searching groups");
+
+    return Promise.resolve(groups);
+  }
+
   async function createGroup({
     name,
     password,
@@ -98,7 +110,9 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   }
 
   return (
-    <GroupContext.Provider value={{ getUserGroups, createGroup }}>
+    <GroupContext.Provider
+      value={{ getUserGroups, createGroup, searchGroupByName }}
+    >
       {children}
     </GroupContext.Provider>
   );
@@ -108,4 +122,4 @@ function useGroup() {
   return useContext(GroupContext);
 }
 
-export { GroupProvider, useGroup, UserGroup as Group };
+export { GroupProvider, useGroup, UserGroup, Group };
