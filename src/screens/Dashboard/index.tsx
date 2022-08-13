@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../shared/components/Button";
 import Header from "../../shared/components/Header";
 import { useAuth } from "../../shared/hooks/AuthContext";
-import { GroupProvider } from "../../shared/hooks/GroupContext";
+import { Group, useGroup, UserGroup } from "../../shared/hooks/GroupContext";
 
 import { Container } from "./styles";
 import GroupList from "../../shared/components/GroupList";
@@ -13,7 +13,23 @@ import { useNavigation } from "@react-navigation/native";
 export default function Dashboard() {
   const navigation = useNavigation();
   const theme = useTheme();
-  const { userId } = useAuth();
+  const { getUserGroups } = useGroup();
+
+  const [groups, setGroups] = useState<Group[]>([]);
+
+  useEffect(() => {
+    async function loadGroups() {
+      let response;
+      try {
+        response = await getUserGroups();
+        const responseGroups = response.map((userGroup) => userGroup.group);
+
+        setGroups(responseGroups);
+      } catch (error) {}
+    }
+
+    loadGroups();
+  }, []);
 
   return (
     <Container>
@@ -23,7 +39,7 @@ export default function Dashboard() {
       />
       <Header />
 
-      <GroupList />
+      <GroupList groups={groups} />
 
       <Button
         title="Encontrar Bolão"

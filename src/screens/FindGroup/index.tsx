@@ -24,7 +24,7 @@ export default function FindGroup() {
   const [searchResults, setSearchResults] = React.useState<Group[]>([]);
 
   async function handleSearch() {
-    const groups = await searchGroupByName("mais");
+    const groups = await searchGroupByName("a");
     setSearchResults(groups);
   }
 
@@ -47,11 +47,13 @@ export default function FindGroup() {
         <SearchBox onPress={handleSearch} />
       </Header>
       <SearchResults>
-        <SearchTitle>Grupos encontrados:</SearchTitle>
+        {searchResults.length > 0 && (
+          <SearchTitle>{searchResults.length} Grupos encontrados:</SearchTitle>
+        )}
         <FlatList
           data={searchResults}
           keyExtractor={(item) => item.group_id!.toString()}
-          renderItem={({ item }) => <GroupSearchResultItem />}
+          renderItem={({ item }) => <GroupSearchResultItem group={item} />}
           showsHorizontalScrollIndicator={false}
         />
       </SearchResults>

@@ -1,6 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { Alert, FlatList, StatusBar, View } from "react-native";
+import { Alert, FlatList, StatusBar } from "react-native";
+
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Group } from "../../shared/hooks/GroupContext";
+
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import { Button } from "../../shared/components/Button";
@@ -28,10 +31,16 @@ import {
   InputLabel,
 } from "./styles";
 
+interface Params {
+  group: Group;
+}
+
 export default function JoinGroup() {
   const [groupPassword, setGroupPassword] = useState("");
   const theme = useTheme();
   const navigation = useNavigation();
+  const route = useRoute();
+  const { group } = route.params as Params;
 
   async function handleJoinGroup() {
     Alert.alert(`Você entrou no grupo! senha: ${groupPassword}`);
@@ -56,16 +65,16 @@ export default function JoinGroup() {
       </Header>
       <Content>
         <GroupTitleContainer>
-          <GroupTitle>Bar dos caras</GroupTitle>
+          <GroupTitle>{group.name}</GroupTitle>
         </GroupTitleContainer>
         <Rules>Regras do grupo:</Rules>
         <GroupInfoContainer>
           <GroupRuleContainer>
-            <RuleValue>5</RuleValue>
+            <RuleValue>{group.match_score_points}</RuleValue>
             <RuleTitle>Pontos por palpite correto</RuleTitle>
           </GroupRuleContainer>
           <GroupRuleContainer>
-            <RuleValue>5</RuleValue>
+            <RuleValue>{group.match_winner_points}</RuleValue>
             <RuleTitle>
               pontos bônus por acertar o vencedor da partida
             </RuleTitle>

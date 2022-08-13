@@ -4,10 +4,7 @@ import supabase from "../services/supabase";
 
 interface UserGroup {
   created_at: Date;
-  group: {
-    group_id: string;
-    name: string;
-  };
+  group: Group;
   id: string;
   user_id: string;
   user_points: number;
@@ -99,6 +96,11 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         group: {
           group_id: g.group_id.group_id,
           name: g.group_id.name,
+          owner_id: g.group_id.owner_id,
+          created_at: g.group_id.created_at,
+          match_score_points: g.group_id.match_score_points,
+          match_winner_points: g.group_id.match_winner_points,
+          password: g.group_id.password,
         },
         id: g.id,
         user_id: g.user_id,
