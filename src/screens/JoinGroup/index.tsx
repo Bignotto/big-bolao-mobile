@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert, FlatList, StatusBar } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Group } from "../../shared/hooks/GroupContext";
+import { Group, useGroup } from "../../shared/hooks/GroupContext";
 
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
@@ -39,11 +39,13 @@ export default function JoinGroup() {
   const [groupPassword, setGroupPassword] = useState("");
   const theme = useTheme();
   const navigation = useNavigation();
+  const { getGroupUsers } = useGroup();
   const route = useRoute();
   const { group } = route.params as Params;
 
   async function handleJoinGroup() {
-    Alert.alert(`Você entrou no grupo! senha: ${groupPassword}`);
+    const data = await getGroupUsers(group.group_id!);
+    console.log({ data });
   }
 
   return (

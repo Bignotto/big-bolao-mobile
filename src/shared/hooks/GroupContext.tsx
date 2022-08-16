@@ -28,6 +28,7 @@ interface GroupProviderProps {
 
 interface IGroupContextData {
   getUserGroups(): Promise<UserGroup[]>;
+  getGroupUsers(groupId: string): Promise<UserGroup[]>;
   createGroup(group: Group): Promise<Group>;
   searchGroupByName(name: string): Promise<Group[]>;
 }
@@ -111,9 +112,24 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve(groups);
   }
 
+  async function getGroupUsers(groupId: string) {
+    const { data, error } = await supabase
+      .from("user_groups")
+      .select("*,user_id(id,full_name)")
+      .eq("group_id", groupId);
+
+    console.log({ error });
+    if (error) throw new AppError(`ERROR while getting group users ${error}`);
+
+    if (data) {
+      return Promise.resolve(data);
+    }
+    return Promise.resolve([]);
+  }
+
   return (
     <GroupContext.Provider
-      value={{ getUserGroups, createGroup, searchGroupByName }}
+      value={{ getUserGroups, getGroupUsers, createGroup, searchGroupByName }}
     >
       {children}
     </GroupContext.Provider>
