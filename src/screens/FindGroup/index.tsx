@@ -23,8 +23,8 @@ export default function FindGroup() {
 
   const [searchResults, setSearchResults] = React.useState<Group[]>([]);
 
-  async function handleSearch() {
-    const groups = await searchGroupByName("a");
+  async function handleSearch(searchText: string) {
+    const groups = await searchGroupByName(searchText);
     setSearchResults(groups);
   }
 

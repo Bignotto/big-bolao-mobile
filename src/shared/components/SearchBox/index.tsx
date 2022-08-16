@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
 import {
@@ -8,22 +8,24 @@ import {
   Input,
   SearchButton,
 } from "./styles";
-import { useTheme } from "styled-components";
 
 interface SearchBoxProps {
-  onPress: () => void;
+  onPress: (searchText: string) => void;
 }
 
 export default function SearchBox({ onPress }: SearchBoxProps) {
-  const theme = useTheme();
-
+  const [searchText, setSearchText] = useState("");
   return (
     <Container>
       <InputContainer>
-        <Input placeholder="nome do bolão" />
+        <Input
+          placeholder="nome do bolão"
+          value={searchText}
+          onChangeText={(text) => setSearchText(text)}
+        />
       </InputContainer>
       <ButtonContainer>
-        <SearchButton onPress={onPress}>
+        <SearchButton onPress={() => onPress(searchText)}>
           <Feather name="search" size={28} />
         </SearchButton>
       </ButtonContainer>

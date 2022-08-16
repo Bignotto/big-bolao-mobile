@@ -45,7 +45,7 @@ export default function GroupPlayerGuesses() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>{group.group.name}</HeaderTitle>
+          <HeaderTitle>{group.name}</HeaderTitle>
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
