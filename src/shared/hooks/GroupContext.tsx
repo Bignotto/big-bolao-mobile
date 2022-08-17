@@ -21,6 +21,11 @@ interface Group {
   password: string;
 }
 
+interface User {
+  user_id: string;
+  full_name: string;
+}
+
 interface GroupProviderProps {
   children: ReactNode;
   userId: string;
@@ -28,9 +33,10 @@ interface GroupProviderProps {
 
 interface IGroupContextData {
   getUserGroups(): Promise<UserGroup[]>;
-  getGroupUsers(groupId: string): Promise<UserGroup[]>;
+  getGroupUsers(groupId: string): Promise<User[]>;
   createGroup(group: Group): Promise<Group>;
   searchGroupByName(name: string): Promise<Group[]>;
+  getUserById(userId: string): Promise<User>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -81,7 +87,6 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   }
 
   async function getUserGroups() {
-    console.log(`getUserGroups function in GroupProvider with ${userId}`);
     let groups: UserGroup[] = [];
 
     const { data, error } = await supabase
@@ -112,24 +117,46 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve(groups);
   }
 
+  async function getUserById(userId: string) {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("user_id", userId);
+
+    if (error) throw new AppError("ERROR while getting user by id");
+
+    return Promise.resolve(data[0]);
+  }
+
   async function getGroupUsers(groupId: string) {
     const { data, error } = await supabase
       .from("user_groups")
       .select("*,user_id(id,full_name)")
       .eq("group_id", groupId);
 
-    console.log({ error });
     if (error) throw new AppError(`ERROR while getting group users ${error}`);
 
     if (data) {
-      return Promise.resolve(data);
+      const users: User[] = data.map((u) => {
+        return {
+          user_id: u.user_id.id,
+          full_name: u.user_id.full_name,
+        };
+      });
+      return Promise.resolve(users);
     }
     return Promise.resolve([]);
   }
 
   return (
     <GroupContext.Provider
-      value={{ getUserGroups, getGroupUsers, createGroup, searchGroupByName }}
+      value={{
+        getUserGroups,
+        getGroupUsers,
+        createGroup,
+        searchGroupByName,
+        getUserById,
+      }}
     >
       {children}
     </GroupContext.Provider>
@@ -140,4 +167,4 @@ function useGroup() {
   return useContext(GroupContext);
 }
 
-export { GroupProvider, useGroup, UserGroup, Group };
+export { GroupProvider, useGroup, UserGroup, Group, User };

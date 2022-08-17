@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, FlatList, StatusBar } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Group, useGroup } from "../../shared/hooks/GroupContext";
+import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
 
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
@@ -36,16 +36,27 @@ interface Params {
 }
 
 export default function JoinGroup() {
-  const [groupPassword, setGroupPassword] = useState("");
   const theme = useTheme();
   const navigation = useNavigation();
   const { getGroupUsers } = useGroup();
+
   const route = useRoute();
   const { group } = route.params as Params;
 
+  const [groupPassword, setGroupPassword] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+
+  async function loadGroupUsers() {
+    const data = await getGroupUsers(group.group_id!);
+    setUsers(data);
+  }
+
+  useEffect(() => {
+    loadGroupUsers();
+  }, []);
+
   async function handleJoinGroup() {
     const data = await getGroupUsers(group.group_id!);
-    console.log({ data });
   }
 
   return (
@@ -82,11 +93,13 @@ export default function JoinGroup() {
             </RuleTitle>
           </GroupRuleContainer>
           <GroupRuleContainer>
-            <RuleValue>8</RuleValue>
+            <RuleValue>{users.length}</RuleValue>
             <RuleTitle>Amigos no grupo</RuleTitle>
           </GroupRuleContainer>
           <GroupRuleContainer>
-            <RuleValue>Thiago</RuleValue>
+            <RuleValue>
+              {users.find((u) => u.user_id === group.owner_id)?.full_name}
+            </RuleValue>
             <RuleTitle>é o organizador do grupo</RuleTitle>
           </GroupRuleContainer>
         </GroupInfoContainer>
@@ -94,14 +107,11 @@ export default function JoinGroup() {
       <GroupPlayersContainer>
         <Players>Jogadores do grupo:</Players>
         <FlatList
-          data={[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20,
-          ]}
-          keyExtractor={(item) => String(item)}
+          data={users}
+          keyExtractor={(u) => u.user_id}
           renderItem={({ item }) => (
             <PlayerContainer>
-              <PlayerName>{item}</PlayerName>
+              <PlayerName>{item.full_name}</PlayerName>
             </PlayerContainer>
           )}
           showsHorizontalScrollIndicator={false}
