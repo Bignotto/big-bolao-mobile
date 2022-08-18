@@ -38,7 +38,7 @@ interface Params {
 export default function JoinGroup() {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { getGroupUsers } = useGroup();
+  const { getGroupUsers, joinGroup } = useGroup();
 
   const route = useRoute();
   const { group } = route.params as Params;
@@ -56,7 +56,10 @@ export default function JoinGroup() {
   }, []);
 
   async function handleJoinGroup() {
-    const data = await getGroupUsers(group.group_id!);
+    //TODO: validate password
+    //TODO: validate user is not already in group
+    const data = await joinGroup(group.group_id!);
+    console.log({ data });
   }
 
   return (

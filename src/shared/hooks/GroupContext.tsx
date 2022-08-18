@@ -37,6 +37,7 @@ interface IGroupContextData {
   createGroup(group: Group): Promise<Group>;
   searchGroupByName(name: string): Promise<Group[]>;
   getUserById(userId: string): Promise<User>;
+  joinGroup(groupId: string): Promise<any>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -148,6 +149,19 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve([]);
   }
 
+  async function joinGroup(groupId: string) {
+    const { data, error } = await supabase.from("user_groups").insert([
+      {
+        user_id: userId,
+        group_id: groupId,
+      },
+    ]);
+
+    if (error) throw new AppError("ERROR while joining group");
+
+    return Promise.resolve(data);
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -156,6 +170,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         createGroup,
         searchGroupByName,
         getUserById,
+        joinGroup,
       }}
     >
       {children}
