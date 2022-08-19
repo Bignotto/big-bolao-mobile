@@ -63,10 +63,8 @@ export default function JoinGroup() {
   }, []);
 
   async function handleJoinGroup() {
-    //TODO: validate password
     if (groupPassword !== group.password) return Alert.alert("Senha incorreta");
 
-    //TODO: validate user is not already in group
     const user = users.find((u) => u.user_id === userId);
 
     if (user) return Alert.alert("Você já está no grupo");
