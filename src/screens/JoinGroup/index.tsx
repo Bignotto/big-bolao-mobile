@@ -30,6 +30,7 @@ import {
   InputField,
   InputLabel,
 } from "./styles";
+import { useAuth } from "../../shared/hooks/AuthContext";
 
 interface Params {
   group: Group;
@@ -39,6 +40,7 @@ export default function JoinGroup() {
   const theme = useTheme();
   const navigation = useNavigation();
   const { getGroupUsers, joinGroup } = useGroup();
+  const { userId } = useAuth();
 
   const route = useRoute();
   const { group } = route.params as Params;
@@ -47,8 +49,13 @@ export default function JoinGroup() {
   const [users, setUsers] = useState<User[]>([]);
 
   async function loadGroupUsers() {
-    const data = await getGroupUsers(group.group_id!);
-    setUsers(data);
+    try {
+      const data = await getGroupUsers(group.group_id!);
+      setUsers(data);
+    } catch (error) {
+      Alert.alert("Erro ao carregar usuários do grupo");
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -57,9 +64,28 @@ export default function JoinGroup() {
 
   async function handleJoinGroup() {
     //TODO: validate password
+    if (groupPassword !== group.password) return Alert.alert("Senha incorreta");
+
     //TODO: validate user is not already in group
-    const data = await joinGroup(group.group_id!);
-    console.log({ data });
+    const user = users.find((u) => u.user_id === userId);
+
+    if (user) return Alert.alert("Você já está no grupo");
+
+    try {
+      const data = await joinGroup(group.group_id!);
+      navigation.navigate(
+        "Confirmation" as never,
+        {
+          title: `Você entrou no grupo ${group.name}!!`,
+          message: `Você já pode registrar seus palpites para os jogos.`,
+          instructions: `Clique no botão abaixo para voltar a tela inicial. De lá, clique no grupo para registrar seus palpites.`,
+          nextScreen: "Dashboard",
+        } as never
+      );
+    } catch (error) {
+      Alert.alert("Erro ao entrar no grupo");
+      console.log(error);
+    }
   }
 
   return (
