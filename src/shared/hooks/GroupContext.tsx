@@ -38,6 +38,7 @@ interface IGroupContextData {
   searchGroupByName(name: string): Promise<Group[]>;
   getUserById(userId: string): Promise<User>;
   joinGroup(groupId: string): Promise<any>;
+  getUserGuessesByGroupId(groupId: string): Promise<any>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -162,6 +163,20 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve(data);
   }
 
+  async function getUserGuessesByGroupId(groupId: string) {
+    const { data, error } = await supabase
+      .rpc("match_guesses", {
+        userId: userId,
+        groupId: groupId,
+      })
+      .select("*");
+
+    console.log({ error });
+    if (error) throw new AppError(`ERROR while getting user guesses`);
+
+    return Promise.resolve(data);
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -171,6 +186,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         searchGroupByName,
         getUserById,
         joinGroup,
+        getUserGuessesByGroupId,
       }}
     >
       {children}

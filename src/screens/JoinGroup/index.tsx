@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Alert, FlatList, StatusBar } from "react-native";
 
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
 
 import { useTheme } from "styled-components";
@@ -61,6 +65,12 @@ export default function JoinGroup() {
   useEffect(() => {
     loadGroupUsers();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadGroupUsers();
+    }, [])
+  );
 
   async function handleJoinGroup() {
     if (groupPassword !== group.password) return Alert.alert("Senha incorreta");
