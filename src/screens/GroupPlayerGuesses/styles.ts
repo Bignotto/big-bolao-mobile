@@ -31,7 +31,7 @@ export const HeaderTitle = styled.Text`
 `;
 
 export const Footer = styled.View`
-  height: 180px;
+  height: 70px;
   /* background-color: ${({ theme }) => theme.colors.shape}; */
   padding: 0 24px;
   margin-top: 12px;

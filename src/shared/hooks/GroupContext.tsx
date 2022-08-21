@@ -164,15 +164,37 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   }
 
   async function getUserGuessesByGroupId(groupId: string) {
-    const { data, error } = await supabase
-      .rpc("match_guesses", {
-        userId: userId,
-        groupId: groupId,
-      })
-      .select("*");
+    const { data, error } = await supabase.rpc("match_guesses", {
+      param_user_id: "0694f736-eecc-4451-8a2e-21509473445b",
+      param_group_id: "4f911dc5-6552-4ad6-9f6f-c0b3e20b7a3c",
+    });
 
-    console.log({ error });
     if (error) throw new AppError(`ERROR while getting user guesses`);
+    /*
+        Object {
+      "away_team_flag": "https://countryflagsapi.com/png/nld",
+      "away_team_id": "A4",
+      "away_team_name": "Holanda",
+      "away_team_score": 1,
+      "away_team_score_guess": 1,
+      "cup_group": "A",
+      "group_id": "4f911dc5-6552-4ad6-9f6f-c0b3e20b7a3c",
+      "home_team_flag": "https://countryflagsapi.com/png/sen",
+      "home_team_id": "A3",
+      "home_team_name": "Senegal",
+      "home_team_score": 0,
+      "home_team_score_guess": 2,
+      "is_finished": true,
+      "local_time": 13,
+      "match_day": 21,
+      "match_id": "A3A4",
+      "match_index": 1,
+      "match_month": 11,
+      "match_score_points": 5,
+      "match_winner_points": 1,
+      "user_id": "0694f736-eecc-4451-8a2e-21509473445b",
+    },
+    */
 
     return Promise.resolve(data);
   }

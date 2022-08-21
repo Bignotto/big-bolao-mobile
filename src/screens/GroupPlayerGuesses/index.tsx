@@ -37,7 +37,7 @@ export default function GroupPlayerGuesses() {
 
   async function handleSaveGuesses() {
     const response = await getUserGuessesByGroupId(group.group_id!);
-    console.log({ response });
+    console.log(`response.length: ${response.length}`);
   }
 
   //A3A4
