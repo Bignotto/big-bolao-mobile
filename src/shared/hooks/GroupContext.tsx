@@ -26,6 +26,31 @@ interface User {
   full_name: string;
 }
 
+interface UserMatchGuess {
+  away_team_flag: string;
+  away_team_id: string;
+  away_team_name: string;
+  away_team_score: number;
+  away_team_score_guess: number;
+  cup_group: string;
+  guess_id: number;
+  group_id: string;
+  home_team_flag: string;
+  home_team_id: string;
+  home_team_name: string;
+  home_team_score: number;
+  home_team_score_guess: number;
+  is_finished: string;
+  local_time: number;
+  match_day: number;
+  match_id: string;
+  match_index: number;
+  match_month: number;
+  match_score_points: number;
+  match_winner_points: number;
+  user_id: string;
+}
+
 interface GroupProviderProps {
   children: ReactNode;
   userId: string;
@@ -38,7 +63,7 @@ interface IGroupContextData {
   searchGroupByName(name: string): Promise<Group[]>;
   getUserById(userId: string): Promise<User>;
   joinGroup(groupId: string): Promise<any>;
-  getUserGuessesByGroupId(groupId: string): Promise<any>;
+  getUserGuessesByGroupId(groupId: string): Promise<UserMatchGuess[]>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -165,36 +190,11 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
   async function getUserGuessesByGroupId(groupId: string) {
     const { data, error } = await supabase.rpc("match_guesses", {
-      param_user_id: "0694f736-eecc-4451-8a2e-21509473445b",
-      param_group_id: "4f911dc5-6552-4ad6-9f6f-c0b3e20b7a3c",
+      param_user_id: userId,
+      param_group_id: groupId,
     });
 
     if (error) throw new AppError(`ERROR while getting user guesses`);
-    /*
-        Object {
-      "away_team_flag": "https://countryflagsapi.com/png/nld",
-      "away_team_id": "A4",
-      "away_team_name": "Holanda",
-      "away_team_score": 1,
-      "away_team_score_guess": 1,
-      "cup_group": "A",
-      "group_id": "4f911dc5-6552-4ad6-9f6f-c0b3e20b7a3c",
-      "home_team_flag": "https://countryflagsapi.com/png/sen",
-      "home_team_id": "A3",
-      "home_team_name": "Senegal",
-      "home_team_score": 0,
-      "home_team_score_guess": 2,
-      "is_finished": true,
-      "local_time": 13,
-      "match_day": 21,
-      "match_id": "A3A4",
-      "match_index": 1,
-      "match_month": 11,
-      "match_score_points": 5,
-      "match_winner_points": 1,
-      "user_id": "0694f736-eecc-4451-8a2e-21509473445b",
-    },
-    */
 
     return Promise.resolve(data);
   }
@@ -220,4 +220,4 @@ function useGroup() {
   return useContext(GroupContext);
 }
 
-export { GroupProvider, useGroup, UserGroup, Group, User };
+export { GroupProvider, useGroup, UserGroup, Group, User, UserMatchGuess };
