@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Alert, StatusBar, View } from "react-native";
+import { Alert, FlatList, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import {
@@ -27,7 +27,8 @@ interface Params {
 //A3A4
 //user: 06cc005d-28b0-4aba-b9e1-2b2e2b3806f6 seu zé
 //user: 0694f736-eecc-4451-8a2e-21509473445b big
-//group: 4f911dc5-6552-4ad6-9f6f-c0b3e20b7a3c
+//group: 4f911dc5-6552-4ad6-9f6f-c0b3e20b7a3c teste5
+//group: 7957f0eb-0dad-4767-9c44-40a3914e4538 teste refresh
 
 export default function GroupPlayerGuesses() {
   const navigation = useNavigation();
@@ -47,6 +48,7 @@ export default function GroupPlayerGuesses() {
   }
 
   useEffect(() => {
+    console.log("use effect group player guesses");
     loadMatchGuesses();
   }, []);
 
@@ -80,7 +82,11 @@ export default function GroupPlayerGuesses() {
       {matches.length === 0 ? (
         <View></View>
       ) : (
-        <MatchGuessInput matchData={matches[0]} />
+        <FlatList
+          data={matches}
+          keyExtractor={(m) => String(m.match_index)}
+          renderItem={({ item }) => <MatchGuessInput matchData={item} />}
+        />
       )}
 
       <Footer>
