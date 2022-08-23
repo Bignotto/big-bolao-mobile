@@ -19,6 +19,7 @@ import {
 import CupGroupSelector from "../../shared/components/CupGroupSelector";
 import MatchGuessInput from "../../shared/components/MatchGuessInput";
 import { Button } from "../../shared/components/Button";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Params {
   group: Group;
@@ -48,7 +49,6 @@ export default function GroupPlayerGuesses() {
   }
 
   useEffect(() => {
-    console.log("use effect group player guesses");
     loadMatchGuesses();
   }, []);
 
@@ -59,6 +59,11 @@ export default function GroupPlayerGuesses() {
   async function handleSaveGuesses() {
     Alert.alert("salvando");
   }
+
+  const groupMatches = matches.filter(
+    (m) =>
+      m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
+  );
 
   return (
     <Container>
@@ -82,11 +87,11 @@ export default function GroupPlayerGuesses() {
       {matches.length === 0 ? (
         <View></View>
       ) : (
-        <FlatList
-          data={matches}
-          keyExtractor={(m) => String(m.match_index)}
-          renderItem={({ item }) => <MatchGuessInput matchData={item} />}
-        />
+        <ScrollView>
+          {groupMatches.map((m) => (
+            <MatchGuessInput matchData={m} key={m.match_index} />
+          ))}
+        </ScrollView>
       )}
 
       <Footer>

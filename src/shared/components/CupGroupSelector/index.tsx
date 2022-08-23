@@ -26,6 +26,7 @@ export default function CupGroupSelector({ onSelect }: CupGroupSelectorProps) {
     setSelectedIndex(index);
   }
 
+  //TODO: try to use ScrollVoiew instead of FlatList
   return (
     <Container>
       <Title>Filtrar partidas do grupo:</Title>
