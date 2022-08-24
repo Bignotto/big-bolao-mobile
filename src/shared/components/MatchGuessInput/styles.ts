@@ -4,6 +4,8 @@ import styled from "styled-components/native";
 export const Container = styled.View`
   flex: 1;
   flex-direction: column;
+  margin-top: 4px;
+  margin-bottom: 8px;
 `;
 
 export const TopWrapper = styled.View`

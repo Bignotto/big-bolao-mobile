@@ -4,15 +4,21 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Container, ScoreButton, ScoreInputBox } from "./styles";
 
-export default function ScoreInput() {
+interface ScoreInputProps {
+  updateValue(value: number): void;
+}
+
+export default function ScoreInput({ updateValue }: ScoreInputProps) {
   const [scoreValue, setScoreValue] = React.useState("0");
 
   function addScore() {
+    updateValue(Number(scoreValue) + 1);
     setScoreValue(String(Number(scoreValue) + 1));
   }
 
   function minusScore() {
     if (Number(scoreValue) > 0) {
+      updateValue(Number(scoreValue) - 1);
       setScoreValue(String(Number(scoreValue) - 1));
     }
   }

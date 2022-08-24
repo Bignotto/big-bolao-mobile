@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UserMatchGuess } from "../../hooks/GroupContext";
 import ScoreInput from "./ScoreInput";
 import {
@@ -13,9 +13,13 @@ import TeamFlag from "./TeamFlag";
 
 interface MatchGuessProps {
   matchData: UserMatchGuess;
+  onUpdate(guessId: string, homeValue: number, awayValue: number): void;
 }
 
-export default function MatchGuessInput({ matchData }: MatchGuessProps) {
+export default function MatchGuessInput({
+  matchData,
+  onUpdate,
+}: MatchGuessProps) {
   return (
     <Container>
       <TopWrapper>
@@ -33,8 +37,16 @@ export default function MatchGuessInput({ matchData }: MatchGuessProps) {
         />
       </TopWrapper>
       <BottonWrapper>
-        <ScoreInput />
-        <ScoreInput />
+        <ScoreInput
+          updateValue={(value) =>
+            onUpdate(matchData.match_id, value, matchData.away_team_score_guess)
+          }
+        />
+        <ScoreInput
+          updateValue={(value) =>
+            onUpdate(matchData.match_id, matchData.home_team_score_guess, value)
+          }
+        />
       </BottonWrapper>
     </Container>
   );

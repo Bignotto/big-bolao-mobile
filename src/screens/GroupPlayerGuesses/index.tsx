@@ -41,6 +41,10 @@ export default function GroupPlayerGuesses() {
   const { getUserGuessesByGroupId } = useGroup();
 
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
+
+  //TODO: prevent leaving this screen without save to database
+  const [hasChanged, setHasChanged] = useState(false);
+
   const [matches, setMatches] = useState<UserMatchGuess[]>([]);
 
   async function loadMatchGuesses() {
@@ -64,6 +68,17 @@ export default function GroupPlayerGuesses() {
     (m) =>
       m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
   );
+
+  function updateGuess(guessId: string, homeValue: number, awayValue: number) {
+    setHasChanged(true);
+    Alert.alert(`Update Guess! ${guessId}: ${homeValue} : ${awayValue}`);
+    //TODO: implement matches array update
+    let matchesDict = Object.assign(
+      {},
+      ...groupMatches.map((m) => ({ [m.match_id]: m }))
+    );
+    console.log(matchesDict[guessId]);
+  }
 
   return (
     <Container>
@@ -89,7 +104,11 @@ export default function GroupPlayerGuesses() {
       ) : (
         <ScrollView>
           {groupMatches.map((m) => (
-            <MatchGuessInput matchData={m} key={m.match_index} />
+            <MatchGuessInput
+              matchData={m}
+              key={m.match_index}
+              onUpdate={updateGuess}
+            />
           ))}
         </ScrollView>
       )}
