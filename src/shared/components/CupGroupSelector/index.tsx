@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FlatList } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { SelectButton } from "./SelectButton";
 import { Container, Title } from "./styles";
 
@@ -26,10 +27,21 @@ export default function CupGroupSelector({ onSelect }: CupGroupSelectorProps) {
     setSelectedIndex(index);
   }
 
+  //TODO: try to use ScrollVoiew instead of FlatList
   return (
     <Container>
       <Title>Filtrar partidas do grupo:</Title>
-      <FlatList
+      <ScrollView horizontal>
+        {groups.map((g, index) => (
+          <SelectButton
+            title={g.name}
+            selected={index === selectedIndex}
+            onPress={() => selectButtonPressed(index)}
+            key={g.name}
+          />
+        ))}
+      </ScrollView>
+      {/* <FlatList
         data={groups}
         keyExtractor={(g) => String(g.id)}
         renderItem={({ item, index }) => (
@@ -41,7 +53,7 @@ export default function CupGroupSelector({ onSelect }: CupGroupSelectorProps) {
         )}
         showsVerticalScrollIndicator={false}
         horizontal
-      />
+      /> */}
     </Container>
   );
 }

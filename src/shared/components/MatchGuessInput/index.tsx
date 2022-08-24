@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { UserMatchGuess } from "../../hooks/GroupContext";
 import ScoreInput from "./ScoreInput";
 import {
   Container,
@@ -10,20 +11,42 @@ import {
 } from "./styles";
 import TeamFlag from "./TeamFlag";
 
-export default function MatchGuessInput() {
+interface MatchGuessProps {
+  matchData: UserMatchGuess;
+  onUpdate(guessId: string, homeValue: number, awayValue: number): void;
+}
+
+export default function MatchGuessInput({
+  matchData,
+  onUpdate,
+}: MatchGuessProps) {
   return (
     <Container>
       <TopWrapper>
-        <TeamFlag name="Brasil" flagUri="https://countryflagsapi.com/png/bra" />
+        <TeamFlag
+          name={matchData.home_team_name}
+          flagUri={matchData.home_team_flag}
+        />
         <ScoreWrapper>
-          <Score>-- : --</Score>
-          <MatchDate>16:00 - 24 NOV</MatchDate>
+          <Score>{`${matchData.home_team_score} : ${matchData.away_team_score}`}</Score>
+          <MatchDate>{`${matchData.local_time}:00 - ${matchData.match_day}/${matchData.match_month}`}</MatchDate>
         </ScoreWrapper>
-        <TeamFlag name="Sérvia" flagUri="https://countryflagsapi.com/png/srb" />
+        <TeamFlag
+          name={matchData.away_team_name}
+          flagUri={matchData.away_team_flag}
+        />
       </TopWrapper>
       <BottonWrapper>
-        <ScoreInput />
-        <ScoreInput />
+        <ScoreInput
+          updateValue={(value) =>
+            onUpdate(matchData.match_id, value, matchData.away_team_score_guess)
+          }
+        />
+        <ScoreInput
+          updateValue={(value) =>
+            onUpdate(matchData.match_id, matchData.home_team_score_guess, value)
+          }
+        />
       </BottonWrapper>
     </Container>
   );

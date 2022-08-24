@@ -5,10 +5,10 @@ import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import GroupSearchResultItem from "../../shared/components/GroupSearchResultItem";
 import SearchBox from "../../shared/components/SearchBox";
+import { Group, useGroup } from "../../shared/hooks/GroupContext";
 import {
   Container,
   Header,
-  HeaderText,
   HeaderTitle,
   HeaderTopWrapper,
   ButtonWrapper,
@@ -19,9 +19,13 @@ import {
 export default function FindGroup() {
   const theme = useTheme();
   const navigation = useNavigation();
+  const { searchGroupByName } = useGroup();
 
-  async function handleSearch() {
-    Alert.alert("Searching...");
+  const [searchResults, setSearchResults] = React.useState<Group[]>([]);
+
+  async function handleSearch(searchText: string) {
+    const groups = await searchGroupByName(searchText);
+    setSearchResults(groups);
   }
 
   return (
@@ -43,14 +47,13 @@ export default function FindGroup() {
         <SearchBox onPress={handleSearch} />
       </Header>
       <SearchResults>
-        <SearchTitle>Grupos encontrados:</SearchTitle>
+        {searchResults.length > 0 && (
+          <SearchTitle>{searchResults.length} Grupos encontrados:</SearchTitle>
+        )}
         <FlatList
-          data={[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23, 24, 25,
-          ]}
-          keyExtractor={(item) => String(item)}
-          renderItem={({ item }) => <GroupSearchResultItem />}
+          data={searchResults}
+          keyExtractor={(item) => item.group_id!.toString()}
+          renderItem={({ item }) => <GroupSearchResultItem group={item} />}
           showsHorizontalScrollIndicator={false}
         />
       </SearchResults>

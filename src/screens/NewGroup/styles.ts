@@ -52,9 +52,15 @@ export const HeaderText = styled.Text`
   margin-top: 12px;
 `;
 
+export const RegisterForm = styled.View`
+  flex: 1;
+  padding: 0 24px;
+`;
+
 export const Footer = styled.View`
   width: 100%;
-  padding: 24px 0;
+  padding: 0 24px;
+  margin-bottom: 12px;
 `;
 
 export const FooterText = styled.Text`
@@ -64,11 +70,3 @@ export const FooterText = styled.Text`
   margin-top: 8px;
   margin-bottom: 8px;
 `;
-
-export const RegisterForm = styled.ScrollView.attrs({
-  contentContainerStyle: {
-    padding: 24,
-    alignItems: "center",
-  },
-  showsVerticalScrollIndicator: false,
-})``;

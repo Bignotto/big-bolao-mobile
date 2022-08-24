@@ -29,3 +29,10 @@ export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(32)}px;
 `;
+
+export const Footer = styled.View`
+  height: 70px;
+  /* background-color: ${({ theme }) => theme.colors.shape}; */
+  padding: 0 24px;
+  margin-top: 12px;
+`;

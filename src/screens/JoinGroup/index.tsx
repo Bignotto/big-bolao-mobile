@@ -1,6 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { Alert, FlatList, StatusBar, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { Alert, FlatList, StatusBar } from "react-native";
+
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
+
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import { Button } from "../../shared/components/Button";
@@ -27,14 +34,66 @@ import {
   InputField,
   InputLabel,
 } from "./styles";
+import { useAuth } from "../../shared/hooks/AuthContext";
+
+interface Params {
+  group: Group;
+}
 
 export default function JoinGroup() {
-  const [groupPassword, setGroupPassword] = useState("");
   const theme = useTheme();
   const navigation = useNavigation();
+  const { getGroupUsers, joinGroup } = useGroup();
+  const { userId } = useAuth();
+
+  const route = useRoute();
+  const { group } = route.params as Params;
+
+  const [groupPassword, setGroupPassword] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+
+  async function loadGroupUsers() {
+    try {
+      const data = await getGroupUsers(group.group_id!);
+      setUsers(data);
+    } catch (error) {
+      Alert.alert("Erro ao carregar usuários do grupo");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    loadGroupUsers();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadGroupUsers();
+    }, [])
+  );
 
   async function handleJoinGroup() {
-    Alert.alert(`Você entrou no grupo! senha: ${groupPassword}`);
+    if (groupPassword !== group.password) return Alert.alert("Senha incorreta");
+
+    const user = users.find((u) => u.user_id === userId);
+
+    if (user) return Alert.alert("Você já está no grupo");
+
+    try {
+      const data = await joinGroup(group.group_id!);
+      navigation.navigate(
+        "Confirmation" as never,
+        {
+          title: `Você entrou no grupo ${group.name}!!`,
+          message: `Você já pode registrar seus palpites para os jogos.`,
+          instructions: `Clique no botão abaixo para voltar a tela inicial. De lá, clique no grupo para registrar seus palpites.`,
+          nextScreen: "Dashboard",
+        } as never
+      );
+    } catch (error) {
+      Alert.alert("Erro ao entrar no grupo");
+      console.log(error);
+    }
   }
 
   return (
@@ -56,26 +115,28 @@ export default function JoinGroup() {
       </Header>
       <Content>
         <GroupTitleContainer>
-          <GroupTitle>Bar dos caras</GroupTitle>
+          <GroupTitle>{group.name}</GroupTitle>
         </GroupTitleContainer>
         <Rules>Regras do grupo:</Rules>
         <GroupInfoContainer>
           <GroupRuleContainer>
-            <RuleValue>5</RuleValue>
+            <RuleValue>{group.match_score_points}</RuleValue>
             <RuleTitle>Pontos por palpite correto</RuleTitle>
           </GroupRuleContainer>
           <GroupRuleContainer>
-            <RuleValue>5</RuleValue>
+            <RuleValue>{group.match_winner_points}</RuleValue>
             <RuleTitle>
               pontos bônus por acertar o vencedor da partida
             </RuleTitle>
           </GroupRuleContainer>
           <GroupRuleContainer>
-            <RuleValue>8</RuleValue>
+            <RuleValue>{users.length}</RuleValue>
             <RuleTitle>Amigos no grupo</RuleTitle>
           </GroupRuleContainer>
           <GroupRuleContainer>
-            <RuleValue>Thiago</RuleValue>
+            <RuleValue>
+              {users.find((u) => u.user_id === group.owner_id)?.full_name}
+            </RuleValue>
             <RuleTitle>é o organizador do grupo</RuleTitle>
           </GroupRuleContainer>
         </GroupInfoContainer>
@@ -83,14 +144,11 @@ export default function JoinGroup() {
       <GroupPlayersContainer>
         <Players>Jogadores do grupo:</Players>
         <FlatList
-          data={[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20,
-          ]}
-          keyExtractor={(item) => String(item)}
+          data={users}
+          keyExtractor={(u) => u.user_id}
           renderItem={({ item }) => (
             <PlayerContainer>
-              <PlayerName>{item}</PlayerName>
+              <PlayerName>{item.full_name}</PlayerName>
             </PlayerContainer>
           )}
           showsHorizontalScrollIndicator={false}

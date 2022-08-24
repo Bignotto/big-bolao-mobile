@@ -1,22 +1,15 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { Alert } from "react-native";
-import { Group, useGroup } from "../../hooks/GroupContext";
+import { Group } from "../../hooks/GroupContext";
 import { GroupCard } from "../GroupCard";
 import { Container } from "./styles";
 
-export default function GroupList() {
-  const [groups, setGroups] = useState<Group[]>([]);
-  const navigation = useNavigation();
-  const { getUserGroups } = useGroup();
+interface GroupListProps {
+  groups: Group[];
+}
 
-  async function loadGrops() {
-    const fetchedGroups = await getUserGroups();
-    setGroups(fetchedGroups);
-  }
-  useEffect(() => {
-    loadGrops();
-  }, []);
+export default function GroupList({ groups }: GroupListProps) {
+  const navigation = useNavigation();
 
   async function handleNavigate(group: Group) {
     navigation.navigate("GroupDashboard" as never, { group } as never);
@@ -26,11 +19,11 @@ export default function GroupList() {
     <Container>
       {groups.map((g) => (
         <GroupCard
-          key={g.id}
-          title={g.group.name}
-          points={g.user_points}
+          key={g.group_id}
+          title={g.name}
+          points={0}
           friends={0}
-          rank={g.user_rank}
+          rank={0}
           onPress={() => handleNavigate(g)}
         />
       ))}

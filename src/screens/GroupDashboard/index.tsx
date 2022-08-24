@@ -19,7 +19,6 @@ import {
   GroupKpiTitle,
   HashTagChar,
   Footer,
-  GroupRankingContainer,
   Properties,
 } from "./styles";
 import GroupRanking from "../../shared/components/GroupRanking";
@@ -49,7 +48,7 @@ export default function GroupDashboard() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>{group.group.name}</HeaderTitle>
+          <HeaderTitle>{group.name}</HeaderTitle>
           <ButtonWrapper>
             <Properties
               onPress={() =>
