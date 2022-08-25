@@ -6,6 +6,7 @@ import BackButton from "../../shared/components/BackButton";
 import {
   Group,
   useGroup,
+  UserGuess,
   UserMatchGuess,
 } from "../../shared/hooks/GroupContext";
 import {
@@ -38,7 +39,7 @@ export default function GroupPlayerGuesses() {
 
   const theme = useTheme();
 
-  const { getUserGuessesByGroupId } = useGroup();
+  const { getUserGuessesByGroupId, saveUserGuesses } = useGroup();
 
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
 
@@ -60,11 +61,7 @@ export default function GroupPlayerGuesses() {
     setSelectedGroupIndex(index);
   }
 
-  async function handleSaveGuesses() {
-    Alert.alert("salvando");
-  }
-
-  let groupMatches = matches.filter(
+  const groupMatches = matches.filter(
     (m) =>
       m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
   );
@@ -72,23 +69,40 @@ export default function GroupPlayerGuesses() {
   function updateGuess(matchId: string, homeValue: number, awayValue: number) {
     setHasChanged(true);
     console.log(`Update Guess! ${matchId}: ${homeValue} : ${awayValue}`);
-    //TODO: implement matches array update
     const updated = matches.map((match) => {
       if (match.match_id === matchId)
         return {
           ...match,
-          home_team_score_guess: homeValue,
-          away_team_score_guess: awayValue,
+          home_team_score_guess: homeValue ? homeValue : 0,
+          away_team_score_guess: awayValue ? awayValue : 0,
         };
 
       return match;
     });
-    groupMatches = updated.filter(
-      (m) =>
-        m.cup_group ===
-        String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
-    );
+
     setMatches(updated);
+  }
+
+  async function handleSaveGuesses() {
+    const filteredGuesses = matches.filter(
+      (match) => match.away_team_score_guess || match.home_team_score_guess
+    );
+    const playerGuesses = filteredGuesses.map((match) => {
+      return {
+        guess_id: match.guess_id,
+        match_id: match.match_id,
+        group_id: match.group_id,
+        user_id: match.user_id,
+        home_team_score: match.home_team_score_guess,
+        away_team_score: match.away_team_score_guess,
+      } as UserGuess;
+    });
+    try {
+      await saveUserGuesses(playerGuesses);
+    } catch (error) {
+      Alert.alert("Algo errado salvando seus palpites");
+      console.log(error);
+    }
   }
 
   return (
