@@ -64,20 +64,31 @@ export default function GroupPlayerGuesses() {
     Alert.alert("salvando");
   }
 
-  const groupMatches = matches.filter(
+  let groupMatches = matches.filter(
     (m) =>
       m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
   );
 
-  function updateGuess(guessId: string, homeValue: number, awayValue: number) {
+  function updateGuess(matchId: string, homeValue: number, awayValue: number) {
     setHasChanged(true);
-    Alert.alert(`Update Guess! ${guessId}: ${homeValue} : ${awayValue}`);
+    console.log(`Update Guess! ${matchId}: ${homeValue} : ${awayValue}`);
     //TODO: implement matches array update
-    let matchesDict = Object.assign(
-      {},
-      ...groupMatches.map((m) => ({ [m.match_id]: m }))
+    const updated = matches.map((match) => {
+      if (match.match_id === matchId)
+        return {
+          ...match,
+          home_team_score_guess: homeValue,
+          away_team_score_guess: awayValue,
+        };
+
+      return match;
+    });
+    groupMatches = updated.filter(
+      (m) =>
+        m.cup_group ===
+        String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
     );
-    console.log(matchesDict[guessId]);
+    setMatches(updated);
   }
 
   return (

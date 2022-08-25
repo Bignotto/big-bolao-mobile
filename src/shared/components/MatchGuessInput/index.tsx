@@ -13,7 +13,7 @@ import TeamFlag from "./TeamFlag";
 
 interface MatchGuessProps {
   matchData: UserMatchGuess;
-  onUpdate(guessId: string, homeValue: number, awayValue: number): void;
+  onUpdate(matchId: string, homeValue: number, awayValue: number): void;
 }
 
 export default function MatchGuessInput({
@@ -38,11 +38,13 @@ export default function MatchGuessInput({
       </TopWrapper>
       <BottonWrapper>
         <ScoreInput
+          initialValue={matchData.home_team_score_guess}
           updateValue={(value) =>
             onUpdate(matchData.match_id, value, matchData.away_team_score_guess)
           }
         />
         <ScoreInput
+          initialValue={matchData.away_team_score_guess}
           updateValue={(value) =>
             onUpdate(matchData.match_id, matchData.home_team_score_guess, value)
           }
