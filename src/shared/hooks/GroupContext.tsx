@@ -216,9 +216,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       const { data: newData, error: newDataError } = await supabase
         .from("guesses")
         .insert(insertData);
-      console.log({ newDataError });
       if (newDataError) throw new AppError("Error while saving new guesses");
-      console.log({ newData });
     }
 
     const updateGuesses = guesses.filter((guess) => guess.guess_id !== null);

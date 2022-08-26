@@ -29,7 +29,7 @@ export function Button({
       style={{ opacity: enabled === false || loading === true ? 0.5 : 1 }}
     >
       {loading ? (
-        <ActivityIndicator color={theme.colors.shape} />
+        <ActivityIndicator color={theme.colors.text} />
       ) : (
         <Title light={light}>{title}</Title>
       )}

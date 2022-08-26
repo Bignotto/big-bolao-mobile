@@ -47,12 +47,14 @@ export default function GroupPlayerGuesses() {
 
   //TODO: prevent leaving this screen without save to database
   const [hasChanged, setHasChanged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [matches, setMatches] = useState<UserMatchGuess[]>([]);
 
   async function loadMatchGuesses() {
     const response = await getUserGuessesByGroupId(group.group_id!);
     setMatches(response);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -88,6 +90,8 @@ export default function GroupPlayerGuesses() {
   }
 
   async function handleSaveGuesses() {
+    setIsLoading(true);
+
     const filteredGuesses = matches.filter(
       (match) => match.away_team_score_guess || match.home_team_score_guess
     );
@@ -106,6 +110,8 @@ export default function GroupPlayerGuesses() {
     } catch (error) {
       Alert.alert("Algo errado salvando seus palpites");
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -143,7 +149,12 @@ export default function GroupPlayerGuesses() {
       )}
 
       <Footer>
-        <Button title="Salvar" onPress={handleSaveGuesses} />
+        <Button
+          title="Salvar"
+          onPress={handleSaveGuesses}
+          loading={isLoading}
+          enabled={hasChanged}
+        />
       </Footer>
     </Container>
   );
