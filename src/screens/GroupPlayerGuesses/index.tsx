@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Alert, FlatList, StatusBar, View } from "react-native";
+import { Alert, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import {
@@ -21,6 +21,7 @@ import CupGroupSelector from "../../shared/components/CupGroupSelector";
 import MatchGuessInput from "../../shared/components/MatchGuessInput";
 import { Button } from "../../shared/components/Button";
 import { ScrollView } from "react-native-gesture-handler";
+import { useAuth } from "../../shared/hooks/AuthContext";
 
 interface Params {
   group: Group;
@@ -40,6 +41,7 @@ export default function GroupPlayerGuesses() {
   const theme = useTheme();
 
   const { getUserGuessesByGroupId, saveUserGuesses } = useGroup();
+  const { userId } = useAuth();
 
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
 
@@ -73,6 +75,8 @@ export default function GroupPlayerGuesses() {
       if (match.match_id === matchId)
         return {
           ...match,
+          group_id: group.group_id!,
+          user_id: userId,
           home_team_score_guess: homeValue ? homeValue : 0,
           away_team_score_guess: awayValue ? awayValue : 0,
         };
