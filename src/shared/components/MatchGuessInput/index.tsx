@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { UserMatchGuess } from "../../hooks/GroupContext";
 import ScoreInput from "./ScoreInput";
 import {

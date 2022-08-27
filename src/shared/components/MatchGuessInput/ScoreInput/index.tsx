@@ -16,8 +16,12 @@ export default function ScoreInput({
   const [scoreValue, setScoreValue] = useState(
     String(initialValue ? initialValue : 0)
   );
+  const [isZero, setIsZero] = useState(
+    initialValue || initialValue === 0 ? true : false
+  );
 
   function addScore() {
+    setIsZero(true);
     updateValue(Number(scoreValue) + 1);
     setScoreValue(String(Number(scoreValue) + 1));
   }
@@ -35,7 +39,7 @@ export default function ScoreInput({
         <FontAwesome5 name="minus-circle" size={24} color="#fff" />
       </ScoreButton>
       <ScoreInputBox
-        value={scoreValue}
+        value={isZero ? scoreValue : "--"}
         onChangeText={(text) => setScoreValue(text)}
         editable={false}
         selectTextOnFocus={false}
