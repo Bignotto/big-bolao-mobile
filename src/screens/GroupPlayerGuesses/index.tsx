@@ -61,6 +61,28 @@ export default function GroupPlayerGuesses() {
     loadMatchGuesses();
   }, []);
 
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        if (!hasChanged) return;
+        e.preventDefault();
+
+        Alert.alert(
+          "Descartar alterações?",
+          "Você tem palpites modificados e não salvou ainda.",
+          [
+            { text: "Ficar e salvar", style: "cancel", onPress: () => {} },
+            {
+              text: "Descartar",
+              style: "destructive",
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      }),
+    [navigation, hasChanged]
+  );
+
   function handleSelectGroup(index: number) {
     setSelectedGroupIndex(index);
   }
@@ -72,7 +94,6 @@ export default function GroupPlayerGuesses() {
 
   function updateGuess(matchId: string, homeValue: number, awayValue: number) {
     setHasChanged(true);
-    console.log(`Update Guess! ${matchId}: ${homeValue} : ${awayValue}`);
     const updated = matches.map((match) => {
       if (match.match_id === matchId)
         return {
