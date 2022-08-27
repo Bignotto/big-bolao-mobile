@@ -112,6 +112,7 @@ export default function GroupPlayerGuesses() {
       console.log(error);
     } finally {
       setIsLoading(false);
+      setHasChanged(false);
     }
   }
 

@@ -37,7 +37,8 @@ export default function ScoreInput({
       <ScoreInputBox
         value={scoreValue}
         onChangeText={(text) => setScoreValue(text)}
-        keyboardType="numeric"
+        editable={false}
+        selectTextOnFocus={false}
       />
       <ScoreButton onPress={addScore}>
         <FontAwesome5 name="plus-circle" size={24} color="#fff" />
