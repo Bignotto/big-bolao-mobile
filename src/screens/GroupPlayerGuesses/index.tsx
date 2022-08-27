@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Alert, FlatList, StatusBar, View } from "react-native";
+import { Alert, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import {
   Group,
   useGroup,
+  UserGuess,
   UserMatchGuess,
 } from "../../shared/hooks/GroupContext";
 import {
@@ -20,6 +21,7 @@ import CupGroupSelector from "../../shared/components/CupGroupSelector";
 import MatchGuessInput from "../../shared/components/MatchGuessInput";
 import { Button } from "../../shared/components/Button";
 import { ScrollView } from "react-native-gesture-handler";
+import { useAuth } from "../../shared/hooks/AuthContext";
 
 interface Params {
   group: Group;
@@ -38,30 +40,51 @@ export default function GroupPlayerGuesses() {
 
   const theme = useTheme();
 
-  const { getUserGuessesByGroupId } = useGroup();
+  const { getUserGuessesByGroupId, saveUserGuesses } = useGroup();
+  const { userId } = useAuth();
 
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
 
   //TODO: prevent leaving this screen without save to database
   const [hasChanged, setHasChanged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [matches, setMatches] = useState<UserMatchGuess[]>([]);
 
   async function loadMatchGuesses() {
     const response = await getUserGuessesByGroupId(group.group_id!);
     setMatches(response);
+    setIsLoading(false);
   }
 
   useEffect(() => {
     loadMatchGuesses();
   }, []);
 
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        if (!hasChanged) return;
+        e.preventDefault();
+
+        Alert.alert(
+          "Descartar alterações?",
+          "Você tem palpites modificados e não salvou ainda.",
+          [
+            { text: "Ficar e salvar", style: "cancel", onPress: () => {} },
+            {
+              text: "Descartar",
+              style: "destructive",
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      }),
+    [navigation, hasChanged]
+  );
+
   function handleSelectGroup(index: number) {
     setSelectedGroupIndex(index);
-  }
-
-  async function handleSaveGuesses() {
-    Alert.alert("salvando");
   }
 
   const groupMatches = matches.filter(
@@ -69,15 +92,49 @@ export default function GroupPlayerGuesses() {
       m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
   );
 
-  function updateGuess(guessId: string, homeValue: number, awayValue: number) {
+  function updateGuess(matchId: string, homeValue: number, awayValue: number) {
     setHasChanged(true);
-    Alert.alert(`Update Guess! ${guessId}: ${homeValue} : ${awayValue}`);
-    //TODO: implement matches array update
-    let matchesDict = Object.assign(
-      {},
-      ...groupMatches.map((m) => ({ [m.match_id]: m }))
+    const updated = matches.map((match) => {
+      if (match.match_id === matchId)
+        return {
+          ...match,
+          group_id: group.group_id!,
+          user_id: userId,
+          home_team_score_guess: homeValue ? homeValue : 0,
+          away_team_score_guess: awayValue ? awayValue : 0,
+        };
+
+      return match;
+    });
+
+    setMatches(updated);
+  }
+
+  async function handleSaveGuesses() {
+    setIsLoading(true);
+
+    const filteredGuesses = matches.filter(
+      (match) => match.away_team_score_guess || match.home_team_score_guess
     );
-    console.log(matchesDict[guessId]);
+    const playerGuesses = filteredGuesses.map((match) => {
+      return {
+        guess_id: match.guess_id,
+        match_id: match.match_id,
+        group_id: match.group_id,
+        user_id: match.user_id,
+        home_team_score: match.home_team_score_guess,
+        away_team_score: match.away_team_score_guess,
+      } as UserGuess;
+    });
+    try {
+      await saveUserGuesses(playerGuesses);
+    } catch (error) {
+      Alert.alert("Algo errado salvando seus palpites");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setHasChanged(false);
+    }
   }
 
   return (
@@ -114,7 +171,12 @@ export default function GroupPlayerGuesses() {
       )}
 
       <Footer>
-        <Button title="Salvar" onPress={handleSaveGuesses} />
+        <Button
+          title="Salvar"
+          onPress={handleSaveGuesses}
+          loading={isLoading}
+          enabled={hasChanged}
+        />
       </Footer>
     </Container>
   );

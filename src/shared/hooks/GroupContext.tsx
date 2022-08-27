@@ -56,6 +56,15 @@ interface GroupProviderProps {
   userId: string;
 }
 
+interface UserGuess {
+  guess_id?: number;
+  match_id: string;
+  group_id: string;
+  user_id: string;
+  home_team_score: number;
+  away_team_score: number;
+}
+
 interface IGroupContextData {
   getUserGroups(): Promise<UserGroup[]>;
   getGroupUsers(groupId: string): Promise<User[]>;
@@ -64,6 +73,7 @@ interface IGroupContextData {
   getUserById(userId: string): Promise<User>;
   joinGroup(groupId: string): Promise<any>;
   getUserGuessesByGroupId(groupId: string): Promise<UserMatchGuess[]>;
+  saveUserGuesses(guesses: UserGuess[] | undefined): Promise<void>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -199,6 +209,25 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve(data);
   }
 
+  async function saveUserGuesses(guesses: UserGuess[]) {
+    const newGuesses = guesses.filter((guess) => guess.guess_id === null);
+    if (newGuesses.length > 0) {
+      const insertData = newGuesses.map(({ guess_id, ...guess }) => guess);
+      const { data: newData, error: newDataError } = await supabase
+        .from("guesses")
+        .insert(insertData);
+      if (newDataError) throw new AppError("Error while saving new guesses");
+    }
+
+    const updateGuesses = guesses.filter((guess) => guess.guess_id !== null);
+    if (updateGuesses.length > 0) {
+      const { data, error } = await supabase
+        .from("guesses")
+        .upsert(updateGuesses);
+      if (error) throw new AppError("Error while updating guesses");
+    }
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -209,6 +238,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         getUserById,
         joinGroup,
         getUserGuessesByGroupId,
+        saveUserGuesses,
       }}
     >
       {children}
@@ -220,4 +250,12 @@ function useGroup() {
   return useContext(GroupContext);
 }
 
-export { GroupProvider, useGroup, UserGroup, Group, User, UserMatchGuess };
+export {
+  GroupProvider,
+  useGroup,
+  UserGroup,
+  Group,
+  User,
+  UserMatchGuess,
+  UserGuess,
+};

@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Container, ScoreButton, ScoreInputBox } from "./styles";
 
 interface ScoreInputProps {
+  initialValue: number;
   updateValue(value: number): void;
 }
 
-export default function ScoreInput({ updateValue }: ScoreInputProps) {
-  const [scoreValue, setScoreValue] = React.useState("0");
+export default function ScoreInput({
+  updateValue,
+  initialValue,
+}: ScoreInputProps) {
+  const [scoreValue, setScoreValue] = useState(
+    String(initialValue ? initialValue : 0)
+  );
+  const [isZero, setIsZero] = useState(
+    initialValue || initialValue === 0 ? true : false
+  );
 
   function addScore() {
+    setIsZero(true);
     updateValue(Number(scoreValue) + 1);
     setScoreValue(String(Number(scoreValue) + 1));
   }
@@ -29,9 +39,10 @@ export default function ScoreInput({ updateValue }: ScoreInputProps) {
         <FontAwesome5 name="minus-circle" size={24} color="#fff" />
       </ScoreButton>
       <ScoreInputBox
-        value={scoreValue}
+        value={isZero ? scoreValue : "--"}
         onChangeText={(text) => setScoreValue(text)}
-        keyboardType="numeric"
+        editable={false}
+        selectTextOnFocus={false}
       />
       <ScoreButton onPress={addScore}>
         <FontAwesome5 name="plus-circle" size={24} color="#fff" />
