@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
-import { Group } from "../../shared/hooks/GroupContext";
+import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
 import {
   ButtonWrapper,
   Container,
@@ -31,6 +31,26 @@ export default function GroupProperties() {
   const { group } = route.params as Params;
   const theme = useTheme();
   const navigation = useNavigation();
+  const { getGroupUsers } = useGroup();
+
+  const [users, setUsers] = useState<User[]>([]);
+  const [groupOwner, setGroupOwner] = useState<User>();
+
+  async function loadGroupUsers() {
+    try {
+      const data = await getGroupUsers(group.group_id!);
+      const owner = data.filter((u) => u.user_id === group.owner_id);
+      setGroupOwner(owner[0]);
+      setUsers(data);
+    } catch (error) {
+      Alert.alert("Erro ao carregar usuários do grupo");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    loadGroupUsers();
+  }, []);
 
   return (
     <Container>
@@ -53,12 +73,20 @@ export default function GroupProperties() {
       <RegisterForm>
         <InputField>
           <InputLabel>Senha:</InputLabel>
-          <Input name="name" placeholder="senha do grupo" value="XPTO027" />
+          <Input
+            name="name"
+            placeholder="senha do grupo"
+            value={group.password}
+          />
         </InputField>
         <FormTitle>Pontuação do bolão</FormTitle>
         <InputField>
           <InputLabel>Pontos para o palpite exato:</InputLabel>
-          <Input name="password" placeholder="" value="5" />
+          <Input
+            name="password"
+            placeholder=""
+            value={String(group.match_score_points)}
+          />
         </InputField>
         <FormTitle>Pontos bônus</FormTitle>
         <InputField>
@@ -70,14 +98,23 @@ export default function GroupProperties() {
             name="bonus"
             placeholder="pontos extras"
             keyboardType="numeric"
-            value="1"
+            value={String(group.match_winner_points)}
+          />
+        </InputField>
+        <InputField>
+          <InputLabel>Criador do grupo:</InputLabel>
+          <Input
+            name="name"
+            placeholder="criador do grupo"
+            value={groupOwner ? groupOwner.full_name : ""}
+            editable={false}
           />
         </InputField>
       </RegisterForm>
       <PlayersListContainer>
         <FormTitle>Jogadores do grupo:</FormTitle>
         <Spacer />
-        <PlayersList />
+        <PlayersList groupPlayers={users} />
       </PlayersListContainer>
       <Footer>
         <Button title="Salvar" enabled={false} />

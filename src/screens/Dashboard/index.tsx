@@ -23,6 +23,7 @@ export default function Dashboard() {
       response = await getUserGroups();
       const responseGroups = response.map((userGroup) => userGroup.group);
 
+      console.log({ response });
       setGroups(responseGroups);
     } catch (error) {}
   }

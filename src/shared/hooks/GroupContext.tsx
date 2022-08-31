@@ -128,7 +128,9 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
     const { data, error } = await supabase
       .from("user_groups")
-      .select("*,group_id(group_id,name)")
+      .select(
+        "*,group_id(group_id,name,owner_id,match_score_points,match_winner_points,password)"
+      )
       .eq("user_id", userId);
 
     if (error) throw new AppError("ERROR while getting user groups");

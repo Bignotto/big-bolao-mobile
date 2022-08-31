@@ -1,22 +1,21 @@
 import React from "react";
+import { ScrollView } from "react-native-gesture-handler";
+import { User } from "../../hooks/GroupContext";
 import PlayerListRow from "./PlayerListRow";
 import { Container } from "./styles";
 
-export default function PlayersList() {
+interface PlayerListProps {
+  groupPlayers: User[];
+}
+
+export default function PlayersList({ groupPlayers }: PlayerListProps) {
   return (
     <Container>
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
-      <PlayerListRow />
+      <ScrollView>
+        {groupPlayers.map((player) => (
+          <PlayerListRow key={player.user_id} player={player} />
+        ))}
+      </ScrollView>
     </Container>
   );
 }
