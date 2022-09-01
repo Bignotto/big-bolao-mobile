@@ -74,6 +74,7 @@ interface IGroupContextData {
   joinGroup(groupId: string): Promise<any>;
   getUserGuessesByGroupId(groupId: string): Promise<UserMatchGuess[]>;
   saveUserGuesses(guesses: UserGuess[] | undefined): Promise<void>;
+  removeUserFromGroup(userId: string, groupId: string): Promise<void>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -230,6 +231,16 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     }
   }
 
+  async function removeUserFromGroup(userId: string, groupId: string) {
+    const { data, error } = await supabase
+      .from("user_groups")
+      .delete()
+      .eq("user_id", userId)
+      .eq("group_id", groupId);
+
+    if (error) throw new AppError("ERROR while leaving group.");
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -241,6 +252,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         joinGroup,
         getUserGuessesByGroupId,
         saveUserGuesses,
+        removeUserFromGroup,
       }}
     >
       {children}
