@@ -6,14 +6,22 @@ import { Container } from "./styles";
 
 interface PlayerListProps {
   groupPlayers: User[];
+  removePlayerFunction(user: User): void;
 }
 
-export default function PlayersList({ groupPlayers }: PlayerListProps) {
+export default function PlayersList({
+  groupPlayers,
+  removePlayerFunction,
+}: PlayerListProps) {
   return (
     <Container>
       <ScrollView>
         {groupPlayers.map((player) => (
-          <PlayerListRow key={player.user_id} player={player} />
+          <PlayerListRow
+            key={player.user_id}
+            player={player}
+            removePlayerFunction={removePlayerFunction}
+          />
         ))}
       </ScrollView>
     </Container>

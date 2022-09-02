@@ -57,6 +57,7 @@ export const FormTitle = styled.Text`
 export const Footer = styled.View`
   width: 100%;
   padding: 12px 24px;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const PlayersListContainer = styled.View`

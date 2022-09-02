@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
-import BackButton from "../../shared/components/BackButton";
 import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
+
 import {
   ButtonWrapper,
   Container,
@@ -18,6 +18,7 @@ import {
   RegisterForm,
   Spacer,
 } from "./styles";
+import BackButton from "../../shared/components/BackButton";
 import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
 import PlayersList from "../../shared/components/PlayersList";
@@ -58,6 +59,10 @@ export default function GroupProperties() {
     //TODO: confirm before leave group
     await removeUserFromGroup(userId, group.group_id!);
     navigation.navigate("Dashboard" as never);
+  }
+
+  async function handleRemoveUser(user: User) {
+    Alert.alert(`remove user ${user.full_name}`);
   }
 
   return (
@@ -125,7 +130,10 @@ export default function GroupProperties() {
       <PlayersListContainer>
         <FormTitle>Jogadores do grupo:</FormTitle>
         <Spacer />
-        <PlayersList groupPlayers={users} />
+        <PlayersList
+          groupPlayers={users}
+          removePlayerFunction={handleRemoveUser}
+        />
       </PlayersListContainer>
       <Footer>
         <Button title="Salvar" enabled={group.owner_id === userId} />

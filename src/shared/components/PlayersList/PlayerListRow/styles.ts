@@ -8,7 +8,7 @@ interface RemovePlayerButtonProps extends RectButtonProps {
 }
 
 export const Container = styled.View`
-  width: 100%;
+  flex: 1;
   height: 30px;
   flex-direction: row;
   background-color: ${({ theme }) => theme.colors.shape};
