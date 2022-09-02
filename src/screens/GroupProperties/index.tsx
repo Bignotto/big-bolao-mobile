@@ -56,13 +56,46 @@ export default function GroupProperties() {
   }, []);
 
   async function handleLeaveGroup() {
-    //TODO: confirm before leave group
-    await removeUserFromGroup(userId, group.group_id!);
-    navigation.navigate("Dashboard" as never);
+    Alert.alert(
+      `Sair do grupo ${group.name}`,
+      `Tem certeza que quer sair do grupo ${group.name}?`,
+      [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: async () => {
+            await removeUserFromGroup(userId, group.group_id!);
+            navigation.navigate("Dashboard" as never);
+          },
+        },
+      ]
+    );
   }
 
   async function handleRemoveUser(user: User) {
-    Alert.alert(`remove user ${user.full_name}`);
+    Alert.alert(
+      `Remover ${user.full_name}`,
+      `Tem certeza que quer remover ${user.full_name}?`,
+      [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: async () => {
+            await removeUserFromGroup(user.user_id, group.group_id!);
+            const updatedUserList = users.filter(
+              (u) => u.user_id !== user.user_id
+            );
+            setUsers(updatedUserList);
+          },
+        },
+      ]
+    );
   }
 
   return (
