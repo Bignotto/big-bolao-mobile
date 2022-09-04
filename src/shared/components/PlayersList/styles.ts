@@ -1,9 +1,5 @@
 import styled from "styled-components/native";
 
-export const Container = styled.ScrollView.attrs({
-  contentContainerStyle: {
-    // padding: 8,
-    alignItems: "center",
-  },
-  showsVerticalScrollIndicator: false,
-})``;
+export const Container = styled.View`
+  flex: 1;
+`;

@@ -1,15 +1,26 @@
 import React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Container, PlayerName, RemovePlayerButton } from "./styles";
-import { Alert } from "react-native";
+import { User } from "../../../hooks/GroupContext";
 
-export default function PlayerListRow() {
+interface PlayerListRowProps {
+  player: User;
+  removePlayerFunction(user: User): void;
+  isGroupOwner: boolean;
+}
+export default function PlayerListRow({
+  player,
+  removePlayerFunction,
+  isGroupOwner,
+}: PlayerListRowProps) {
   return (
     <Container>
-      <PlayerName>Jogador 1</PlayerName>
-      <RemovePlayerButton onPress={() => Alert.alert("Removing...")}>
-        <FontAwesome5 name="trash-alt" size={18} color="#FFFFFF" />
-      </RemovePlayerButton>
+      <PlayerName>{player.full_name}</PlayerName>
+      {isGroupOwner && (
+        <RemovePlayerButton onPress={() => removePlayerFunction(player)}>
+          <FontAwesome5 name="trash-alt" size={18} color="#FFFFFF" />
+        </RemovePlayerButton>
+      )}
     </Container>
   );
 }

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
-import BackButton from "../../shared/components/BackButton";
-import { Group } from "../../shared/hooks/GroupContext";
+import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
+
 import {
   ButtonWrapper,
   Container,
@@ -18,9 +18,11 @@ import {
   RegisterForm,
   Spacer,
 } from "./styles";
+import BackButton from "../../shared/components/BackButton";
 import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
 import PlayersList from "../../shared/components/PlayersList";
+import { useAuth } from "../../shared/hooks/AuthContext";
 
 interface Params {
   group: Group;
@@ -31,6 +33,79 @@ export default function GroupProperties() {
   const { group } = route.params as Params;
   const theme = useTheme();
   const navigation = useNavigation();
+  const { getGroupUsers, removeUserFromGroup } = useGroup();
+  const { userId } = useAuth();
+
+  const [users, setUsers] = useState<User[]>([]);
+  const [groupOwner, setGroupOwner] = useState<User>();
+
+  const [groupPassword, setGroupPassword] = useState("");
+  const [groupScorePoints, setGroupScorePoints] = useState("");
+  const [groupWinnerPoints, setGroupWinnerPoints] = useState("");
+
+  async function loadGroupUsers() {
+    try {
+      const data = await getGroupUsers(group.group_id!);
+      const [owner] = data.filter((u) => u.user_id === group.owner_id);
+      setGroupOwner(owner);
+      setUsers(data);
+    } catch (error) {
+      Alert.alert("Erro ao carregar usuários do grupo");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    loadGroupUsers();
+    setGroupPassword(group.password);
+    setGroupScorePoints(String(group.match_score_points));
+    setGroupWinnerPoints(String(group.match_winner_points));
+  }, []);
+
+  async function handleUpdateGroup() {}
+
+  async function handleLeaveGroup() {
+    Alert.alert(
+      `Sair do grupo ${group.name}`,
+      `Tem certeza que quer sair do grupo ${group.name}?`,
+      [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: async () => {
+            await removeUserFromGroup(userId, group.group_id!);
+            navigation.navigate("Dashboard" as never);
+          },
+        },
+      ]
+    );
+  }
+
+  async function handleRemoveUser(user: User) {
+    Alert.alert(
+      `Remover ${user.full_name}`,
+      `Tem certeza que quer remover ${user.full_name}?`,
+      [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: async () => {
+            await removeUserFromGroup(user.user_id, group.group_id!);
+            const updatedUserList = users.filter(
+              (u) => u.user_id !== user.user_id
+            );
+            setUsers(updatedUserList);
+          },
+        },
+      ]
+    );
+  }
 
   return (
     <Container>
@@ -53,12 +128,22 @@ export default function GroupProperties() {
       <RegisterForm>
         <InputField>
           <InputLabel>Senha:</InputLabel>
-          <Input name="name" placeholder="senha do grupo" value="XPTO027" />
+          <Input
+            name="name"
+            placeholder="senha do grupo"
+            value={groupPassword}
+            editable={group.owner_id === userId}
+          />
         </InputField>
         <FormTitle>Pontuação do bolão</FormTitle>
         <InputField>
           <InputLabel>Pontos para o palpite exato:</InputLabel>
-          <Input name="password" placeholder="" value="5" />
+          <Input
+            name="password"
+            placeholder=""
+            editable={group.owner_id === userId}
+            value={groupScorePoints}
+          />
         </InputField>
         <FormTitle>Pontos bônus</FormTitle>
         <InputField>
@@ -70,18 +155,39 @@ export default function GroupProperties() {
             name="bonus"
             placeholder="pontos extras"
             keyboardType="numeric"
-            value="1"
+            editable={group.owner_id === userId}
+            value={groupWinnerPoints}
+          />
+        </InputField>
+        <InputField>
+          <InputLabel>Criador do grupo:</InputLabel>
+          <Input
+            name="name"
+            placeholder="criador do grupo"
+            value={groupOwner ? groupOwner.full_name : ""}
+            editable={false}
           />
         </InputField>
       </RegisterForm>
       <PlayersListContainer>
         <FormTitle>Jogadores do grupo:</FormTitle>
         <Spacer />
-        <PlayersList />
+        <PlayersList
+          groupPlayers={users}
+          removePlayerFunction={handleRemoveUser}
+          isGroupOwner={group.owner_id === userId}
+        />
       </PlayersListContainer>
       <Footer>
-        <Button title="Salvar" enabled={false} />
-        <Button title="Sair do grupo" color="#E83F5B" />
+        {groupOwner?.user_id === userId ? (
+          <Button title="Salvar" enabled={group.owner_id === userId} />
+        ) : (
+          <Button
+            title="Sair do grupo"
+            color="#E83F5B"
+            onPress={handleLeaveGroup}
+          />
+        )}
       </Footer>
     </Container>
   );

@@ -74,6 +74,7 @@ interface IGroupContextData {
   joinGroup(groupId: string): Promise<any>;
   getUserGuessesByGroupId(groupId: string): Promise<UserMatchGuess[]>;
   saveUserGuesses(guesses: UserGuess[] | undefined): Promise<void>;
+  removeUserFromGroup(userId: string, groupId: string): Promise<void>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -105,6 +106,15 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       created_at: new Date(),
     };
 
+    async function updateGroup({
+      group_id,
+      name,
+      owner_id,
+      match_score_points,
+      match_winner_points,
+      password,
+    }: Group) {}
+
     const { data, error } = await supabase.from("groups").insert([newGroup]);
 
     if (error) throw new AppError("ERROR while creating new group");
@@ -128,7 +138,9 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
     const { data, error } = await supabase
       .from("user_groups")
-      .select("*,group_id(group_id,name)")
+      .select(
+        "*,group_id(group_id,name,owner_id,match_score_points,match_winner_points,password)"
+      )
       .eq("user_id", userId);
 
     if (error) throw new AppError("ERROR while getting user groups");
@@ -228,6 +240,16 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     }
   }
 
+  async function removeUserFromGroup(userId: string, groupId: string) {
+    const { data, error } = await supabase
+      .from("user_groups")
+      .delete()
+      .eq("user_id", userId)
+      .eq("group_id", groupId);
+
+    if (error) throw new AppError("ERROR while leaving group.");
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -239,6 +261,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         joinGroup,
         getUserGuessesByGroupId,
         saveUserGuesses,
+        removeUserFromGroup,
       }}
     >
       {children}
