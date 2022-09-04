@@ -7,11 +7,13 @@ import { Container } from "./styles";
 interface PlayerListProps {
   groupPlayers: User[];
   removePlayerFunction(user: User): void;
+  isGroupOwner: boolean;
 }
 
 export default function PlayersList({
   groupPlayers,
   removePlayerFunction,
+  isGroupOwner,
 }: PlayerListProps) {
   return (
     <Container>
@@ -21,6 +23,7 @@ export default function PlayersList({
             key={player.user_id}
             player={player}
             removePlayerFunction={removePlayerFunction}
+            isGroupOwner={isGroupOwner}
           />
         ))}
       </ScrollView>

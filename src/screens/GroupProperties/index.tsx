@@ -39,6 +39,10 @@ export default function GroupProperties() {
   const [users, setUsers] = useState<User[]>([]);
   const [groupOwner, setGroupOwner] = useState<User>();
 
+  const [groupPassword, setGroupPassword] = useState("");
+  const [groupScorePoints, setGroupScorePoints] = useState("");
+  const [groupWinnerPoints, setGroupWinnerPoints] = useState("");
+
   async function loadGroupUsers() {
     try {
       const data = await getGroupUsers(group.group_id!);
@@ -53,7 +57,12 @@ export default function GroupProperties() {
 
   useEffect(() => {
     loadGroupUsers();
+    setGroupPassword(group.password);
+    setGroupScorePoints(String(group.match_score_points));
+    setGroupWinnerPoints(String(group.match_winner_points));
   }, []);
+
+  async function handleUpdateGroup() {}
 
   async function handleLeaveGroup() {
     Alert.alert(
@@ -122,7 +131,7 @@ export default function GroupProperties() {
           <Input
             name="name"
             placeholder="senha do grupo"
-            value={group.password}
+            value={groupPassword}
             editable={group.owner_id === userId}
           />
         </InputField>
@@ -133,7 +142,7 @@ export default function GroupProperties() {
             name="password"
             placeholder=""
             editable={group.owner_id === userId}
-            value={String(group.match_score_points)}
+            value={groupScorePoints}
           />
         </InputField>
         <FormTitle>Pontos bônus</FormTitle>
@@ -147,7 +156,7 @@ export default function GroupProperties() {
             placeholder="pontos extras"
             keyboardType="numeric"
             editable={group.owner_id === userId}
-            value={String(group.match_winner_points)}
+            value={groupWinnerPoints}
           />
         </InputField>
         <InputField>
@@ -166,15 +175,19 @@ export default function GroupProperties() {
         <PlayersList
           groupPlayers={users}
           removePlayerFunction={handleRemoveUser}
+          isGroupOwner={group.owner_id === userId}
         />
       </PlayersListContainer>
       <Footer>
-        <Button title="Salvar" enabled={group.owner_id === userId} />
-        <Button
-          title="Sair do grupo"
-          color="#E83F5B"
-          onPress={handleLeaveGroup}
-        />
+        {groupOwner?.user_id === userId ? (
+          <Button title="Salvar" enabled={group.owner_id === userId} />
+        ) : (
+          <Button
+            title="Sair do grupo"
+            color="#E83F5B"
+            onPress={handleLeaveGroup}
+          />
+        )}
       </Footer>
     </Container>
   );

@@ -106,6 +106,15 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       created_at: new Date(),
     };
 
+    async function updateGroup({
+      group_id,
+      name,
+      owner_id,
+      match_score_points,
+      match_winner_points,
+      password,
+    }: Group) {}
+
     const { data, error } = await supabase.from("groups").insert([newGroup]);
 
     if (error) throw new AppError("ERROR while creating new group");
