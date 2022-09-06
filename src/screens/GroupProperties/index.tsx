@@ -33,7 +33,7 @@ export default function GroupProperties() {
   const { group } = route.params as Params;
   const theme = useTheme();
   const navigation = useNavigation();
-  const { getGroupUsers, removeUserFromGroup } = useGroup();
+  const { getGroupUsers, removeUserFromGroup, updateGroup } = useGroup();
   const { userId } = useAuth();
 
   const [users, setUsers] = useState<User[]>([]);
@@ -62,7 +62,19 @@ export default function GroupProperties() {
     setGroupWinnerPoints(String(group.match_winner_points));
   }, []);
 
-  async function handleUpdateGroup() {}
+  async function handleUpdateGroup() {
+    try {
+      await updateGroup({
+        group_id: group.group_id,
+        password: groupPassword,
+        match_score_points: parseInt(groupScorePoints),
+        match_winner_points: parseInt(groupWinnerPoints),
+        name: group.name,
+      });
+    } catch (errors) {
+      Alert.alert("Erro salvar as configurações do grupo");
+    }
+  }
 
   async function handleLeaveGroup() {
     Alert.alert(
@@ -133,6 +145,7 @@ export default function GroupProperties() {
             placeholder="senha do grupo"
             value={groupPassword}
             editable={group.owner_id === userId}
+            onChangeText={setGroupPassword}
           />
         </InputField>
         <FormTitle>Pontuação do bolão</FormTitle>
@@ -140,9 +153,11 @@ export default function GroupProperties() {
           <InputLabel>Pontos para o palpite exato:</InputLabel>
           <Input
             name="password"
-            placeholder=""
+            placeholder="pontos"
+            keyboardType="numeric"
             editable={group.owner_id === userId}
             value={groupScorePoints}
+            onChangeText={setGroupScorePoints}
           />
         </InputField>
         <FormTitle>Pontos bônus</FormTitle>
@@ -157,6 +172,7 @@ export default function GroupProperties() {
             keyboardType="numeric"
             editable={group.owner_id === userId}
             value={groupWinnerPoints}
+            onChangeText={setGroupWinnerPoints}
           />
         </InputField>
         <InputField>
@@ -180,7 +196,11 @@ export default function GroupProperties() {
       </PlayersListContainer>
       <Footer>
         {groupOwner?.user_id === userId ? (
-          <Button title="Salvar" enabled={group.owner_id === userId} />
+          <Button
+            title="Salvar"
+            enabled={group.owner_id === userId}
+            onPress={handleUpdateGroup}
+          />
         ) : (
           <Button
             title="Sair do grupo"

@@ -69,6 +69,7 @@ interface IGroupContextData {
   getUserGroups(): Promise<UserGroup[]>;
   getGroupUsers(groupId: string): Promise<User[]>;
   createGroup(group: Group): Promise<Group>;
+  updateGroup(group: Group): Promise<Group>;
   searchGroupByName(name: string): Promise<Group[]>;
   getUserById(userId: string): Promise<User>;
   joinGroup(groupId: string): Promise<any>;
@@ -106,15 +107,6 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       created_at: new Date(),
     };
 
-    async function updateGroup({
-      group_id,
-      name,
-      owner_id,
-      match_score_points,
-      match_winner_points,
-      password,
-    }: Group) {}
-
     const { data, error } = await supabase.from("groups").insert([newGroup]);
 
     if (error) throw new AppError("ERROR while creating new group");
@@ -129,6 +121,32 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       ]);
 
     if (join_error) throw new AppError("ERROR while joining new group");
+
+    return Promise.resolve(data[0]);
+  }
+
+  async function updateGroup({
+    group_id,
+    name,
+    owner_id,
+    match_score_points,
+    match_winner_points,
+    password,
+  }: Group) {
+    const newGroup: Group = {
+      group_id,
+      name,
+      password,
+      match_score_points,
+      match_winner_points,
+    };
+    const { data, error } = await supabase
+      .from("groups")
+      .update(newGroup)
+      .eq("group_id", group_id);
+
+    console.log({ newGroup, error });
+    if (error) throw new AppError("ERROR while updating group");
 
     return Promise.resolve(data[0]);
   }
@@ -256,6 +274,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         getUserGroups,
         getGroupUsers,
         createGroup,
+        updateGroup,
         searchGroupByName,
         getUserById,
         joinGroup,
