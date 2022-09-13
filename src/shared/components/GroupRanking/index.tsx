@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import RankingLine from "./RankingLine";
 
@@ -9,8 +9,23 @@ import {
   RankingTitle,
   RankingTitleWrapper,
 } from "./styles";
+import { useGroup } from "../../hooks/GroupContext";
 
-export default function GroupRanking() {
+interface GroupRankingProps {
+  groupId: string;
+}
+
+export default function GroupRanking({ groupId }: GroupRankingProps) {
+  const { getGroupRankingByGroupId } = useGroup();
+
+  async function loadGroupRanking() {
+    const response = await getGroupRankingByGroupId(groupId);
+  }
+
+  useEffect(() => {
+    loadGroupRanking();
+  }, []);
+
   return (
     <Container>
       <RankingHeader>
