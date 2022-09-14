@@ -20,6 +20,7 @@ export default function GroupRanking({ groupId }: GroupRankingProps) {
 
   async function loadGroupRanking() {
     const response = await getGroupRankingByGroupId(groupId);
+    console.log({ response });
   }
 
   useEffect(() => {

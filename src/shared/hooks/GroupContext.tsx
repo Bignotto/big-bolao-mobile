@@ -66,11 +66,13 @@ interface UserGuess {
 }
 
 interface GroupRanking {
-  position: number;
-  user: User;
-  user_points: number;
-  user_exact_matches: number;
-  user_bonus_points: number;
+  exact_matches: number;
+  full_name: string;
+  group_id: string;
+  name: string;
+  total_bonus: number;
+  total_points: number;
+  user_id: string;
 }
 
 interface IGroupContextData {
@@ -82,7 +84,7 @@ interface IGroupContextData {
   getUserById(userId: string): Promise<User>;
   joinGroup(groupId: string): Promise<any>;
   getUserGuessesByGroupId(groupId: string): Promise<UserMatchGuess[]>;
-  getGroupRankingByGroupId(groupId: string): Promise<void>;
+  getGroupRankingByGroupId(groupId: string): Promise<GroupRanking[]>;
   saveUserGuesses(guesses: UserGuess[] | undefined): Promise<void>;
   removeUserFromGroup(userId: string, groupId: string): Promise<void>;
 }
@@ -249,14 +251,14 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   }
 
   async function getGroupRankingByGroupId(groupId: string) {
-    const { data, error } = await supabase.rpc("group_match_guesses", {
-      param_group_id: groupId,
-    });
+    const { data, error } = await supabase
+      .from("group_ranking")
+      .select("*")
+      .eq("group_id", groupId);
 
-    console.log({ error });
     if (error) throw new AppError(`ERROR while getting group ranking`);
 
-    console.log(data);
+    return Promise.resolve(data);
   }
 
   async function saveUserGuesses(guesses: UserGuess[]) {
