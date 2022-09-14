@@ -323,4 +323,5 @@ export {
   User,
   UserMatchGuess,
   UserGuess,
+  GroupRanking,
 };
