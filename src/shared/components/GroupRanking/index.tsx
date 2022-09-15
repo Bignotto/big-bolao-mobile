@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import RankingLine from "./RankingLine";
 
@@ -9,8 +9,29 @@ import {
   RankingTitle,
   RankingTitleWrapper,
 } from "./styles";
+import {
+  useGroup,
+  GroupRanking as GroupRankingLine,
+} from "../../hooks/GroupContext";
 
-export default function GroupRanking() {
+interface GroupRankingProps {
+  groupId: string;
+}
+
+export default function GroupRanking({ groupId }: GroupRankingProps) {
+  const { getGroupRankingByGroupId } = useGroup();
+
+  const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
+
+  async function loadGroupRanking() {
+    const response = await getGroupRankingByGroupId(groupId);
+    setGroupRanking(response);
+  }
+
+  useEffect(() => {
+    loadGroupRanking();
+  }, []);
+
   return (
     <Container>
       <RankingHeader>
@@ -23,34 +44,16 @@ export default function GroupRanking() {
           <FontAwesome5 name="medal" color="#FFFFFF" size={16} />
         </IconsWrapper>
       </RankingHeader>
-      <RankingLine
-        name="Thiago"
-        points={135}
-        position={1}
-        bonus={5}
-        guesses={5}
-      />
-      <RankingLine
-        name="Felipe"
-        points={35}
-        position={2}
-        bonus={15}
-        guesses={5}
-      />
-      <RankingLine
-        name="Thiago"
-        points={35}
-        position={3}
-        bonus={5}
-        guesses={5}
-      />
-      <RankingLine
-        name="Thiago"
-        points={35}
-        position={4}
-        bonus={5}
-        guesses={5}
-      />
+      {groupRanking.map((g, i) => (
+        <RankingLine
+          name={g.full_name}
+          points={g.total_points}
+          position={i + 1}
+          bonus={g.total_bonus}
+          guesses={g.exact_matches}
+          key={g.user_id}
+        />
+      ))}
     </Container>
   );
 }

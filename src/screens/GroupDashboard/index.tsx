@@ -94,7 +94,7 @@ export default function GroupDashboard() {
             <GroupKpiTitle>Acertos</GroupKpiTitle>
           </GroupKpiWrapper>
         </GroupKpiContainer>
-        <GroupRanking />
+        <GroupRanking groupId={group.group_id!} />
       </Content>
       <Footer>
         <Button
