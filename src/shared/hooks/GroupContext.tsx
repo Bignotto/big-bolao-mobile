@@ -162,6 +162,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve(data[0]);
   }
 
+  //TODO: fix type to match data from backend
   async function getUserGroups() {
     let groups: UserGroup[] = [];
 
@@ -192,6 +193,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         user_rank: g.user_rank,
       }));
     }
+    console.log({ groups });
     return Promise.resolve(groups);
   }
 
@@ -209,16 +211,19 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   async function getGroupUsers(groupId: string) {
     const { data, error } = await supabase
       .from("user_groups")
-      .select("*,user_id(id,full_name)")
+      .select("*,profiles!user_groups_user_id_fkey(id,full_name)")
       .eq("group_id", groupId);
 
-    if (error) throw new AppError(`ERROR while getting group users ${error}`);
+    if (error)
+      throw new AppError(
+        `ERROR while getting group users ${error.message} \n ${error.hint}`
+      );
 
     if (data) {
       const users: User[] = data.map((u) => {
         return {
-          user_id: u.user_id.id,
-          full_name: u.user_id.full_name,
+          user_id: u.profiles.id,
+          full_name: u.profiles.full_name,
         };
       });
       return Promise.resolve(users);
