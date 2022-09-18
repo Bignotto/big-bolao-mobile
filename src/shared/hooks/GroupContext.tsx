@@ -3,12 +3,14 @@ import { AppError } from "../errors/AppError";
 import supabase from "../services/supabase";
 
 interface UserGroup {
-  created_at: Date;
-  group: Group;
-  id: string;
+  total_points: number;
+  total_bonus: number;
+  exact_matches: number;
   user_id: string;
-  user_points: number;
-  user_rank: number;
+  full_name: string;
+  group_id: string;
+  group_name: string;
+  ranking: number;
 }
 
 interface Group {
@@ -82,6 +84,7 @@ interface IGroupContextData {
   updateGroup(group: Group): Promise<Group>;
   searchGroupByName(name: string): Promise<Group[]>;
   getUserById(userId: string): Promise<User>;
+  getGroupById(groupId: string): Promise<Group>;
   joinGroup(groupId: string): Promise<any>;
   getUserGuessesByGroupId(groupId: string): Promise<UserMatchGuess[]>;
   getGroupRankingByGroupId(groupId: string): Promise<GroupRanking[]>;
@@ -156,7 +159,6 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       .update(newGroup)
       .eq("group_id", group_id);
 
-    console.log({ newGroup, error });
     if (error) throw new AppError("ERROR while updating group");
 
     return Promise.resolve(data[0]);
@@ -166,40 +168,19 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     let groups: UserGroup[] = [];
 
     const { data, error } = await supabase
-      .from("user_groups")
-      .select(
-        "*,group_id(group_id,name,owner_id,match_score_points,match_winner_points,password)"
-      )
+      .from("user_groups_points")
+      .select("*")
       .eq("user_id", userId);
 
     if (error) throw new AppError("ERROR while getting user groups");
-
-    if (data) {
-      groups = data.map((g) => ({
-        created_at: g.created_at,
-        group: {
-          group_id: g.group_id.group_id,
-          name: g.group_id.name,
-          owner_id: g.group_id.owner_id,
-          created_at: g.group_id.created_at,
-          match_score_points: g.group_id.match_score_points,
-          match_winner_points: g.group_id.match_winner_points,
-          password: g.group_id.password,
-        },
-        id: g.id,
-        user_id: g.user_id,
-        user_points: g.user_points,
-        user_rank: g.user_rank,
-      }));
-    }
-    return Promise.resolve(groups);
+    return Promise.resolve(data);
   }
 
   async function getUserById(userId: string) {
     const { data, error } = await supabase
-      .from("users")
+      .from("profiles")
       .select("*")
-      .eq("user_id", userId);
+      .eq("id", userId);
 
     if (error) throw new AppError("ERROR while getting user by id");
 
@@ -209,16 +190,19 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
   async function getGroupUsers(groupId: string) {
     const { data, error } = await supabase
       .from("user_groups")
-      .select("*,user_id(id,full_name)")
+      .select("*,profiles!user_groups_user_id_fkey(id,full_name)")
       .eq("group_id", groupId);
 
-    if (error) throw new AppError(`ERROR while getting group users ${error}`);
+    if (error)
+      throw new AppError(
+        `ERROR while getting group users ${error.message} \n ${error.hint}`
+      );
 
     if (data) {
       const users: User[] = data.map((u) => {
         return {
-          user_id: u.user_id.id,
-          full_name: u.user_id.full_name,
+          user_id: u.profiles.id,
+          full_name: u.profiles.full_name,
         };
       });
       return Promise.resolve(users);
@@ -252,7 +236,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
   async function getGroupRankingByGroupId(groupId: string) {
     const { data, error } = await supabase
-      .from("group_ranking")
+      .from("user_groups_points")
       .select("*")
       .eq("group_id", groupId);
 
@@ -290,6 +274,17 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     if (error) throw new AppError("ERROR while leaving group.");
   }
 
+  async function getGroupById(groupId: string) {
+    const { data, error } = await supabase
+      .from("groups")
+      .select("*")
+      .eq("group_id", groupId);
+
+    if (error) throw new AppError("ERROR while getting group by id");
+
+    return Promise.resolve(data[0]);
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -299,6 +294,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         updateGroup,
         searchGroupByName,
         getUserById,
+        getGroupById,
         joinGroup,
         getUserGuessesByGroupId,
         getGroupRankingByGroupId,

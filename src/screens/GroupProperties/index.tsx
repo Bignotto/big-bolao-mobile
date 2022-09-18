@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
-import { Group, useGroup, User } from "../../shared/hooks/GroupContext";
+import {
+  Group,
+  useGroup,
+  User,
+  UserGroup,
+} from "../../shared/hooks/GroupContext";
 
 import {
   ButtonWrapper,
@@ -25,19 +30,26 @@ import PlayersList from "../../shared/components/PlayersList";
 import { useAuth } from "../../shared/hooks/AuthContext";
 
 interface Params {
-  group: Group;
+  groupId: string;
 }
 
 export default function GroupProperties() {
   const route = useRoute();
-  const { group } = route.params as Params;
+  const { groupId } = route.params as Params;
   const theme = useTheme();
   const navigation = useNavigation();
-  const { getGroupUsers, removeUserFromGroup, updateGroup } = useGroup();
+  const {
+    getGroupUsers,
+    removeUserFromGroup,
+    updateGroup,
+    getGroupById,
+    getUserById,
+  } = useGroup();
   const { userId } = useAuth();
 
   const [users, setUsers] = useState<User[]>([]);
   const [groupOwner, setGroupOwner] = useState<User>();
+  const [group, setGroup] = useState<Group>({} as Group);
 
   const [groupPassword, setGroupPassword] = useState("");
   const [groupScorePoints, setGroupScorePoints] = useState("");
@@ -45,21 +57,28 @@ export default function GroupProperties() {
 
   async function loadGroupUsers() {
     try {
-      const data = await getGroupUsers(group.group_id!);
-      const [owner] = data.filter((u) => u.user_id === group.owner_id);
+      const data = await getGroupUsers(groupId);
+      const group = await getGroupById(groupId);
+
+      const owner = await getUserById(group.owner_id!);
+
+      setGroup(group);
       setGroupOwner(owner);
       setUsers(data);
+      setGroupPassword(group.password);
+      setGroupScorePoints(String(group.match_score_points));
+      setGroupWinnerPoints(String(group.match_winner_points));
     } catch (error) {
-      Alert.alert("Erro ao carregar usuários do grupo");
+      Alert.alert("Erro ao carregar usuários do grupo!!!!");
       console.log(error);
     }
   }
 
   useEffect(() => {
     loadGroupUsers();
-    setGroupPassword(group.password);
-    setGroupScorePoints(String(group.match_score_points));
-    setGroupWinnerPoints(String(group.match_winner_points));
+    // setGroupPassword(group.password);
+    // setGroupScorePoints(String(group.match_score_points));
+    // setGroupWinnerPoints(String(group.match_winner_points));
   }, []);
 
   async function handleUpdateGroup() {

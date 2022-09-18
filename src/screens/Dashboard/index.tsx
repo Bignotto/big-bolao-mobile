@@ -15,16 +15,15 @@ export default function Dashboard() {
   const theme = useTheme();
   const { getUserGroups } = useGroup();
 
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [userGroups, setUserGroups] = useState<UserGroup[]>([]);
 
   async function loadGroups() {
-    let response;
     try {
-      response = await getUserGroups();
-      const responseGroups = response.map((userGroup) => userGroup.group);
-
-      setGroups(responseGroups);
-    } catch (error) {}
+      const response = await getUserGroups();
+      setUserGroups(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -45,7 +44,7 @@ export default function Dashboard() {
       />
       <Header />
 
-      <GroupList groups={groups} />
+      <GroupList groups={userGroups} />
 
       <Button
         title="Encontrar Bolão"

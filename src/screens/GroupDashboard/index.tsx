@@ -3,7 +3,7 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
-import { Group } from "../../shared/hooks/GroupContext";
+import { Group, UserGroup } from "../../shared/hooks/GroupContext";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons"; //trophy - check - medal
 import {
   ButtonWrapper,
@@ -25,7 +25,7 @@ import GroupRanking from "../../shared/components/GroupRanking";
 import { Button } from "../../shared/components/Button";
 
 interface Params {
-  group: Group;
+  group: UserGroup;
 }
 
 export default function GroupDashboard() {
@@ -48,13 +48,13 @@ export default function GroupDashboard() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>{group.name}</HeaderTitle>
+          <HeaderTitle>{group.group_name}</HeaderTitle>
           <ButtonWrapper>
             <Properties
               onPress={() =>
                 navigation.navigate(
                   "GroupProperties" as never,
-                  { group } as never
+                  { groupId: group.group_id } as never
                 )
               }
             >
