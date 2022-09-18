@@ -236,7 +236,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
   async function getGroupRankingByGroupId(groupId: string) {
     const { data, error } = await supabase
-      .from("group_ranking")
+      .from("user_groups_points")
       .select("*")
       .eq("group_id", groupId);
 
