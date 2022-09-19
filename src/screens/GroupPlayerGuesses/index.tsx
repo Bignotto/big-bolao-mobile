@@ -45,7 +45,6 @@ export default function GroupPlayerGuesses() {
 
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
 
-  //TODO: prevent leaving this screen without save to database
   const [hasChanged, setHasChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 

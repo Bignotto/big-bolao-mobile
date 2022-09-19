@@ -1,6 +1,10 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
-import { StatusBar } from "react-native";
+import {
+  CommonActions,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import React, { useEffect } from "react";
+import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { Button } from "../../shared/components/Button";
 
@@ -33,6 +37,28 @@ export default function ConfirmationScreen() {
   const theme = useTheme();
   const navigation = useNavigation();
 
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        e.preventDefault();
+      }),
+    [navigation]
+  );
+
+  function handleGoBack() {
+    console.log("cliquei!");
+    navigation.dispatch((state) => {
+      // Remove the home route from the stack
+      const routes = state.routes.filter((r) => r.name === "Dashboard");
+
+      return CommonActions.reset({
+        ...state,
+        routes,
+        index: 0,
+      });
+    });
+  }
+
   return (
     <Container>
       <StatusBar
@@ -53,10 +79,7 @@ export default function ConfirmationScreen() {
         </ImageWrapper>
       </Content>
       <Footer>
-        <Button
-          title="Ok"
-          onPress={() => navigation.navigate(nextScreen as never)}
-        />
+        <Button title="Ok" onPress={handleGoBack} />
       </Footer>
     </Container>
   );
