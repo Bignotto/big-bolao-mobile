@@ -1,6 +1,10 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
-import { StatusBar } from "react-native";
+import {
+  CommonActions,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { Button } from "../../shared/components/Button";
 
@@ -22,16 +26,31 @@ interface ConfirmationScreenProps {
   title: string;
   message: string;
   instructions: string;
-  nextScreen: string;
 }
 
 export default function ConfirmationScreen() {
   const route = useRoute();
-  const { title, message, instructions, nextScreen } =
+  const { title, message, instructions } =
     route.params as ConfirmationScreenProps;
 
   const theme = useTheme();
   const navigation = useNavigation();
+
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        if (e.data.action.type !== "GO_BACK") {
+          navigation.dispatch(e.data.action);
+          return;
+        }
+        e.preventDefault();
+      }),
+    [navigation]
+  );
+
+  function handleGoBack() {
+    navigation.navigate("Dashboard" as never);
+  }
 
   return (
     <Container>
@@ -53,10 +72,7 @@ export default function ConfirmationScreen() {
         </ImageWrapper>
       </Content>
       <Footer>
-        <Button
-          title="Ok"
-          onPress={() => navigation.navigate(nextScreen as never)}
-        />
+        <Button title="Ok" onPress={handleGoBack} />
       </Footer>
     </Container>
   );
