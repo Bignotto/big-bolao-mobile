@@ -3,7 +3,7 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { Button } from "../../shared/components/Button";
@@ -26,12 +26,11 @@ interface ConfirmationScreenProps {
   title: string;
   message: string;
   instructions: string;
-  nextScreen: string;
 }
 
 export default function ConfirmationScreen() {
   const route = useRoute();
-  const { title, message, instructions, nextScreen } =
+  const { title, message, instructions } =
     route.params as ConfirmationScreenProps;
 
   const theme = useTheme();
@@ -40,23 +39,17 @@ export default function ConfirmationScreen() {
   useEffect(
     () =>
       navigation.addListener("beforeRemove", (e) => {
+        if (e.data.action.type !== "GO_BACK") {
+          navigation.dispatch(e.data.action);
+          return;
+        }
         e.preventDefault();
       }),
     [navigation]
   );
 
   function handleGoBack() {
-    console.log("cliquei!");
-    navigation.dispatch((state) => {
-      // Remove the home route from the stack
-      const routes = state.routes.filter((r) => r.name === "Dashboard");
-
-      return CommonActions.reset({
-        ...state,
-        routes,
-        index: 0,
-      });
-    });
+    navigation.navigate("Dashboard" as never);
   }
 
   return (
