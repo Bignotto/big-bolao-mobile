@@ -83,6 +83,7 @@ interface IGroupContextData {
   createGroup(group: Group): Promise<Group>;
   updateGroup(group: Group): Promise<Group>;
   searchGroupByName(name: string): Promise<Group[]>;
+  findGroupByName(name: string): Promise<Group[]>;
   getUserById(userId: string): Promise<User>;
   getGroupById(groupId: string): Promise<Group>;
   joinGroup(groupId: string): Promise<any>;
@@ -99,9 +100,20 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     const { data: groups, error } = await supabase
       .from("groups")
       .select("*")
-      .ilike("name", `%${name}%`);
+      .ilike("name", `%${name.trim()}%`);
 
     if (error) throw new AppError("ERROR while searching groups");
+
+    return Promise.resolve(groups);
+  }
+
+  async function findGroupByName(name: string) {
+    const { data: groups, error } = await supabase
+      .from("groups")
+      .select("*")
+      .eq("name", name.trim());
+
+    if (error) throw new AppError("ERROR while finding groups");
 
     return Promise.resolve(groups);
   }
@@ -293,6 +305,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         createGroup,
         updateGroup,
         searchGroupByName,
+        findGroupByName,
         getUserById,
         getGroupById,
         joinGroup,
