@@ -24,7 +24,7 @@ import {
 export default function NewGroup() {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { createGroup } = useGroup();
+  const { createGroup, findGroupByName } = useGroup();
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -34,8 +34,25 @@ export default function NewGroup() {
   async function handleCreateNewGroup() {
     if (!name || !password || !matchScorePoints || !matchWinnerPoints)
       return Alert.alert(`Preencha todos os campos`);
+    if (isNaN(Number(matchScorePoints)))
+      return Alert.alert(
+        `É preciso informar os pontos para os palpites certos corretamente.`
+      );
+    if (Number(matchScorePoints) === 0)
+      return Alert.alert(
+        `A pontuação não pode ser zero! Qual a graça de um bolão sem pontos?`
+      );
+    if (Number(matchScorePoints) === 1) return Alert.alert(`Sério?`);
+    if (isNaN(Number(matchWinnerPoints)))
+      return Alert.alert(
+        `É preciso informar os pontos bônus corretamente. Se não quiser atribuir pontos bônus preencha com zero.`
+      );
 
     try {
+      const found = await findGroupByName(name);
+      if (found.length > 0)
+        return Alert.alert(`Já existe um grupo com este nome. Esconha outro.`);
+
       await createGroup({
         name,
         password,
@@ -49,7 +66,7 @@ export default function NewGroup() {
           title: "Novo grupo criado!",
           message: "Agora você pode entrar no grupo e começar a jogar!",
           instructions:
-            "Clique em meus palpites na tela principal para ver registrar seus palpites.",
+            "Clique em meus palpites na tela principal para ver ou registrar seus palpites.",
           nextScreen: "Dashboard",
         } as never
       );
