@@ -1,11 +1,30 @@
 {
   "expo": {
-    "name": "big-bolao-mobile",
-    "slug": "big-bolao-mobile",
+    "name": "Bolão da Copa",
+    "slug": "bolao-da-copa",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  },
-  "name": "big-bolao-mobile"
+    "orientation": "portrait",
+    "icon": "./images/bolao_icon.png",
+    "splash": {
+      "image": "./images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#242424"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "owner": "bignotto",
+    "privacy": "public",
+    "android": {
+      "package": "com.big.bolaodacopa",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./images/bolao_icon.png",
+        "backgroundColor": "#242424"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1c1b19a9-66f7-4235-8b1b-bbaac3891565"
+      }
+    }
+  }
 }
