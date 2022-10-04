@@ -56,3 +56,4 @@ dist/
 
 .env
 Config.js
+Config.ts
