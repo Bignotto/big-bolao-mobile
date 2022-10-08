@@ -14,9 +14,8 @@
     "owner": "bignotto",
     "privacy": "public",
     "android": {
-      "package": "com.big.bolaodacopa",
+      "package": "com.bigbolaomobile",
       "versionCode": 2,
-      "versionName": "0.1.1",
       "adaptiveIcon": {
         "foregroundImage": "./images/bolao_icon.png",
         "backgroundColor": "#242424"
@@ -26,6 +25,9 @@
       "eas": {
         "projectId": "1c1b19a9-66f7-4235-8b1b-bbaac3891565"
       }
+    },
+    "ios": {
+      "bundleIdentifier": "com.bigbolaomobile"
     }
   }
 }
