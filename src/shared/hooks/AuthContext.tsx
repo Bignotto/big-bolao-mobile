@@ -19,6 +19,7 @@ interface IAuthContextData {
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string, name: string): Promise<void>;
   signOut(): Promise<void>;
+  resetPasswordEmail(email: string): Promise<void>;
   isLoading: boolean;
   userId: string;
 }
@@ -82,6 +83,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(false);
   }
 
+  async function resetPasswordEmail(email: string) {
+    setIsLoading(true);
+    const { data, error } = await supabase.auth.api.resetPasswordForEmail(
+      email
+    );
+
+    if (error) {
+      throw new AppError(error.message, 500);
+    }
+
+    setIsLoading(false);
+  }
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -122,6 +136,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         signUp,
         signOut,
+        resetPasswordEmail,
         isLoading,
         userId: session?.user?.id || "",
       }}

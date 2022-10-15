@@ -22,7 +22,7 @@ import { useTheme } from "styled-components/native";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPasswrod] = useState("");
-  const { signIn } = useAuth();
+  const { signIn, resetPasswordEmail } = useAuth();
 
   const navigation = useNavigation<any>();
   const theme = useTheme();
@@ -39,6 +39,19 @@ export default function Login() {
 
   async function handleRegisterAccount() {
     navigation.navigate("RegisterAccount");
+  }
+
+  async function handleResetPassword() {
+    if (email.length === 0)
+      return Alert.alert("Insira seu e-mail para recuperar sua senha.");
+
+    try {
+      await resetPasswordEmail(email);
+    } catch (error) {
+      return Alert.alert("Ocorreu um erro. Tente novamente em alguns minutos.");
+    }
+
+    Alert.alert("Clique no link enviado ao seu e-mail para mudar sua senha.");
   }
 
   return (
@@ -76,6 +89,12 @@ export default function Login() {
         <Button title="Login" onPress={handleLogin} />
         <Spacer />
         <Button title="Criar conta" onPress={handleRegisterAccount} />
+        <Spacer />
+        <Button
+          title="Recuperar senha"
+          color={theme.colors.primary}
+          onPress={handleResetPassword}
+        />
       </LoginForm>
     </Container>
   );
