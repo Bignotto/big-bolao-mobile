@@ -2,7 +2,7 @@
   "expo": {
     "name": "Bolão da Copa",
     "slug": "bolao-da-copa",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./images/bolao_icon.png",
     "splash": {
@@ -15,7 +15,7 @@
     "privacy": "public",
     "android": {
       "package": "com.bigbolaomobile",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./images/bolao_icon.png",
         "backgroundColor": "#242424"

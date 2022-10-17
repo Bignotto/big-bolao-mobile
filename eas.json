@@ -21,6 +21,11 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "../Keys/pc-api-4747759294334409132-946-9c719551fe25.json"
+      },
+      "ios": {
+        "appleId": "bignotto@gmail.com",
+        "ascAppId": "6443864807",
+        "appleTeamId": "S4S95J9RXA"
       }
     }
   }
