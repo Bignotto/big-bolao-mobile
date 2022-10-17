@@ -7,15 +7,20 @@ interface PlayerListRowProps {
   player: User;
   removePlayerFunction(user: User): void;
   isGroupOwner: boolean;
+  theGroupOwner: boolean;
 }
 export default function PlayerListRow({
   player,
   removePlayerFunction,
   isGroupOwner,
+  theGroupOwner,
 }: PlayerListRowProps) {
   return (
     <Container>
-      <PlayerName>{player.full_name}</PlayerName>
+      <PlayerName>
+        {theGroupOwner && `! `}
+        {player.full_name}
+      </PlayerName>
       {isGroupOwner && (
         <RemovePlayerButton onPress={() => removePlayerFunction(player)}>
           <FontAwesome5 name="trash-alt" size={18} color="#FFFFFF" />

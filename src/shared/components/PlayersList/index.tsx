@@ -8,12 +8,14 @@ interface PlayerListProps {
   groupPlayers: User[];
   removePlayerFunction(user: User): void;
   isGroupOwner: boolean;
+  groupOwnerId: string;
 }
 
 export default function PlayersList({
   groupPlayers,
   removePlayerFunction,
   isGroupOwner,
+  groupOwnerId,
 }: PlayerListProps) {
   return (
     <Container>
@@ -24,6 +26,7 @@ export default function PlayersList({
             player={player}
             removePlayerFunction={removePlayerFunction}
             isGroupOwner={isGroupOwner}
+            theGroupOwner={player.user_id === groupOwnerId}
           />
         ))}
       </ScrollView>
