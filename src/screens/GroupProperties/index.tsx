@@ -211,6 +211,7 @@ export default function GroupProperties() {
           groupPlayers={users}
           removePlayerFunction={handleRemoveUser}
           isGroupOwner={group.owner_id === userId}
+          groupOwnerId={group.owner_id!}
         />
       </PlayersListContainer>
       <Footer>
