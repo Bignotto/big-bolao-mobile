@@ -4,8 +4,8 @@ import { Alert, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import {
-  Group,
   useGroup,
+  UserGroup,
   UserGuess,
   UserMatchGuess,
 } from "../../shared/hooks/GroupContext";
@@ -24,7 +24,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useAuth } from "../../shared/hooks/AuthContext";
 
 interface Params {
-  group: Group;
+  group: UserGroup;
 }
 
 //A3A4
@@ -150,7 +150,7 @@ export default function GroupPlayerGuesses() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>{group.name}</HeaderTitle>
+          <HeaderTitle>{group.group_name}</HeaderTitle>
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
