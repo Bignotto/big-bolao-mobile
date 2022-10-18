@@ -4,7 +4,7 @@ import Header from "../../shared/components/Header";
 import { useAuth } from "../../shared/hooks/AuthContext";
 import { Group, useGroup, UserGroup } from "../../shared/hooks/GroupContext";
 
-import { Container } from "./styles";
+import { Container, Footer, GroupListWrapper } from "./styles";
 import GroupList from "../../shared/components/GroupList";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
@@ -43,17 +43,20 @@ export default function Dashboard() {
         backgroundColor={theme.colors.shape}
       />
       <Header />
+      <GroupListWrapper>
+        <GroupList groups={userGroups} />
+      </GroupListWrapper>
 
-      <GroupList groups={userGroups} />
-
-      <Button
-        title="Encontrar Bolão"
-        onPress={() => navigation.navigate("FindGroup" as never)}
-      />
-      <Button
-        title="Novo Bolão"
-        onPress={() => navigation.navigate("NewGroup" as never)}
-      />
+      <Footer>
+        <Button
+          title="Encontrar Bolão"
+          onPress={() => navigation.navigate("FindGroup" as never)}
+        />
+        <Button
+          title="Novo Bolão"
+          onPress={() => navigation.navigate("NewGroup" as never)}
+        />
+      </Footer>
     </Container>
   );
 }
