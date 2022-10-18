@@ -26,6 +26,7 @@ interface Group {
 interface User {
   user_id: string;
   full_name: string;
+  avatar_url?: string;
 }
 
 interface UserMatchGuess {

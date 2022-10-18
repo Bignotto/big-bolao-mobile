@@ -41,7 +41,8 @@ export const HeaderText = styled.Text`
 `;
 
 export const Footer = styled.View`
-  padding: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
 `;
 
 export const FooterText = styled.Text`

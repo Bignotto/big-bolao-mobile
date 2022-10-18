@@ -14,6 +14,8 @@ export class AppError {
       "You must provide either an email, phone number, a third-party provider or OpenID Connect."
     )
       this.message = "Você precisa informar um endereço de e-mail.";
+    else if (message === "User already registered")
+      this.message = "Já existe uma conta para este endereço de e-mail.";
     else this.message = message;
   }
 }
