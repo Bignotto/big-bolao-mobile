@@ -101,6 +101,7 @@ export default function RegisterAccountScreen() {
           </InputField>
         </RegisterForm>
         <Footer>
+          <FooterText>Obrigado por se cadastrar!</FooterText>
           <FooterText>
             Ao clicar no botão abaixo você concorda com a nossa política de
             privacidade.
