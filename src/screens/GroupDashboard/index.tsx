@@ -1,15 +1,21 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
-import BackButton from "../../shared/components/BackButton";
 import {
-  Group,
   GroupRanking as GroupRankingLine,
   useGroup,
   UserGroup,
 } from "../../shared/hooks/GroupContext";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons"; //trophy - check - medal
+import { FontAwesome } from "@expo/vector-icons";
+
+import BackButton from "../../shared/components/BackButton";
+import GroupRanking from "../../shared/components/GroupRanking";
+import { Button } from "../../shared/components/Button";
+import KpiPanel from "./KpiPanel";
+
+import { useAuth } from "../../shared/hooks/AuthContext";
+
 import {
   ButtonWrapper,
   Container,
@@ -20,9 +26,6 @@ import {
   Footer,
   Properties,
 } from "./styles";
-import GroupRanking from "../../shared/components/GroupRanking";
-import { Button } from "../../shared/components/Button";
-import KpiPanel from "./KpiPanel";
 
 interface Params {
   group: UserGroup;
@@ -31,21 +34,27 @@ interface Params {
 export default function GroupDashboard() {
   const route = useRoute();
   const { group } = route.params as Params;
+
   const navigation = useNavigation();
   const theme = useTheme();
 
+  const { userId } = useAuth();
   const { getGroupRankingByGroupId } = useGroup();
 
   const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function loadGroupRanking() {
     const response = await getGroupRankingByGroupId(group.group_id!);
     setGroupRanking(response);
+    setIsLoading(false);
   }
 
   useEffect(() => {
     loadGroupRanking();
   }, []);
+
+  const userRank = groupRanking.findIndex((u) => u.user_id === userId);
 
   return (
     <Container>
@@ -77,7 +86,12 @@ export default function GroupDashboard() {
         </HeaderTopWrapper>
       </Header>
       <Content>
-        <KpiPanel userBonus={0} userMatches={0} userPoints={0} userRank={0} />
+        <KpiPanel
+          userBonus={isLoading ? 0 : groupRanking[userRank].total_bonus}
+          userMatches={isLoading ? 0 : groupRanking[userRank].exact_matches}
+          userPoints={isLoading ? 0 : groupRanking[userRank].total_points}
+          userRank={isLoading ? 0 : userRank + 1}
+        />
         <GroupRanking groupRanking={groupRanking} />
       </Content>
       <Footer>

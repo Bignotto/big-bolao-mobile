@@ -38,21 +38,21 @@ export default function KpiPanel({
       <GroupKpiWrapper>
         <GroupKpi>
           <FontAwesome5 name="trophy" color={theme.colors.text} size={20} />
-          <GroupKpiText>{userPoints}</GroupKpiText>
+          <GroupKpiText>{userPoints ?? 0}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Pontos</GroupKpiTitle>
       </GroupKpiWrapper>
       <GroupKpiWrapper>
         <GroupKpi>
           <FontAwesome5 name="medal" color={theme.colors.text} size={20} />
-          <GroupKpiText>{userBonus}</GroupKpiText>
+          <GroupKpiText>{userBonus ?? 0}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Bônus</GroupKpiTitle>
       </GroupKpiWrapper>
       <GroupKpiWrapper>
         <GroupKpi>
           <FontAwesome5 name="check" color={theme.colors.text} size={20} />
-          <GroupKpiText>{userMatches}</GroupKpiText>
+          <GroupKpiText>{userMatches ?? 0}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Acertos</GroupKpiTitle>
       </GroupKpiWrapper>
