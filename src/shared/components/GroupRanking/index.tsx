@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { GroupRanking as GroupRankingLine } from "../../hooks/GroupContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import RankingLine from "./RankingLine";
 
@@ -9,29 +10,12 @@ import {
   RankingTitle,
   RankingTitleWrapper,
 } from "./styles";
-import {
-  useGroup,
-  GroupRanking as GroupRankingLine,
-} from "../../hooks/GroupContext";
 
 interface GroupRankingProps {
-  groupId: string;
+  groupRanking: GroupRankingLine[];
 }
 
-export default function GroupRanking({ groupId }: GroupRankingProps) {
-  const { getGroupRankingByGroupId } = useGroup();
-
-  const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
-
-  async function loadGroupRanking() {
-    const response = await getGroupRankingByGroupId(groupId);
-    setGroupRanking(response);
-  }
-
-  useEffect(() => {
-    loadGroupRanking();
-  }, []);
-
+export default function GroupRanking({ groupRanking }: GroupRankingProps) {
   return (
     <Container>
       <RankingHeader>

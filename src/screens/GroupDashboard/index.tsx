@@ -1,28 +1,31 @@
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
+import {
+  GroupRanking as GroupRankingLine,
+  useGroup,
+  UserGroup,
+} from "../../shared/hooks/GroupContext";
+import { FontAwesome } from "@expo/vector-icons";
+
 import BackButton from "../../shared/components/BackButton";
-import { Group, UserGroup } from "../../shared/hooks/GroupContext";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons"; //trophy - check - medal
+import GroupRanking from "../../shared/components/GroupRanking";
+import { Button } from "../../shared/components/Button";
+import KpiPanel from "./KpiPanel";
+
+import { useAuth } from "../../shared/hooks/AuthContext";
+
 import {
   ButtonWrapper,
   Container,
   Content,
-  GroupKpiContainer,
   Header,
   HeaderTitle,
   HeaderTopWrapper,
-  GroupKpiWrapper,
-  GroupKpi,
-  GroupKpiText,
-  GroupKpiTitle,
-  HashTagChar,
   Footer,
   Properties,
 } from "./styles";
-import GroupRanking from "../../shared/components/GroupRanking";
-import { Button } from "../../shared/components/Button";
 
 interface Params {
   group: UserGroup;
@@ -31,8 +34,27 @@ interface Params {
 export default function GroupDashboard() {
   const route = useRoute();
   const { group } = route.params as Params;
+
   const navigation = useNavigation();
   const theme = useTheme();
+
+  const { userId } = useAuth();
+  const { getGroupRankingByGroupId } = useGroup();
+
+  const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function loadGroupRanking() {
+    const response = await getGroupRankingByGroupId(group.group_id!);
+    setGroupRanking(response);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    loadGroupRanking();
+  }, []);
+
+  const userRank = groupRanking.findIndex((u) => u.user_id === userId);
 
   return (
     <Container>
@@ -64,37 +86,13 @@ export default function GroupDashboard() {
         </HeaderTopWrapper>
       </Header>
       <Content>
-        <GroupKpiContainer>
-          <GroupKpiWrapper>
-            <GroupKpi>
-              <HashTagChar>#</HashTagChar>
-              <GroupKpiText>20</GroupKpiText>
-            </GroupKpi>
-            <GroupKpiTitle>Ranking</GroupKpiTitle>
-          </GroupKpiWrapper>
-          <GroupKpiWrapper>
-            <GroupKpi>
-              <FontAwesome5 name="trophy" color={theme.colors.text} size={20} />
-              <GroupKpiText>13</GroupKpiText>
-            </GroupKpi>
-            <GroupKpiTitle>Pontos</GroupKpiTitle>
-          </GroupKpiWrapper>
-          <GroupKpiWrapper>
-            <GroupKpi>
-              <FontAwesome5 name="medal" color={theme.colors.text} size={20} />
-              <GroupKpiText>10</GroupKpiText>
-            </GroupKpi>
-            <GroupKpiTitle>Bônus</GroupKpiTitle>
-          </GroupKpiWrapper>
-          <GroupKpiWrapper>
-            <GroupKpi>
-              <FontAwesome5 name="check" color={theme.colors.text} size={20} />
-              <GroupKpiText>8</GroupKpiText>
-            </GroupKpi>
-            <GroupKpiTitle>Acertos</GroupKpiTitle>
-          </GroupKpiWrapper>
-        </GroupKpiContainer>
-        <GroupRanking groupId={group.group_id!} />
+        <KpiPanel
+          userBonus={isLoading ? 0 : groupRanking[userRank].total_bonus}
+          userMatches={isLoading ? 0 : groupRanking[userRank].exact_matches}
+          userPoints={isLoading ? 0 : groupRanking[userRank].total_points}
+          userRank={isLoading ? 0 : userRank + 1}
+        />
+        <GroupRanking groupRanking={groupRanking} />
       </Content>
       <Footer>
         <Button
