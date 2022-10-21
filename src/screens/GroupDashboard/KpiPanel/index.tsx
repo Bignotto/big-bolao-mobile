@@ -11,7 +11,19 @@ import {
 } from "./styles";
 import { useTheme } from "styled-components";
 
-export default function KpiPanel() {
+interface KpiPanelProps {
+  userRank: number;
+  userPoints: number;
+  userBonus: number;
+  userMatches: number;
+}
+
+export default function KpiPanel({
+  userBonus,
+  userMatches,
+  userPoints,
+  userRank,
+}: KpiPanelProps) {
   const theme = useTheme();
 
   return (
@@ -19,28 +31,28 @@ export default function KpiPanel() {
       <GroupKpiWrapper>
         <GroupKpi>
           <HashTagChar>#</HashTagChar>
-          <GroupKpiText>20</GroupKpiText>
+          <GroupKpiText>{userRank}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Ranking</GroupKpiTitle>
       </GroupKpiWrapper>
       <GroupKpiWrapper>
         <GroupKpi>
           <FontAwesome5 name="trophy" color={theme.colors.text} size={20} />
-          <GroupKpiText>13</GroupKpiText>
+          <GroupKpiText>{userPoints}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Pontos</GroupKpiTitle>
       </GroupKpiWrapper>
       <GroupKpiWrapper>
         <GroupKpi>
           <FontAwesome5 name="medal" color={theme.colors.text} size={20} />
-          <GroupKpiText>10</GroupKpiText>
+          <GroupKpiText>{userBonus}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Bônus</GroupKpiTitle>
       </GroupKpiWrapper>
       <GroupKpiWrapper>
         <GroupKpi>
           <FontAwesome5 name="check" color={theme.colors.text} size={20} />
-          <GroupKpiText>8</GroupKpiText>
+          <GroupKpiText>{userMatches}</GroupKpiText>
         </GroupKpi>
         <GroupKpiTitle>Acertos</GroupKpiTitle>
       </GroupKpiWrapper>

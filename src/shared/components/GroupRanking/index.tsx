@@ -9,28 +9,25 @@ import {
   RankingTitle,
   RankingTitleWrapper,
 } from "./styles";
-import {
-  useGroup,
-  GroupRanking as GroupRankingLine,
-} from "../../hooks/GroupContext";
+import { GroupRanking as GroupRankingLine } from "../../hooks/GroupContext";
 
 interface GroupRankingProps {
-  groupId: string;
+  groupRanking: GroupRankingLine[];
 }
 
-export default function GroupRanking({ groupId }: GroupRankingProps) {
-  const { getGroupRankingByGroupId } = useGroup();
+export default function GroupRanking({ groupRanking }: GroupRankingProps) {
+  //const { getGroupRankingByGroupId } = useGroup();
 
-  const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
+  //const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
 
-  async function loadGroupRanking() {
-    const response = await getGroupRankingByGroupId(groupId);
-    setGroupRanking(response);
-  }
+  // async function loadGroupRanking() {
+  //   const response = await getGroupRankingByGroupId(groupId);
+  //   setGroupRanking(response);
+  // }
 
-  useEffect(() => {
-    loadGroupRanking();
-  }, []);
+  // useEffect(() => {
+  //   loadGroupRanking();
+  // }, []);
 
   return (
     <Container>

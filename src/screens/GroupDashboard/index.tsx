@@ -1,9 +1,14 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
-import { Group, UserGroup } from "../../shared/hooks/GroupContext";
+import {
+  Group,
+  GroupRanking as GroupRankingLine,
+  useGroup,
+  UserGroup,
+} from "../../shared/hooks/GroupContext";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons"; //trophy - check - medal
 import {
   ButtonWrapper,
@@ -28,6 +33,19 @@ export default function GroupDashboard() {
   const { group } = route.params as Params;
   const navigation = useNavigation();
   const theme = useTheme();
+
+  const { getGroupRankingByGroupId } = useGroup();
+
+  const [groupRanking, setGroupRanking] = useState<GroupRankingLine[]>([]);
+
+  async function loadGroupRanking() {
+    const response = await getGroupRankingByGroupId(group.group_id!);
+    setGroupRanking(response);
+  }
+
+  useEffect(() => {
+    loadGroupRanking();
+  }, []);
 
   return (
     <Container>
@@ -59,8 +77,8 @@ export default function GroupDashboard() {
         </HeaderTopWrapper>
       </Header>
       <Content>
-        <KpiPanel />
-        <GroupRanking groupId={group.group_id!} />
+        <KpiPanel userBonus={0} userMatches={0} userPoints={0} userRank={0} />
+        <GroupRanking groupRanking={groupRanking} />
       </Content>
       <Footer>
         <Button
