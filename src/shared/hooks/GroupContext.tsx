@@ -28,6 +28,8 @@ interface User {
   full_name: string;
   avatar_url?: string;
   email?: string;
+  verified?: string;
+  sent?: string;
 }
 
 interface UserMatchGuess {
@@ -198,7 +200,15 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
 
     if (error) throw new AppError("ERROR while getting user by id");
 
-    return Promise.resolve(data[0]);
+    const user: User = {
+      user_id: data[0].user_id,
+      full_name: data[0].full_name,
+      avatar_url: data[0].avatar_url,
+      email: supabase.auth.user()?.email,
+      verified: supabase.auth.user()?.email_confirmed_at,
+      sent: supabase.auth.user()?.confirmed_at,
+    };
+    return Promise.resolve(user);
   }
 
   async function getGroupUsers(groupId: string) {

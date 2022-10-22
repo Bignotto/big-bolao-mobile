@@ -29,3 +29,33 @@ export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(32)}px;
 `;
+
+export const ProfileForm = styled.View`
+  margin-top: 8px;
+  padding: 0 24px;
+`;
+
+export const InputLabel = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(14)}px;
+  margin-bottom: 4px;
+`;
+
+export const InputField = styled.View`
+  width: 100%;
+  margin-bottom: 12px;
+`;
+
+export const FormTitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.bold};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(18)}px;
+  margin-top: 4px;
+`;
+
+export const Footer = styled.View`
+  width: 100%;
+  padding: 12px 24px;
+  background-color: ${({ theme }) => theme.colors.background};
+`;

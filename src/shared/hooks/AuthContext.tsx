@@ -20,6 +20,7 @@ interface IAuthContextData {
   signUp(email: string, password: string, name: string): Promise<void>;
   signOut(): Promise<void>;
   resetPasswordEmail(email: string): Promise<void>;
+  updateUser(name: string): Promise<void>;
   isLoading: boolean;
   userId: string;
 }
@@ -83,6 +84,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(false);
   }
 
+  async function updateUser(name: string) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({
+        full_name: name,
+      })
+      .eq("id", session?.user?.id);
+
+    if (error) {
+      throw new AppError(error.message, 500);
+    }
+  }
+
   async function resetPasswordEmail(email: string) {
     setIsLoading(true);
     const { data, error } = await supabase.auth.api.resetPasswordForEmail(
@@ -137,6 +151,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         signUp,
         signOut,
         resetPasswordEmail,
+        updateUser,
         isLoading,
         userId: session?.user?.id || "",
       }}

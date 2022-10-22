@@ -3,14 +3,20 @@ import React, { useEffect, useState } from "react";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
+import { Button } from "../../shared/components/Button";
+import Input from "../../shared/components/Input";
 import { useAuth } from "../../shared/hooks/AuthContext";
 import { useGroup, User } from "../../shared/hooks/GroupContext";
 import {
   ButtonWrapper,
   Container,
+  Footer,
   Header,
   HeaderTitle,
   HeaderTopWrapper,
+  InputField,
+  InputLabel,
+  ProfileForm,
 } from "./styles";
 
 export default function ProfileScreen() {
@@ -18,11 +24,12 @@ export default function ProfileScreen() {
 
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
+  const [shortName, setShortName] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);
 
   const { getUserById } = useGroup();
-  const { userId } = useAuth();
+  const { userId, updateUser } = useAuth();
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -46,6 +53,14 @@ export default function ProfileScreen() {
     loadUserProfile();
   }, []);
 
+  async function handleSaveProfile() {
+    try {
+      await updateUser(fullName);
+    } catch (error) {
+      Alert.alert("Erro ao atualizar dadados do seu perfil!!!!");
+    }
+  }
+
   return (
     <Container>
       <StatusBar
@@ -64,6 +79,24 @@ export default function ProfileScreen() {
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
+      <ProfileForm>
+        <InputField>
+          <InputLabel>E-Mail:</InputLabel>
+          <Input
+            name="email"
+            value={email}
+            onChangeText={setEmail}
+            editable={false}
+          />
+        </InputField>
+        <InputField>
+          <InputLabel>Nome:</InputLabel>
+          <Input name="full_name" value={fullName} onChangeText={setFullName} />
+        </InputField>
+      </ProfileForm>
+      <Footer>
+        <Button title="Salvar" onPress={handleSaveProfile} />
+      </Footer>
     </Container>
   );
 }
