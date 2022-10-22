@@ -29,6 +29,8 @@ export const ContentText = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+export const ProfileButton = styled(BorderlessButton)<ButtonProps>``;
+
 export const AvatarImage = styled.Image`
   height: 80px;
   width: 80px;
