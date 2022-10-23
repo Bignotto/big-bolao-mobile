@@ -30,6 +30,7 @@ interface User {
   email?: string;
   verified?: string;
   sent?: string;
+  short?: string;
 }
 
 interface UserMatchGuess {
@@ -207,6 +208,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       email: supabase.auth.user()?.email,
       verified: supabase.auth.user()?.email_confirmed_at,
       sent: supabase.auth.user()?.confirmed_at,
+      short: data[0].short,
     };
     return Promise.resolve(user);
   }
