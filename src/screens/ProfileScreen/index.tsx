@@ -1,24 +1,31 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { Alert, StatusBar } from "react-native";
-import { useTheme } from "styled-components";
+
 import BackButton from "../../shared/components/BackButton";
 import { Button } from "../../shared/components/Button";
 import Input from "../../shared/components/Input";
-import { AppError } from "../../shared/errors/AppError";
+import { FontAwesome5 } from "@expo/vector-icons";
+
 import { useAuth } from "../../shared/hooks/AuthContext";
-import { useGroup, User } from "../../shared/hooks/GroupContext";
+import { useGroup } from "../../shared/hooks/GroupContext";
+import { useTheme } from "styled-components";
 import {
   ButtonWrapper,
   Container,
   Footer,
+  FormTitle,
   Header,
   HeaderTitle,
   HeaderTopWrapper,
+  InfoText,
+  InfoWrapper,
   InputField,
   InputLabel,
   ProfileForm,
+  Spacer,
 } from "./styles";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function ProfileScreen() {
   const [email, setEmail] = useState("");
@@ -67,6 +74,10 @@ export default function ProfileScreen() {
     setIsLoading(true);
     try {
       await resetPasswordEmail(email);
+      Alert.alert(
+        "Foi enviado um e-mail com instruções para redefinição da senha em seu endereço."
+      );
+      navigation.goBack();
     } catch (error) {
       return Alert.alert("Ocorreu um erro. Tente novamente em alguns minutos.");
     } finally {
@@ -78,6 +89,11 @@ export default function ProfileScreen() {
     setIsLoading(true);
     try {
       await updateEmail(email.trim());
+
+      Alert.alert(
+        "Clique no link que você vai receber em seu novo e-mail para confirmar a alteração."
+      );
+      navigation.goBack();
     } catch (error) {
       console.log(error);
       return Alert.alert("Ocorreu um erro. Tente novamente em alguns minutos.");
@@ -104,46 +120,66 @@ export default function ProfileScreen() {
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
-      <ProfileForm>
-        <InputField>
-          <InputLabel>E-Mail:</InputLabel>
-          <Input
-            name="email"
-            value={email}
-            onChangeText={setEmail}
-            editable={true}
+      <ScrollView>
+        <ProfileForm>
+          <InputField>
+            <InputLabel>Nome:</InputLabel>
+            <Input
+              name="full_name"
+              value={fullName}
+              onChangeText={setFullName}
+            />
+          </InputField>
+          <InputField>
+            <InputLabel>Apelido:</InputLabel>
+            <Input
+              name="short_name"
+              value={shortName}
+              onChangeText={setShortName}
+            />
+          </InputField>
+          <Button
+            title="Salvar"
+            onPress={handleSaveProfile}
+            loading={isLoading}
           />
-        </InputField>
-        <InputField>
-          <InputLabel>Nome:</InputLabel>
-          <Input name="full_name" value={fullName} onChangeText={setFullName} />
-        </InputField>
-        <InputField>
-          <InputLabel>Apelido:</InputLabel>
-          <Input
-            name="short_name"
-            value={shortName}
-            onChangeText={setShortName}
+
+          <FormTitle>Alterar seu e-mail:</FormTitle>
+          <InputField>
+            <InputLabel>E-Mail</InputLabel>
+            <Input
+              name="email"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
+              editable={true}
+            />
+          </InputField>
+          <Button
+            title="Atualizar e-mail"
+            onPress={handleUpdateEmail}
+            loading={isLoading}
           />
-        </InputField>
-      </ProfileForm>
-      <Footer>
-        <Button
-          title="Salvar"
-          onPress={handleSaveProfile}
-          loading={isLoading}
-        />
-        <Button
-          title="Nova senha"
-          onPress={handleResetPassword}
-          color={theme.colors.primary}
-        />
-        <Button
-          title="Update Email"
-          onPress={handleUpdateEmail}
-          color={theme.colors.secondary}
-        />
-      </Footer>
+          <InfoWrapper>
+            <InfoText>
+              Você vai precisar confirmar seu novo endereço de e-mail se quiser
+              alterá-lo.
+            </InfoText>
+          </InfoWrapper>
+          <FormTitle>Redefinir sua senha:</FormTitle>
+          <InfoText>
+            Ao clicar no botão abaixo você receberá um e-mail com instruções
+            para redefinir sua senha.
+          </InfoText>
+          <Spacer />
+          <Button
+            title="Redefinir senha"
+            onPress={handleResetPassword}
+            color={theme.colors.primary}
+            loading={isLoading}
+          />
+        </ProfileForm>
+      </ScrollView>
     </Container>
   );
 }

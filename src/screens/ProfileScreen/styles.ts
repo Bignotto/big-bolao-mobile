@@ -51,11 +51,29 @@ export const FormTitle = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(18)}px;
-  margin-top: 4px;
+  margin-top: 8px;
 `;
 
 export const Footer = styled.View`
   width: 100%;
   padding: 12px 24px;
   background-color: ${({ theme }) => theme.colors.background};
+`;
+
+export const Spacer = styled.View`
+  width: 100%;
+  height: 12px;
+`;
+
+export const InfoText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text_gray};
+  font-size: ${RFValue(12)}px;
+  margin-bottom: 4px;
+`;
+
+export const InfoWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 `;

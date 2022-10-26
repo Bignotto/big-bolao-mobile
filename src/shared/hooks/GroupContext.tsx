@@ -28,8 +28,6 @@ interface User {
   full_name: string;
   avatar_url?: string;
   email?: string;
-  verified?: string;
-  sent?: string;
   short?: string;
 }
 
@@ -206,8 +204,6 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       full_name: data[0].full_name,
       avatar_url: data[0].avatar_url,
       email: supabase.auth.user()?.email,
-      verified: supabase.auth.user()?.email_confirmed_at,
-      sent: supabase.auth.user()?.confirmed_at,
       short: data[0].short,
     };
     return Promise.resolve(user);
