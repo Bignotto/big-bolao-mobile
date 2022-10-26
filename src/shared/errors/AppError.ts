@@ -16,6 +16,10 @@ export class AppError {
       this.message = "Você precisa informar um endereço de e-mail.";
     else if (message === "User already registered")
       this.message = "Já existe uma conta para este endereço de e-mail.";
+    else if (
+      message === "A user with this email address has already been registered"
+    )
+      this.message = "Este endereço de e-mail já está em uso.";
     else this.message = message;
   }
 }

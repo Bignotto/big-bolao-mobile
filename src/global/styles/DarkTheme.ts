@@ -15,6 +15,7 @@ export default {
 
     background: "#242424",
     text: "#FFFFFF",
+    text_gray: "#BBBBBB",
     shape: "#434343",
     text_disabled: "#242424",
 
