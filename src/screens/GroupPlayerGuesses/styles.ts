@@ -30,6 +30,11 @@ export const HeaderTitle = styled.Text`
   font-size: ${RFValue(32)}px;
 `;
 
+export const MatchesScrollWrapper = styled.View`
+  flex: 1;
+  padding: 0 24px;
+`;
+
 export const Footer = styled.View`
   height: 70px;
   /* background-color: ${({ theme }) => theme.colors.shape}; */

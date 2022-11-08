@@ -6,6 +6,11 @@ export const Container = styled.View`
   flex-direction: column;
   margin-top: 4px;
   margin-bottom: 8px;
+
+  border: 1px;
+  border-radius: 8px;
+  border-color: ${({ theme }) => theme.colors.success};
+  padding: 12px 0;
 `;
 
 export const TopWrapper = styled.View`

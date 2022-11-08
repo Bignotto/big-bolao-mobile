@@ -20,6 +20,20 @@ export default function MatchGuessInput({
   matchData,
   onUpdate,
 }: MatchGuessProps) {
+  //check exact match
+  const exactMatch =
+    matchData.home_team_score === matchData.home_team_score_guess &&
+    matchData.away_team_score === matchData.away_team_score_guess;
+  const resultMatch =
+    (matchData.home_team_score > matchData.away_team_score &&
+      matchData.home_team_score_guess > matchData.away_team_score_guess) ||
+    (matchData.away_team_score > matchData.home_team_score &&
+      matchData.away_team_score_guess > matchData.home_team_score_guess) ||
+    (matchData.home_team_score === matchData.away_team_score &&
+      matchData.home_team_score_guess === matchData.away_team_score_guess);
+  if (matchData.match_score_points)
+    console.log({ exactMatch, resultMatch, matchData });
+
   return (
     <Container>
       <TopWrapper>

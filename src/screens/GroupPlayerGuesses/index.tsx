@@ -16,6 +16,7 @@ import {
   Header,
   HeaderTitle,
   HeaderTopWrapper,
+  MatchesScrollWrapper,
 } from "./styles";
 import CupGroupSelector from "../../shared/components/CupGroupSelector";
 import MatchGuessInput from "../../shared/components/MatchGuessInput";
@@ -158,15 +159,17 @@ export default function GroupPlayerGuesses() {
       {matches.length === 0 ? (
         <View></View>
       ) : (
-        <ScrollView>
-          {groupMatches.map((m) => (
-            <MatchGuessInput
-              matchData={m}
-              key={m.match_index}
-              onUpdate={updateGuess}
-            />
-          ))}
-        </ScrollView>
+        <MatchesScrollWrapper>
+          <ScrollView>
+            {groupMatches.map((m) => (
+              <MatchGuessInput
+                matchData={m}
+                key={m.match_index}
+                onUpdate={updateGuess}
+              />
+            ))}
+          </ScrollView>
+        </MatchesScrollWrapper>
       )}
 
       <Footer>
