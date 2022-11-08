@@ -30,12 +30,21 @@ export default function MatchGuessInput({
     (matchData.away_team_score > matchData.home_team_score &&
       matchData.away_team_score_guess > matchData.home_team_score_guess) ||
     (matchData.home_team_score === matchData.away_team_score &&
-      matchData.home_team_score_guess === matchData.away_team_score_guess);
-  if (matchData.match_score_points)
-    console.log({ exactMatch, resultMatch, matchData });
+      matchData.home_team_score_guess === matchData.away_team_score_guess &&
+      matchData.is_finished);
 
   return (
-    <Container>
+    <Container
+      type={
+        exactMatch
+          ? "EXACT"
+          : resultMatch
+          ? "RESULT"
+          : matchData.home_team_score_guess !== null
+          ? "DONE"
+          : "NULL"
+      }
+    >
       <TopWrapper>
         <TeamFlag
           name={matchData.home_team_name}

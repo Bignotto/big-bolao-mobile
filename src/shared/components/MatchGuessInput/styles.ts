@@ -1,7 +1,12 @@
+import { ViewProps } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+interface ContainerProps {
+  type: "DONE" | "NULL" | "EXACT" | "RESULT";
+}
+
+export const Container = styled.View<ContainerProps>`
   flex: 1;
   flex-direction: column;
   margin-top: 4px;
@@ -9,8 +14,15 @@ export const Container = styled.View`
 
   border: 1px;
   border-radius: 8px;
-  border-color: ${({ theme }) => theme.colors.success};
   padding: 12px 0;
+  border-color: ${({ theme, type }) =>
+    type === "EXACT"
+      ? theme.colors.success
+      : type === "RESULT"
+      ? theme.colors.secondary
+      : type === "DONE"
+      ? theme.colors.shape
+      : theme.colors.text};
 `;
 
 export const TopWrapper = styled.View`
