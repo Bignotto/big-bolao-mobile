@@ -14,8 +14,11 @@ import {
   Container,
   Footer,
   Header,
+  HeaderBottomWrapper,
+  HeaderCounterText,
   HeaderTitle,
   HeaderTopWrapper,
+  MatchesScrollWrapper,
 } from "./styles";
 import CupGroupSelector from "../../shared/components/CupGroupSelector";
 import MatchGuessInput from "../../shared/components/MatchGuessInput";
@@ -86,11 +89,6 @@ export default function GroupPlayerGuesses() {
     setSelectedGroupIndex(index);
   }
 
-  const groupMatches = matches.filter(
-    (m) =>
-      m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
-  );
-
   function updateGuess(matchId: string, homeValue: number, awayValue: number) {
     setHasChanged(true);
     const updated = matches.map((match) => {
@@ -136,6 +134,13 @@ export default function GroupPlayerGuesses() {
     }
   }
 
+  const groupMatches = matches.filter(
+    (m) =>
+      m.cup_group === String.fromCharCode(97 + selectedGroupIndex).toUpperCase()
+  );
+
+  const doneGuesses = matches.filter((m) => m.away_team_score_guess !== null);
+
   return (
     <Container>
       <StatusBar
@@ -153,20 +158,27 @@ export default function GroupPlayerGuesses() {
           <HeaderTitle>{group.group_name}</HeaderTitle>
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
+        <HeaderBottomWrapper>
+          <HeaderCounterText>
+            {doneGuesses.length}/{matches.length} palpites salvos
+          </HeaderCounterText>
+        </HeaderBottomWrapper>
       </Header>
       <CupGroupSelector onSelect={handleSelectGroup} />
       {matches.length === 0 ? (
         <View></View>
       ) : (
-        <ScrollView>
-          {groupMatches.map((m) => (
-            <MatchGuessInput
-              matchData={m}
-              key={m.match_index}
-              onUpdate={updateGuess}
-            />
-          ))}
-        </ScrollView>
+        <MatchesScrollWrapper>
+          <ScrollView>
+            {groupMatches.map((m) => (
+              <MatchGuessInput
+                matchData={m}
+                key={m.match_index}
+                onUpdate={updateGuess}
+              />
+            ))}
+          </ScrollView>
+        </MatchesScrollWrapper>
       )}
 
       <Footer>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { UserMatchGuess } from "../../hooks/GroupContext";
 import ScoreInput from "./ScoreInput";
 import {
@@ -20,8 +20,31 @@ export default function MatchGuessInput({
   matchData,
   onUpdate,
 }: MatchGuessProps) {
+  const exactMatch =
+    matchData.home_team_score === matchData.home_team_score_guess &&
+    matchData.away_team_score === matchData.away_team_score_guess;
+
+  const resultMatch =
+    (matchData.home_team_score > matchData.away_team_score &&
+      matchData.home_team_score_guess > matchData.away_team_score_guess) ||
+    (matchData.away_team_score > matchData.home_team_score &&
+      matchData.away_team_score_guess > matchData.home_team_score_guess) ||
+    (matchData.home_team_score === matchData.away_team_score &&
+      matchData.home_team_score_guess === matchData.away_team_score_guess &&
+      matchData.is_finished);
+
   return (
-    <Container>
+    <Container
+      type={
+        exactMatch
+          ? "EXACT"
+          : resultMatch
+          ? "RESULT"
+          : matchData.home_team_score_guess !== null
+          ? "DONE"
+          : "NULL"
+      }
+    >
       <TopWrapper>
         <TeamFlag
           name={matchData.home_team_name}
