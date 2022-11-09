@@ -15,8 +15,19 @@ export const Header = styled.View`
 export const HeaderTopWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   justify-content: space-between;
+`;
+
+export const HeaderBottomWrapper = styled.View`
+  flex-direction: row;
+  justify-content: center;
+`;
+
+export const HeaderCounterText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(20)}px;
 `;
 
 export const ButtonWrapper = styled.View`

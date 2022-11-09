@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { UserMatchGuess } from "../../hooks/GroupContext";
 import ScoreInput from "./ScoreInput";
 import {
@@ -20,10 +20,10 @@ export default function MatchGuessInput({
   matchData,
   onUpdate,
 }: MatchGuessProps) {
-  //check exact match
   const exactMatch =
     matchData.home_team_score === matchData.home_team_score_guess &&
     matchData.away_team_score === matchData.away_team_score_guess;
+
   const resultMatch =
     (matchData.home_team_score > matchData.away_team_score &&
       matchData.home_team_score_guess > matchData.away_team_score_guess) ||
