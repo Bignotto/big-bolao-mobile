@@ -131,6 +131,7 @@ export default function GroupPlayerGuesses() {
     } finally {
       setIsLoading(false);
       setHasChanged(false);
+      await loadMatchGuesses();
     }
   }
 
