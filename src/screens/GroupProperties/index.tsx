@@ -28,6 +28,7 @@ import Input from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
 import PlayersList from "../../shared/components/PlayersList";
 import { useAuth } from "../../shared/hooks/AuthContext";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Params {
   groupId: string;
@@ -156,64 +157,66 @@ export default function GroupProperties() {
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
-      <RegisterForm>
-        <InputField>
-          <InputLabel>Senha:</InputLabel>
-          <Input
-            name="name"
-            placeholder="senha do grupo"
-            value={groupPassword}
-            editable={group.owner_id === userId}
-            onChangeText={setGroupPassword}
+      <ScrollView>
+        <RegisterForm>
+          <InputField>
+            <InputLabel>Senha:</InputLabel>
+            <Input
+              name="name"
+              placeholder="senha do grupo"
+              value={groupPassword}
+              editable={group.owner_id === userId}
+              onChangeText={setGroupPassword}
+            />
+          </InputField>
+          <FormTitle>Pontuação do bolão</FormTitle>
+          <InputField>
+            <InputLabel>Pontos para o placar exato:</InputLabel>
+            <Input
+              name="password"
+              placeholder="pontos"
+              keyboardType="numeric"
+              editable={group.owner_id === userId}
+              value={groupScorePoints}
+              onChangeText={setGroupScorePoints}
+            />
+          </InputField>
+          <FormTitle>Pontos bônus</FormTitle>
+          <InputField>
+            <InputLabel>
+              Conceder pontos extras para o palpite que acertar o resultado da
+              partida:
+            </InputLabel>
+            <Input
+              name="bonus"
+              placeholder="pontos extras"
+              keyboardType="numeric"
+              editable={group.owner_id === userId}
+              value={groupWinnerPoints}
+              onChangeText={setGroupWinnerPoints}
+            />
+          </InputField>
+          <InputField>
+            <InputLabel>Criador do grupo:</InputLabel>
+            <Input
+              name="name"
+              placeholder="criador do grupo"
+              value={groupOwner ? groupOwner.full_name : ""}
+              editable={false}
+            />
+          </InputField>
+        </RegisterForm>
+        <PlayersListContainer>
+          <FormTitle>Jogadores do grupo:</FormTitle>
+          <Spacer />
+          <PlayersList
+            groupPlayers={users}
+            removePlayerFunction={handleRemoveUser}
+            isGroupOwner={group.owner_id === userId}
+            groupOwnerId={group.owner_id!}
           />
-        </InputField>
-        <FormTitle>Pontuação do bolão</FormTitle>
-        <InputField>
-          <InputLabel>Pontos para o palpite exato:</InputLabel>
-          <Input
-            name="password"
-            placeholder="pontos"
-            keyboardType="numeric"
-            editable={group.owner_id === userId}
-            value={groupScorePoints}
-            onChangeText={setGroupScorePoints}
-          />
-        </InputField>
-        <FormTitle>Pontos bônus</FormTitle>
-        <InputField>
-          <InputLabel>
-            Conceder pontos extras para o palpite que acertar o vencedor da
-            partida:
-          </InputLabel>
-          <Input
-            name="bonus"
-            placeholder="pontos extras"
-            keyboardType="numeric"
-            editable={group.owner_id === userId}
-            value={groupWinnerPoints}
-            onChangeText={setGroupWinnerPoints}
-          />
-        </InputField>
-        <InputField>
-          <InputLabel>Criador do grupo:</InputLabel>
-          <Input
-            name="name"
-            placeholder="criador do grupo"
-            value={groupOwner ? groupOwner.full_name : ""}
-            editable={false}
-          />
-        </InputField>
-      </RegisterForm>
-      <PlayersListContainer>
-        <FormTitle>Jogadores do grupo:</FormTitle>
-        <Spacer />
-        <PlayersList
-          groupPlayers={users}
-          removePlayerFunction={handleRemoveUser}
-          isGroupOwner={group.owner_id === userId}
-          groupOwnerId={group.owner_id!}
-        />
-      </PlayersListContainer>
+        </PlayersListContainer>
+      </ScrollView>
       <Footer>
         {groupOwner?.user_id === userId ? (
           <Button
