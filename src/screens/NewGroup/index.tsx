@@ -118,7 +118,7 @@ export default function NewGroup() {
           </InputField>
           <FormTitle>Pontuação do bolão</FormTitle>
           <InputField>
-            <InputLabel>Pontos para o palpite exato:</InputLabel>
+            <InputLabel>Pontos para o placar exato:</InputLabel>
             <Input
               name="points"
               placeholder="pontos para o placar exato do jogo"
@@ -130,7 +130,7 @@ export default function NewGroup() {
           <FormTitle>Pontos bônus</FormTitle>
           <InputField>
             <InputLabel>
-              Conceder pontos extras para o palpite que acertar o vencedor da
+              Conceder pontos extras para o palpite que acertar o resultado da
               partida:
             </InputLabel>
             <Input

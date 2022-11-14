@@ -53,6 +53,8 @@ export default function GroupPlayerGuesses() {
 
   const [matches, setMatches] = useState<UserMatchGuess[]>([]);
 
+  let isSaving = false;
+
   async function loadMatchGuesses() {
     const response = await getUserGuessesByGroupId(group.group_id!);
     setMatches(response);
@@ -68,6 +70,11 @@ export default function GroupPlayerGuesses() {
       navigation.addListener("beforeRemove", (e) => {
         if (!hasChanged) return;
         e.preventDefault();
+
+        if (isSaving) {
+          navigation.dispatch(e.data.action);
+          return;
+        }
 
         Alert.alert(
           "Descartar alterações?",
@@ -111,7 +118,11 @@ export default function GroupPlayerGuesses() {
     setIsLoading(true);
 
     const filteredGuesses = matches.filter(
-      (match) => match.away_team_score_guess || match.home_team_score_guess
+      (match) =>
+        match.away_team_score_guess ||
+        match.away_team_score_guess === 0 ||
+        match.home_team_score_guess ||
+        match.home_team_score_guess === 0
     );
     const playerGuesses = filteredGuesses.map((match) => {
       return {
@@ -129,9 +140,10 @@ export default function GroupPlayerGuesses() {
       Alert.alert("Algo errado salvando seus palpites");
       console.log(error);
     } finally {
+      isSaving = true;
+      navigation.goBack();
       setIsLoading(false);
       setHasChanged(false);
-      await loadMatchGuesses();
     }
   }
 
