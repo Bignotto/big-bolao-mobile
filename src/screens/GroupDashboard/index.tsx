@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import {
@@ -53,6 +57,13 @@ export default function GroupDashboard() {
   useEffect(() => {
     loadGroupRanking();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsLoading(true);
+      loadGroupRanking();
+    }, [])
+  );
 
   const userRank = groupRanking.findIndex((u) => u.user_id === userId);
 
