@@ -5,6 +5,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Container, ScoreButton, ScoreInputBox } from "./styles";
 
 interface ScoreInputProps {
+  canUpdate: boolean;
   initialValue: number;
   updateValue(value: number): void;
 }
@@ -12,6 +13,7 @@ interface ScoreInputProps {
 export default function ScoreInput({
   updateValue,
   initialValue,
+  canUpdate,
 }: ScoreInputProps) {
   const [scoreValue, setScoreValue] = useState(
     String(initialValue ? initialValue : 0)
@@ -35,18 +37,22 @@ export default function ScoreInput({
 
   return (
     <Container>
-      <ScoreButton onPress={minusScore}>
-        <FontAwesome5 name="minus-circle" size={24} color="#fff" />
-      </ScoreButton>
+      {canUpdate && (
+        <ScoreButton onPress={minusScore}>
+          <FontAwesome5 name="minus-circle" size={24} color="#fff" />
+        </ScoreButton>
+      )}
       <ScoreInputBox
         value={isZero ? scoreValue : "--"}
         onChangeText={(text) => setScoreValue(text)}
         editable={false}
         selectTextOnFocus={false}
       />
-      <ScoreButton onPress={addScore}>
-        <FontAwesome5 name="plus-circle" size={24} color="#fff" />
-      </ScoreButton>
+      {canUpdate && (
+        <ScoreButton onPress={addScore}>
+          <FontAwesome5 name="plus-circle" size={24} color="#fff" />
+        </ScoreButton>
+      )}
     </Container>
   );
 }
