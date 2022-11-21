@@ -9,7 +9,8 @@
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
-        "buildConfiguration": "Debug"
+        "buildConfiguration": "Debug",
+        "image": "macos-monterey-12.3-xcode-13.3"
       }
     },
     "preview": {

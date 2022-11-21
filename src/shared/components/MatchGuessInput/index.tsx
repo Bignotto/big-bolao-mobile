@@ -37,6 +37,15 @@ export default function MatchGuessInput({
   const todayDay = today.getDate();
   const todayMonth = today.getMonth() + 1;
 
+  const canUpdate =
+    todayMonth < matchData.match_month
+      ? true
+      : todayMonth === matchData.match_month
+      ? todayDay < matchData.match_day
+        ? true
+        : false
+      : false;
+
   return (
     <Container
       type={
@@ -69,20 +78,22 @@ export default function MatchGuessInput({
           updateValue={(value) =>
             onUpdate(matchData.match_id, value, matchData.away_team_score_guess)
           }
-          canUpdate={
-            todayMonth <= matchData.match_month &&
-            todayDay < matchData.match_day
-          }
+          // canUpdate={
+          //   todayMonth <= matchData.match_month &&
+          //   todayDay < matchData.match_day
+          // }
+          canUpdate={canUpdate}
         />
         <ScoreInput
           initialValue={matchData.away_team_score_guess}
           updateValue={(value) =>
             onUpdate(matchData.match_id, matchData.home_team_score_guess, value)
           }
-          canUpdate={
-            todayMonth <= matchData.match_month &&
-            todayDay < matchData.match_day
-          }
+          // canUpdate={
+          //   todayMonth <= matchData.match_month &&
+          //   todayDay < matchData.match_day
+          // }
+          canUpdate={canUpdate}
         />
       </BottonWrapper>
     </Container>

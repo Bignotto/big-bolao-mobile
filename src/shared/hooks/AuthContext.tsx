@@ -22,6 +22,7 @@ interface IAuthContextData {
   resetPasswordEmail(email: string): Promise<void>;
   updateUser(name: string, short: string): Promise<void>;
   updateEmail(email: string): Promise<void>;
+  deleteAccount(): Promise<void>;
   isLoading: boolean;
   userId: string;
 }
@@ -123,6 +124,24 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(false);
   }
 
+  async function deleteAccount() {
+    setIsLoading(true);
+
+    const { data: profileData, error: errorProfile } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", session?.user?.id);
+    if (errorProfile) {
+      throw new AppError(errorProfile.message, 500);
+    }
+
+    const { data, error } = await supabase.rpc("delete_user");
+
+    if (error) {
+      throw new AppError(error.message, 500);
+    }
+  }
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -166,6 +185,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         resetPasswordEmail,
         updateUser,
         updateEmail,
+        deleteAccount,
         isLoading,
         userId: session?.user?.id || "",
       }}

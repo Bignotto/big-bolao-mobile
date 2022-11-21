@@ -51,7 +51,9 @@ export const UserInfoWrapper = styled.View`
   align-items: center;
 `;
 
-export const LogoutWrapper = styled.Text``;
+export const LogoutWrapper = styled.Text`
+  flex-direction: row;
+`;
 
 export const LogoutButton = styled(BorderlessButton)<ButtonProps>`
   width: 40px;

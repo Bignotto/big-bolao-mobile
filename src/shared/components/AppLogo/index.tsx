@@ -11,9 +11,9 @@ export default function AppLogo() {
         <LogoSvg width={106} height={150} />
       </LogoWrapper>
       <TextWrapper>
+        <LogoText>Big</LogoText>
         <LogoText>Bolão</LogoText>
-        <LogoText>da</LogoText>
-        <LogoText>Copa</LogoText>
+        <LogoText>2022</LogoText>
       </TextWrapper>
     </Container>
   );

@@ -35,7 +35,14 @@ export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { getUserById } = useGroup();
-  const { userId, updateUser, resetPasswordEmail, updateEmail } = useAuth();
+  const {
+    userId,
+    updateUser,
+    resetPasswordEmail,
+    updateEmail,
+    deleteAccount,
+    signOut,
+  } = useAuth();
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -94,6 +101,36 @@ export default function ProfileScreen() {
         "Clique no link que você vai receber em seu novo e-mail para confirmar a alteração."
       );
       navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      return Alert.alert("Ocorreu um erro. Tente novamente em alguns minutos.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function deleteAccountAction() {
+    try {
+      await deleteAccount();
+      signOut();
+    } catch (error) {
+      console.log({ error });
+      return Alert.alert("Ocorreu um erro. Tente novamente em alguns minutos.");
+    }
+  }
+  async function handleDeleteAccount() {
+    setIsLoading(true);
+    try {
+      await updateEmail(email.trim());
+
+      Alert.alert("Excluir a sua conta?", "Confirme a exclusão da sua conta", [
+        { text: "Cancelar", style: "cancel", onPress: () => {} },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: deleteAccountAction,
+        },
+      ]);
     } catch (error) {
       console.log(error);
       return Alert.alert("Ocorreu um erro. Tente novamente em alguns minutos.");
@@ -176,6 +213,14 @@ export default function ProfileScreen() {
             title="Redefinir senha"
             onPress={handleResetPassword}
             color={theme.colors.primary}
+            loading={isLoading}
+          />
+          <FormTitle>Excluir minha conta:</FormTitle>
+          <Spacer />
+          <Button
+            title="Excluir conta"
+            onPress={handleDeleteAccount}
+            color={theme.colors.attention}
             loading={isLoading}
           />
         </ProfileForm>
