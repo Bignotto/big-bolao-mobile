@@ -54,6 +54,7 @@ interface UserMatchGuess {
   match_score_points: number;
   match_winner_points: number;
   user_id: string;
+  user_full_name?: string;
 }
 
 interface GroupProviderProps {
@@ -87,10 +88,15 @@ interface GroupMatchGuesses {
   group_name: string;
   match_id: string;
   home: string;
-  home_team_score: number;
-  away_team_score: number;
+  guess_home_team_score: number;
+  guess_away_team_score: number;
   away: string;
   guess_id: number;
+  home_team_flag: string;
+  away_team_flag: string;
+  home_team_score: number;
+  away_team_score: number;
+  is_finished: boolean;
 }
 
 interface IGroupContextData {

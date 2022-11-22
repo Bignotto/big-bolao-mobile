@@ -34,6 +34,7 @@ export default function ViewGuessesScreen() {
     try {
       const data = await getGroupMatchGuesses(groupId, matchId);
       setGuesses(data);
+      console.log({ data });
     } catch (error) {
       Alert.alert("Erro ao palpites do grupo!!!!");
       console.log(error);
@@ -66,6 +67,14 @@ export default function ViewGuessesScreen() {
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
+
+      {/* <MatchInformationWrapper>
+
+      TODO: create a "match result card" to show on top of view guesses screen
+      </MatchInformationWrapper>
+      <GuessesContainer>
+
+      </GuessesContainer> */}
     </Container>
   );
 }
