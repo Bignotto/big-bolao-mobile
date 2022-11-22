@@ -33,7 +33,7 @@
     "ios": {
       "bundleIdentifier": "com.bigbolaomobile",
       "supportsTablet": false,
-      "buildNumber": "4"
+      "buildNumber": "5"
     }
   }
 }

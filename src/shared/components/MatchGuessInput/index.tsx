@@ -1,5 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { useTheme } from "styled-components";
 import { UserMatchGuess } from "../../hooks/GroupContext";
+import { Button } from "../Button";
 import ScoreInput from "./ScoreInput";
 import {
   Container,
@@ -8,6 +11,7 @@ import {
   Score,
   MatchDate,
   BottonWrapper,
+  InfoButtonsWrapper,
 } from "./styles";
 import TeamFlag from "./TeamFlag";
 
@@ -20,6 +24,9 @@ export default function MatchGuessInput({
   matchData,
   onUpdate,
 }: MatchGuessProps) {
+  const theme = useTheme();
+  const navigation = useNavigation();
+
   const exactMatch =
     matchData.home_team_score === matchData.home_team_score_guess &&
     matchData.away_team_score === matchData.away_team_score_guess;
@@ -78,10 +85,6 @@ export default function MatchGuessInput({
           updateValue={(value) =>
             onUpdate(matchData.match_id, value, matchData.away_team_score_guess)
           }
-          // canUpdate={
-          //   todayMonth <= matchData.match_month &&
-          //   todayDay < matchData.match_day
-          // }
           canUpdate={canUpdate}
         />
         <ScoreInput
@@ -89,13 +92,27 @@ export default function MatchGuessInput({
           updateValue={(value) =>
             onUpdate(matchData.match_id, matchData.home_team_score_guess, value)
           }
-          // canUpdate={
-          //   todayMonth <= matchData.match_month &&
-          //   todayDay < matchData.match_day
-          // }
           canUpdate={canUpdate}
         />
       </BottonWrapper>
+
+      {!canUpdate && (
+        <InfoButtonsWrapper>
+          <Button
+            title="Palpites do grupo"
+            color={theme.colors.shape}
+            onPress={() =>
+              navigation.navigate(
+                "ViewGroupGuessesScreen" as never,
+                {
+                  groupId: matchData.group_id,
+                  matchId: matchData.match_id,
+                } as never
+              )
+            }
+          />
+        </InfoButtonsWrapper>
+      )}
     </Container>
   );
 }
