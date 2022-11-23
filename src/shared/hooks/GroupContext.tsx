@@ -55,6 +55,7 @@ interface UserMatchGuess {
   match_winner_points: number;
   user_id: string;
   user_full_name?: string;
+  group_name?: string;
 }
 
 interface GroupProviderProps {
@@ -116,7 +117,7 @@ interface IGroupContextData {
   getGroupMatchGuesses(
     groupId: string,
     matchId: string
-  ): Promise<GroupMatchGuesses[]>;
+  ): Promise<UserMatchGuess[]>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);

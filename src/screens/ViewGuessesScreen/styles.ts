@@ -28,3 +28,17 @@ export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.colors.text};
   font-size: ${RFValue(32)}px;
 `;
+
+export const MatchWrapper = styled.View`
+  height: 170px;
+`;
+
+export const Content = styled.View`
+  flex: 1;
+  flex-direction: column;
+  padding: 0 24px;
+`;
+
+export const GuessesContainer = styled.View`
+  flex: 1;
+`;

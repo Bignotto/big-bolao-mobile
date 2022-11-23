@@ -18,11 +18,13 @@ import TeamFlag from "./TeamFlag";
 interface MatchGuessProps {
   matchData: UserMatchGuess;
   onUpdate(matchId: string, homeValue: number, awayValue: number): void;
+  cardOnly?: boolean;
 }
 
 export default function MatchGuessInput({
   matchData,
   onUpdate,
+  cardOnly = false,
 }: MatchGuessProps) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -96,7 +98,7 @@ export default function MatchGuessInput({
         />
       </BottonWrapper>
 
-      {!canUpdate && (
+      {!canUpdate && !cardOnly && (
         <InfoButtonsWrapper>
           <Button
             title="Palpites do grupo"
