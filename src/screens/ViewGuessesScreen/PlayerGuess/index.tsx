@@ -1,4 +1,5 @@
 import React from "react";
+import { FontAwesome5 } from "@expo/vector-icons";
 import {
   Bonus,
   BonusWrapper,
@@ -12,22 +13,26 @@ import {
   PointsWrapper,
   RightColumn,
 } from "./styles";
+import { useTheme } from "styled-components";
 
 interface GuessLineProps {
-  position: number;
   name: string;
   home_score: number;
   away_score: number;
   points: number;
+  bonus: number;
+  exact_match: boolean;
 }
 
 export default function PlayerGuess({
-  position,
   name,
   home_score,
   away_score,
   points,
+  bonus,
+  exact_match,
 }: GuessLineProps) {
+  const theme = useTheme();
   return (
     <Container>
       <LeftColumn>
@@ -37,13 +42,23 @@ export default function PlayerGuess({
       </LeftColumn>
       <RightColumn>
         <PointsWrapper>
-          <Points>{home_score}</Points>
+          <Points>
+            {home_score} x {away_score}
+          </Points>
         </PointsWrapper>
         <GuessesWrapper>
-          <Guesses>{away_score}</Guesses>
+          <Guesses>{points > 0 ? points : bonus}</Guesses>
         </GuessesWrapper>
         <BonusWrapper>
-          <Bonus>{points}</Bonus>
+          <Bonus>
+            {exact_match && (
+              <FontAwesome5
+                name="check"
+                color={theme.colors.success}
+                size={16}
+              />
+            )}
+          </Bonus>
         </BonusWrapper>
       </RightColumn>
     </Container>

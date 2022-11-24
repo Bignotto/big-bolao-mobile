@@ -56,6 +56,9 @@ interface UserMatchGuess {
   user_id: string;
   user_full_name?: string;
   group_name?: string;
+  guess_points?: number;
+  guess_bonus?: number;
+  exact_match?: boolean;
 }
 
 interface GroupProviderProps {

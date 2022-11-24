@@ -5,22 +5,24 @@ import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
 import MatchGuessInput from "../../shared/components/MatchGuessInput";
 import { useAuth } from "../../shared/hooks/AuthContext";
-import {
-  GroupMatchGuesses,
-  useGroup,
-  UserMatchGuess,
-} from "../../shared/hooks/GroupContext";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useGroup, UserMatchGuess } from "../../shared/hooks/GroupContext";
 import PlayerGuess from "./PlayerGuess";
 
 import {
   ButtonWrapper,
+  CheckIconWrapper,
   Container,
   Content,
   GuessesContainer,
+  GuessHeader,
+  GuessTitle,
   Header,
   HeaderTitle,
   HeaderTopWrapper,
+  LeftWrapper,
   MatchWrapper,
+  RightWrapper,
 } from "./styles";
 
 interface Params {
@@ -89,14 +91,27 @@ export default function ViewGuessesScreen() {
             />
           )}
         </MatchWrapper>
+        <GuessHeader>
+          <LeftWrapper>
+            <GuessTitle>Jogador</GuessTitle>
+          </LeftWrapper>
+          <RightWrapper>
+            <GuessTitle>Palpite</GuessTitle>
+            <GuessTitle style={{ marginLeft: 24 }}>Pts</GuessTitle>
+            <CheckIconWrapper>
+              <FontAwesome5 name="check" color="#ffffff" size={16} />
+            </CheckIconWrapper>
+          </RightWrapper>
+        </GuessHeader>
         <GuessesContainer>
           {playerGuesses.map((g, i) => (
             <PlayerGuess
               away_score={g.away_team_score_guess}
               home_score={g.home_team_score_guess}
               name={g.user_full_name!}
-              position={0}
-              points={g.match_score_points}
+              points={g.guess_points!}
+              bonus={g.guess_bonus!}
+              exact_match={g.exact_match!}
               key={g.user_id}
             />
           ))}

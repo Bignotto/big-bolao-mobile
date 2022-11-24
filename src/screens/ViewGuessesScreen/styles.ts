@@ -39,6 +39,34 @@ export const Content = styled.View`
   padding: 0 24px;
 `;
 
+export const GuessHeader = styled.View`
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const GuessTitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.bold};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(16)}px;
+`;
+
+export const RightWrapper = styled.View`
+  width: 50%;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const CheckIconWrapper = styled.View`
+  margin-left: 42px;
+`;
+
+export const LeftWrapper = styled.View`
+  width: 50%;
+  padding-left: 10px;
+`;
+
 export const GuessesContainer = styled.View`
   flex: 1;
 `;
