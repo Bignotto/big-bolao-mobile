@@ -10,6 +10,7 @@ import {
   RankingTitle,
   RankingTitleWrapper,
 } from "./styles";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface GroupRankingProps {
   groupRanking: GroupRankingLine[];
@@ -28,16 +29,18 @@ export default function GroupRanking({ groupRanking }: GroupRankingProps) {
           <FontAwesome5 name="medal" color="#FFFFFF" size={16} />
         </IconsWrapper>
       </RankingHeader>
-      {groupRanking.map((g, i) => (
-        <RankingLine
-          name={g.full_name}
-          points={g.total_points}
-          position={i + 1}
-          bonus={g.total_bonus}
-          guesses={g.exact_matches}
-          key={g.user_id}
-        />
-      ))}
+      <ScrollView>
+        {groupRanking.map((g, i) => (
+          <RankingLine
+            name={g.full_name}
+            points={g.total_points}
+            position={i + 1}
+            bonus={g.total_bonus}
+            guesses={g.exact_matches}
+            key={g.user_id}
+          />
+        ))}
+      </ScrollView>
     </Container>
   );
 }

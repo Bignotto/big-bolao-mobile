@@ -54,3 +54,8 @@ export const BottonWrapper = styled.View`
   justify-content: space-between;
   margin-top: 8px;
 `;
+
+export const InfoButtonsWrapper = styled.View`
+  margin-top: 8px;
+  margin-bottom: -20px;
+`;

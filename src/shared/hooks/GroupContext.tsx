@@ -54,6 +54,11 @@ interface UserMatchGuess {
   match_score_points: number;
   match_winner_points: number;
   user_id: string;
+  user_full_name?: string;
+  group_name?: string;
+  guess_points?: number;
+  guess_bonus?: number;
+  exact_match?: boolean;
 }
 
 interface GroupProviderProps {
@@ -80,6 +85,24 @@ interface GroupRanking {
   user_id: string;
 }
 
+interface GroupMatchGuesses {
+  user_id: string;
+  full_name: string;
+  group_id: string;
+  group_name: string;
+  match_id: string;
+  home: string;
+  guess_home_team_score: number;
+  guess_away_team_score: number;
+  away: string;
+  guess_id: number;
+  home_team_flag: string;
+  away_team_flag: string;
+  home_team_score: number;
+  away_team_score: number;
+  is_finished: boolean;
+}
+
 interface IGroupContextData {
   getUserGroups(): Promise<UserGroup[]>;
   getGroupUsers(groupId: string): Promise<User[]>;
@@ -94,6 +117,10 @@ interface IGroupContextData {
   getGroupRankingByGroupId(groupId: string): Promise<GroupRanking[]>;
   saveUserGuesses(guesses: UserGuess[] | undefined): Promise<void>;
   removeUserFromGroup(userId: string, groupId: string): Promise<void>;
+  getGroupMatchGuesses(
+    groupId: string,
+    matchId: string
+  ): Promise<UserMatchGuess[]>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -307,6 +334,19 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
     return Promise.resolve(data[0]);
   }
 
+  async function getGroupMatchGuesses(groupId: string, matchId: string) {
+    const { data, error } = await supabase
+      .from("guesses_by_match_and_group")
+      .select("*")
+      .eq("group_id", groupId)
+      .eq("match_id", matchId);
+
+    if (error)
+      throw new AppError(`ERROR while getting user guesse for this match`);
+
+    return Promise.resolve(data);
+  }
+
   return (
     <GroupContext.Provider
       value={{
@@ -323,6 +363,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         getGroupRankingByGroupId,
         saveUserGuesses,
         removeUserFromGroup,
+        getGroupMatchGuesses,
       }}
     >
       {children}
@@ -343,4 +384,5 @@ export {
   UserMatchGuess,
   UserGuess,
   GroupRanking,
+  GroupMatchGuesses,
 };
