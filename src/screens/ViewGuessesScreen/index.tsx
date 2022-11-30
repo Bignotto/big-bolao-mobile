@@ -24,6 +24,7 @@ import {
   MatchWrapper,
   RightWrapper,
 } from "./styles";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Params {
   groupId: string;
@@ -104,17 +105,19 @@ export default function ViewGuessesScreen() {
           </RightWrapper>
         </GuessHeader>
         <GuessesContainer>
-          {playerGuesses.map((g, i) => (
-            <PlayerGuess
-              away_score={g.away_team_score_guess}
-              home_score={g.home_team_score_guess}
-              name={g.user_full_name!}
-              points={g.guess_points!}
-              bonus={g.guess_bonus!}
-              exact_match={g.exact_match!}
-              key={g.user_id}
-            />
-          ))}
+          <ScrollView>
+            {playerGuesses.map((g, i) => (
+              <PlayerGuess
+                away_score={g.away_team_score_guess}
+                home_score={g.home_team_score_guess}
+                name={g.user_full_name!}
+                points={g.guess_points!}
+                bonus={g.guess_bonus!}
+                exact_match={g.exact_match!}
+                key={g.user_id}
+              />
+            ))}
+          </ScrollView>
         </GuessesContainer>
       </Content>
     </Container>
