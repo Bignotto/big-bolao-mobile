@@ -19,6 +19,10 @@ export default function CupGroupSelector({ onSelect }: CupGroupSelectorProps) {
     { id: 6, name: "Grupo F" },
     { id: 7, name: "Grupo G" },
     { id: 8, name: "Grupo H" },
+    { id: 9, name: "Oitavas" },
+    { id: 10, name: "Quartas" },
+    { id: 11, name: "Semi" },
+    { id: 12, name: "Final" },
   ];
 
   function selectButtonPressed(index: number) {
