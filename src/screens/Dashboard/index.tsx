@@ -49,6 +49,11 @@ export default function Dashboard() {
 
       <Footer>
         <Button
+          title="Palpites do Dia"
+          onPress={() => navigation.navigate("TodayGuessesScreen" as never)}
+          color={theme.colors.primary}
+        />
+        <Button
           title="Encontrar Bolão"
           onPress={() => navigation.navigate("FindGroup" as never)}
         />
