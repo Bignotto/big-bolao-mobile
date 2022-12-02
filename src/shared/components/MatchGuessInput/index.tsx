@@ -73,6 +73,7 @@ export default function MatchGuessInput({
           flagUri={matchData.home_team_flag}
         />
         <ScoreWrapper>
+          <MatchDate>{matchData.is_finished && `FINAL`}</MatchDate>
           <Score>{`${matchData.home_team_score} : ${matchData.away_team_score}`}</Score>
           <MatchDate>{`${matchData.local_time}:00 - ${matchData.match_day}/${matchData.match_month}`}</MatchDate>
         </ScoreWrapper>
@@ -81,22 +82,34 @@ export default function MatchGuessInput({
           flagUri={matchData.away_team_flag}
         />
       </TopWrapper>
-      <BottonWrapper>
-        <ScoreInput
-          initialValue={matchData.home_team_score_guess}
-          updateValue={(value) =>
-            onUpdate(matchData.match_id, value, matchData.away_team_score_guess)
-          }
-          canUpdate={canUpdate}
-        />
-        <ScoreInput
-          initialValue={matchData.away_team_score_guess}
-          updateValue={(value) =>
-            onUpdate(matchData.match_id, matchData.home_team_score_guess, value)
-          }
-          canUpdate={canUpdate}
-        />
-      </BottonWrapper>
+      {!cardOnly && (
+        <BottonWrapper>
+          <>
+            <ScoreInput
+              initialValue={matchData.home_team_score_guess}
+              updateValue={(value) =>
+                onUpdate(
+                  matchData.match_id,
+                  value,
+                  matchData.away_team_score_guess
+                )
+              }
+              canUpdate={canUpdate}
+            />
+            <ScoreInput
+              initialValue={matchData.away_team_score_guess}
+              updateValue={(value) =>
+                onUpdate(
+                  matchData.match_id,
+                  matchData.home_team_score_guess,
+                  value
+                )
+              }
+              canUpdate={canUpdate}
+            />
+          </>
+        </BottonWrapper>
+      )}
 
       {!canUpdate && !cardOnly && (
         <InfoButtonsWrapper>

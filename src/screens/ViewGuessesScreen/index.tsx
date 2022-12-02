@@ -15,6 +15,7 @@ import {
   Container,
   Content,
   GuessesContainer,
+  GuessesWrapper,
   GuessHeader,
   GuessTitle,
   Header,
@@ -92,33 +93,47 @@ export default function ViewGuessesScreen() {
             />
           )}
         </MatchWrapper>
-        <GuessHeader>
-          <LeftWrapper>
-            <GuessTitle>Jogador</GuessTitle>
-          </LeftWrapper>
-          <RightWrapper>
-            <GuessTitle>Palpite</GuessTitle>
-            <GuessTitle style={{ marginLeft: 24 }}>Pts</GuessTitle>
-            <CheckIconWrapper>
-              <FontAwesome5 name="check" color="#ffffff" size={16} />
-            </CheckIconWrapper>
-          </RightWrapper>
-        </GuessHeader>
-        <GuessesContainer>
-          <ScrollView>
-            {playerGuesses.map((g, i) => (
-              <PlayerGuess
-                away_score={g.away_team_score_guess}
-                home_score={g.home_team_score_guess}
-                name={g.user_full_name!}
-                points={g.guess_points!}
-                bonus={g.guess_bonus!}
-                exact_match={g.exact_match!}
-                key={g.user_id}
-              />
-            ))}
-          </ScrollView>
-        </GuessesContainer>
+        <GuessesWrapper>
+          <GuessHeader>
+            <LeftWrapper>
+              <GuessTitle>Jogador</GuessTitle>
+            </LeftWrapper>
+            <RightWrapper>
+              <GuessTitle>Palpite</GuessTitle>
+              <GuessTitle style={{ marginLeft: 24 }}>Pts</GuessTitle>
+              <CheckIconWrapper>
+                <FontAwesome5 name="check" color="#ffffff" size={16} />
+              </CheckIconWrapper>
+            </RightWrapper>
+          </GuessHeader>
+          <GuessesContainer>
+            <ScrollView>
+              {userGuess.length > 0 && (
+                <PlayerGuess
+                  away_score={userGuess[0].away_team_score_guess}
+                  home_score={userGuess[0].home_team_score_guess}
+                  name={userGuess[0].user_full_name!}
+                  points={userGuess[0].guess_points!}
+                  bonus={userGuess[0].guess_bonus!}
+                  exact_match={userGuess[0].exact_match!}
+                  key={userGuess[0].user_id}
+                />
+              )}
+
+              {playerGuesses.map((g, i) => (
+                <PlayerGuess
+                  away_score={g.away_team_score_guess}
+                  home_score={g.home_team_score_guess}
+                  name={g.user_full_name!}
+                  points={g.guess_points!}
+                  bonus={g.guess_bonus!}
+                  exact_match={g.exact_match!}
+                  key={g.user_id}
+                />
+              ))}
+            </ScrollView>
+          </GuessesContainer>
+        </GuessesWrapper>
       </Content>
     </Container>
   );

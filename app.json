@@ -15,7 +15,7 @@
     "privacy": "public",
     "android": {
       "package": "com.bigbolaomobile",
-      "versionCode": 6,
+      "versionCode": 7,
       "adaptiveIcon": {
         "foregroundImage": "./images/bolao_icon.png",
         "backgroundColor": "#242424"
@@ -33,7 +33,7 @@
     "ios": {
       "bundleIdentifier": "com.bigbolaomobile",
       "supportsTablet": false,
-      "buildNumber": "6"
+      "buildNumber": "7"
     }
   }
 }
