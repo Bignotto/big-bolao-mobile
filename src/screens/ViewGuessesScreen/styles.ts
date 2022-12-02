@@ -29,14 +29,17 @@ export const HeaderTitle = styled.Text`
   font-size: ${RFValue(32)}px;
 `;
 
-export const MatchWrapper = styled.View`
-  height: 170px;
-`;
+export const MatchWrapper = styled.View``;
 
 export const Content = styled.View`
   flex: 1;
   flex-direction: column;
   padding: 0 24px;
+  margin-top: 8px;
+`;
+
+export const GuessesWrapper = styled.View`
+  flex: 1;
 `;
 
 export const GuessHeader = styled.View`
