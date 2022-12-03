@@ -345,8 +345,12 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       .eq("group_id", groupId)
       .eq("match_id", matchId);
 
-    if (error)
-      throw new AppError(`ERROR while getting user guesse for this match`);
+    if (error) {
+      console.log({ error, groupId, matchId });
+      throw new AppError(
+        `ERROR while getting user guesse for this match: ${error}`
+      );
+    }
 
     return Promise.resolve(data);
   }
@@ -357,7 +361,9 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       .select("*")
       .eq("user_id", userId)
       .in("match_month", months)
-      .in("match_day", days);
+      .in("match_day", days)
+      .order("match_index")
+      .order("group_name");
 
     if (error)
       throw new AppError(`ERROR while getting user guesse for period.`);

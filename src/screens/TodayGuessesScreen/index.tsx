@@ -3,24 +3,24 @@ import React, { useEffect, useState } from "react";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import BackButton from "../../shared/components/BackButton";
-import MatchGuessInput from "../../shared/components/MatchGuessInput";
-import { useAuth } from "../../shared/hooks/AuthContext";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { useGroup, UserMatchGuess } from "../../shared/hooks/GroupContext";
 
 import {
   ButtonWrapper,
   Container,
   Content,
+  DateTitle,
+  DateWrapper,
   Header,
   HeaderTitle,
   HeaderTopWrapper,
+  KeyWrapper,
+  MatchWrapper,
 } from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
+import MatchGuessList from "./MatchGuessList";
 
 export default function TodayGuessesScreen() {
-  const { userId } = useAuth();
-
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -57,11 +57,12 @@ export default function TodayGuessesScreen() {
     loadGuesses();
   }, []);
 
-  //TODO: get distinct groups
-  //TODO: filter guesses per group
-  // const groupName = isLoading ? "carregando..." : guesses[0].group_name;
-  // const userGuess = guesses.filter((g) => g.user_id === userId);
-  // const playerGuesses = guesses.filter((g) => g.user_id !== userId);
+  const matches = guesses.filter(
+    (guess, index, self) =>
+      self.findIndex((g) => g.match_id === guess.match_id) === index
+  );
+
+  let dayIndex = 0;
 
   return (
     <Container>
@@ -77,11 +78,34 @@ export default function TodayGuessesScreen() {
               color={theme.colors.text}
             />
           </ButtonWrapper>
-          <HeaderTitle>Palpites do Dia</HeaderTitle>
+          <HeaderTitle>Palpites Recentes</HeaderTitle>
           <ButtonWrapper></ButtonWrapper>
         </HeaderTopWrapper>
       </Header>
-      <Content></Content>
+      <Content>
+        <ScrollView>
+          {matches.map((m, i) => {
+            let printDate = false;
+            if (dayIndex !== m.match_day) {
+              printDate = true;
+              dayIndex = m.match_day;
+            } else printDate = false;
+            return (
+              <KeyWrapper key={`${m.match_id}-${i}`}>
+                {printDate && (
+                  <DateWrapper>
+                    <DateTitle>{`${m.match_day}/${m.match_month}`}</DateTitle>
+                  </DateWrapper>
+                )}
+                <MatchGuessList
+                  guesses={guesses.filter((g) => g.match_id === m.match_id)}
+                  key={m.match_id}
+                />
+              </KeyWrapper>
+            );
+          })}
+        </ScrollView>
+      </Content>
     </Container>
   );
 }

@@ -49,7 +49,7 @@ export default function Dashboard() {
 
       <Footer>
         <Button
-          title="Palpites do Dia"
+          title="Palpites Recentes"
           onPress={() => navigation.navigate("TodayGuessesScreen" as never)}
           color={theme.colors.primary}
         />

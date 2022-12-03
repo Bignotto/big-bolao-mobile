@@ -19,12 +19,14 @@ interface MatchGuessProps {
   matchData: UserMatchGuess;
   onUpdate(matchId: string, homeValue: number, awayValue: number): void;
   cardOnly?: boolean;
+  groupId: string;
 }
 
 export default function MatchGuessInput({
   matchData,
   onUpdate,
   cardOnly = false,
+  groupId,
 }: MatchGuessProps) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -120,7 +122,7 @@ export default function MatchGuessInput({
               navigation.navigate(
                 "ViewGroupGuessesScreen" as never,
                 {
-                  groupId: matchData.group_id,
+                  groupId: groupId,
                   matchId: matchData.match_id,
                 } as never
               )

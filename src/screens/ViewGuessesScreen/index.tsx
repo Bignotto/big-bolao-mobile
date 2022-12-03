@@ -7,7 +7,7 @@ import MatchGuessInput from "../../shared/components/MatchGuessInput";
 import { useAuth } from "../../shared/hooks/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useGroup, UserMatchGuess } from "../../shared/hooks/GroupContext";
-import PlayerGuess from "./PlayerGuess";
+import PlayerGuess from "../../shared/components/PlayerGuess";
 
 import {
   ButtonWrapper,
@@ -61,9 +61,9 @@ export default function ViewGuessesScreen() {
     loadGuesses();
   }, []);
 
-  const groupName = isLoading ? "carregando..." : guesses[0].group_name;
   const userGuess = guesses.filter((g) => g.user_id === userId);
   const playerGuesses = guesses.filter((g) => g.user_id !== userId);
+  const groupName = isLoading ? "carregando..." : playerGuesses[0].group_name;
 
   return (
     <Container>
@@ -85,11 +85,12 @@ export default function ViewGuessesScreen() {
       </Header>
       <Content>
         <MatchWrapper>
-          {userGuess.length > 0 && (
+          {playerGuesses.length > 0 && (
             <MatchGuessInput
               onUpdate={() => {}}
-              matchData={userGuess[0]}
+              matchData={playerGuesses[0]}
               cardOnly
+              groupId={playerGuesses[0].group_id}
             />
           )}
         </MatchWrapper>
