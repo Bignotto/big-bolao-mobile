@@ -188,6 +188,7 @@ export default function GroupPlayerGuesses() {
                 matchData={m}
                 key={m.match_index}
                 onUpdate={updateGuess}
+                groupId={group.group_id}
               />
             ))}
           </ScrollView>

@@ -11,6 +11,7 @@ import GroupPlayerGuesses from "../screens/GroupPlayerGuesses";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ViewGuessesScreen from "../screens/ViewGuessesScreen";
+import TodayGuessesScreen from "../screens/TodayGuessesScreen";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -32,6 +33,7 @@ export function AppRoutes() {
       <Screen name="Confirmation" component={ConfirmationScreen} />
       <Screen name="Profile" component={ProfileScreen} />
       <Screen name="ViewGroupGuessesScreen" component={ViewGuessesScreen} />
+      <Screen name="TodayGuessesScreen" component={TodayGuessesScreen} />
     </Navigator>
   );
 }

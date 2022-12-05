@@ -121,6 +121,10 @@ interface IGroupContextData {
     groupId: string,
     matchId: string
   ): Promise<UserMatchGuess[]>;
+  getUserGuessesByDays(
+    months: number[],
+    days: number[]
+  ): Promise<UserMatchGuess[]>;
 }
 
 const GroupContext = createContext({} as IGroupContextData);
@@ -341,8 +345,28 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
       .eq("group_id", groupId)
       .eq("match_id", matchId);
 
+    if (error) {
+      console.log({ error, groupId, matchId });
+      throw new AppError(
+        `ERROR while getting user guesse for this match: ${error}`
+      );
+    }
+
+    return Promise.resolve(data);
+  }
+
+  async function getUserGuessesByDays(months: number[], days: number[]) {
+    const { data, error } = await supabase
+      .from("guesses_by_match_and_group")
+      .select("*")
+      .eq("user_id", userId)
+      .in("match_month", months)
+      .in("match_day", days)
+      .order("match_index")
+      .order("group_name");
+
     if (error)
-      throw new AppError(`ERROR while getting user guesse for this match`);
+      throw new AppError(`ERROR while getting user guesse for period.`);
 
     return Promise.resolve(data);
   }
@@ -364,6 +388,7 @@ function GroupProvider({ children, userId }: GroupProviderProps) {
         saveUserGuesses,
         removeUserFromGroup,
         getGroupMatchGuesses,
+        getUserGuessesByDays,
       }}
     >
       {children}
